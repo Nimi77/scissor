@@ -1,11 +1,11 @@
-import HeroSection from "./Components/HeroSection";
-import NavBar from "./Components/NavBar";
+import Features from "./Components/Features";
+import Hero from "./Components/HeroSection";
 
 export default function LandingPage() {
   return (
     <>
-     <NavBar/>
-     <HeroSection/>
+     <Hero />
+     <Features />
     </>
   );
 }
