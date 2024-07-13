@@ -1,132 +1,152 @@
 "use client";
+import { CheckIcon } from "@chakra-ui/icons";
 import {
   Box,
   Container,
   Heading,
   Text,
   VStack,
-  Stack,
   HStack,
-  useColorModeValue,
   List,
   ListItem,
-  ListIcon,
   Button,
+  SimpleGrid,
 } from "@chakra-ui/react";
+import Link from "next/link";
 
 interface Props {
   children: React.ReactNode;
 }
 
-function PriceWrapper(props: Props) {
-  const { children } = props;
+const PriceWrapper = ({
+  children,
+  className,
+}: Props & { className?: string }) => (
+  <Box
+    className={className}
+    display="flex"
+    flexDirection="column"
+    gap={4}
+    p={8}
+    mb={{ base: 4, md: "0" }}
+    bg="rgb(9,11,14)"
+    borderWidth="1px"
+    alignSelf="flex-start"
+    borderColor="rgb(49,49,49)"
+    borderRadius="lg"
+    shadow="0px 5px 14px 0px rgba(0, 0, 0, 0.1)"
+    width="100%"
+    height="100%"
+  >
+    {children}
+  </Box>
+);
 
+const Pricing = () => {
   return (
-    <Box
-      mb={4}
-      shadow="base"
-      borderWidth="1px"
-      alignSelf="flex-start"
-      borderColor={useColorModeValue("gray.200", "gray.500")}
-      borderRadius="xl"
-      width="100%"
-    >
-      {children}
-    </Box>
-  );
-}
-
-export default function Pricing() {
-  return (
-    <Box id="pricing">
-      <Container py={8} maxW={"6xl"}>
-        <VStack align="left">
+    <Box id="pricing" className="pricing-section">
+      <Container py={8} maxW={"6xl"} className="pricing-container">
+        <VStack align="left" className="pricing-header" spacing={4}>
           <Heading
             as="h2"
             textAlign={"left"}
             fontSize={{ base: "lg", md: "xl" }}
-            bgGradient="linear-gradient(0deg, #C5100E, #ED5734)"
-            bgClip="text"
+            color="#ED5734"
             textTransform={"uppercase"}
           >
             Pricing
           </Heading>
           <Text
-            color={"#EEEE"}
-            py={2}
-            fontSize={{ base: "sm", md: "md" }}
+            color={"#EEEEEE"}
+            fontSize="md"
             maxW={{ base: "2xl", lg: "3xl" }}
           >
-            A short link is a powerful tool when you use it carefully and it
-            unlocks infinite possibilities. It is not just a link but a medium
-            between your customer and there destination.
+            Choose a plan that suits your needs. From free basic access to a
+            comprehensive professional package, we have everything to help you
+            achieve your goals.
           </Text>
         </VStack>
-        <Stack
-          direction={{ base: "column", md: "row" }}
-          textAlign="center"
-          justify="left"
-          spacing={{ base: 4, lg: 10 }}
-          py={10}
+        <SimpleGrid
+          alignItems="center"
+          columns={{ base: 1, md: 2, lg: 3 }}
+          pt={9}
+          spacing={8}
+          className="pricing-grid"
         >
-          <PriceWrapper>
-            <Box py={4} px={12}>
-              <Text fontWeight="500" fontSize="2xl">
-                Hobby
+          {/* Efficient Plan */}
+          <PriceWrapper className="pricing-box">
+            <Box role="header" className="pricing-header-box">
+              <Text as="span" fontWeight="600" fontSize="2xl">
+                Efficient
               </Text>
-              <HStack justifyContent="center">
-                <Text fontSize="3xl" fontWeight="600">
-                  $
+              <Text color="#A1A1A1" fontSize=".95rem" pt="1">
+                Ideal for professionals who need advanced tools.
+              </Text>
+            </Box>
+            <Box className="pricing-body">
+              <HStack>
+                <Text as="span" fontSize="4xl" fontWeight="600">
+                  $79
                 </Text>
-                <Text fontSize="5xl" fontWeight="900">
-                  79
-                </Text>
-                <Text fontSize="3xl" color="gray.500">
+                <Text as="span" fontSize=".8rem" color="#A1A1A1">
                   /month
                 </Text>
               </HStack>
+              <VStack alignItems={"flex-start"}>
+                <List spacing={3} pt={3} pb={5} fontSize=".95rem">
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    Unlimited custom URLs
+                  </ListItem>
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    Detailed analytics
+                  </ListItem>
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    5TB data transfer
+                  </ListItem>
+                </List>
+                <Box w="100%">
+                  <Button
+                    w="full"
+                    fontSize=".9rem"
+                    variant="solid"
+                    color="white"
+                    borderRadius="lg"
+                    bg="#ED5734"
+                    _hover={{
+                      bg: "#FF4C24",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
+                    }}
+                    aria-label="Get Started with Efficient Plan"
+                  >
+                    <Link href="/SignUp" passHref>
+                      Get Started
+                    </Link>
+                  </Button>
+                </Box>
+              </VStack>
             </Box>
-            <VStack
-              bg={useColorModeValue("gray", "gray.700")}
-              py={4}
-              borderBottomRadius={"xl"}
-            >
-              <List spacing={3} textAlign="start" px={12}>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  unlimited build minutes
-                </ListItem>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-              </List>
-              <Box w="80%" pt={7}>
-                <Button w="full" colorScheme="red" variant="outline">
-                  Start trial
-                </Button>
-              </Box>
-            </VStack>
           </PriceWrapper>
 
-          <PriceWrapper>
+          {/* Team Plan */}
+          <PriceWrapper className="pricing-box popular-plan">
             <Box position="relative">
               <Box
                 position="absolute"
-                top="-16px"
+                top="-12"
                 left="50%"
                 style={{ transform: "translate(-50%)" }}
               >
                 <Text
+                  as="span"
                   textTransform="uppercase"
-                  bg={useColorModeValue("red.300", "red.700")}
+                  bg="#ED5734"
+                  color="white"
                   px={3}
                   py={1}
-                  color={useColorModeValue("gray.900", "gray.300")}
                   fontSize="sm"
                   fontWeight="600"
                   rounded="xl"
@@ -134,94 +154,117 @@ export default function Pricing() {
                   Most Popular
                 </Text>
               </Box>
-              <Box py={4} px={12}>
-                <Text fontWeight="500" fontSize="2xl">
-                  Growth
+              <Box role="header" className="pricing-header-box">
+                <Text as="span" fontWeight="600" fontSize="2xl">
+                  Team
                 </Text>
-                <HStack justifyContent="center">
-                  <Text fontSize="3xl" fontWeight="600">
-                    $
+                <Text color="#A1A1A1" fontSize=".95rem" pt="1">
+                  Best for growing teams needing more features and support.
+                </Text>
+              </Box>
+              <Box className="pricing-body" mt={4}>
+                <HStack>
+                  <Text as="span" fontSize="4xl" fontWeight="600">
+                    $49
                   </Text>
-                  <Text fontSize="5xl" fontWeight="900">
-                    149
-                  </Text>
-                  <Text fontSize="3xl" color="gray.500">
+                  <Text as="span" fontSize=".8rem" color="#A1A1A1">
                     /month
                   </Text>
                 </HStack>
+                <VStack alignItems={"flex-start"}>
+                  <List spacing={3} pt={3} pb={5} fontSize=".95rem">
+                    <ListItem color="#A1A1A1">
+                      <CheckIcon color="green.500" mr="6px" />
+                      Unlimited short URLs
+                    </ListItem>
+                    <ListItem color="#A1A1A1">
+                      <CheckIcon color="green.500" mr="6px" />
+                      Basic analytics
+                    </ListItem>
+                    <ListItem color="#A1A1A1">
+                      <CheckIcon color="green.500" mr="6px" />
+                      1TB data transfer
+                    </ListItem>
+                  </List>
+                  <Box w="100%">
+                    <Button
+                      w="full"
+                      fontSize=".9rem"
+                      bg="#090B0E"
+                      variant="outline"
+                      color="white"
+                      _hover={{
+                        borderColor: "#ED5731",
+                        transition: "all 0.3s ease",
+                      }}
+                      aria-label="Get Started with Team Plan"
+                    >
+                      <Link href="/SignUp">Get Started</Link>
+                    </Button>
+                  </Box>
+                </VStack>
               </Box>
-              <VStack py={4} borderBottomRadius={"xl"}>
-                <List spacing={3} textAlign="start" px={12}>
-                  <ListItem>
-                    <ListIcon color="green.500" />
-                    unlimited build minutes
+            </Box>
+          </PriceWrapper>
+
+          {/* Simple Plan */}
+          <PriceWrapper className="pricing-box">
+            <Box role="header" className="pricing-header-box">
+              <Text as="span" fontWeight="600" fontSize="2xl">
+                Simple
+              </Text>
+              <Text color="#A1A1A1" fontSize=".95rem" pt="1">
+                A great starting point for individuals and small teams.
+              </Text>
+            </Box>
+            <Box className="pricing-body">
+              <Box>
+                <Text as="span" fontSize="4xl" fontWeight="600">
+                  Free
+                </Text>
+              </Box>
+              <VStack alignItems={"flex-start"}>
+                <List spacing={3} pt={3} pb={5} fontSize=".95rem">
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    Limited custom URLs
                   </ListItem>
-                  <ListItem>
-                    <ListIcon color="green.500" />
-                    Lorem, ipsum dolor.
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    Basic analytics
                   </ListItem>
-                  <ListItem>
-                    <ListIcon color="green.500" />
-                    5TB Lorem, ipsum dolor.
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon color="green.500" />
-                    5TB Lorem, ipsum dolor.
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon color="green.500" />
-                    5TB Lorem, ipsum dolor.
+                  <ListItem color="#A1A1A1">
+                    <CheckIcon color="green.500" mr="6px" />
+                    No credit card required
                   </ListItem>
                 </List>
-                <Box w="80%" pt={7}>
-                  <Button w="full" colorScheme="red">
-                    Start trial
+                <Box w="100%">
+                  <Button
+                    w="full"
+                    fontSize=".9rem"
+                    variant="solid"
+                    color="white"
+                    borderRadius="lg"
+                    bg="#ED5734"
+                    _hover={{
+                      bg: "#FF4C24",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
+                    }}
+                    aria-label="Get Started with Simple Plan"
+                  >
+                    <Link href="/SignUp" passHref>
+                      Get Started
+                    </Link>
                   </Button>
                 </Box>
               </VStack>
             </Box>
           </PriceWrapper>
-          <PriceWrapper>
-            <Box py={4} px={12}>
-              <Text fontWeight="500" fontSize="2xl">
-                Scale
-              </Text>
-              <HStack justifyContent="center">
-                <Text fontSize="3xl" fontWeight="600">
-                  $
-                </Text>
-                <Text fontSize="5xl" fontWeight="900">
-                  349
-                </Text>
-                <Text fontSize="3xl" color="gray.500">
-                  /month
-                </Text>
-              </HStack>
-            </Box>
-            <VStack py={4} borderBottomRadius={"xl"}>
-              <List spacing={3} textAlign="start" px={12}>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  unlimited build minutes
-                </ListItem>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-              </List>
-              <Box w="80%" pt={7}>
-                <Button w="full" colorScheme="red" variant="outline">
-                  Start trial
-                </Button>
-              </Box>
-            </VStack>
-          </PriceWrapper>
-        </Stack>
+        </SimpleGrid>
       </Container>
     </Box>
   );
-}
+};
+
+export default Pricing;

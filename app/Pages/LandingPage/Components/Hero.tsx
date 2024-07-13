@@ -79,19 +79,20 @@ const NavItems: Array<{ name: string; href: string }> = [
   },
 ];
 
-const NavButtons = () => (
+const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
   <>
     <Button
+      width={isMobile ? "100%" : "auto"}
       fontSize=".9rem"
       fontWeight={400}
       color="white"
-      bg="transparent"
+      bg={isMobile ? "#1a1a1a" : "transparent"}
       borderRadius="lg"
       borderWidth="2px"
-      borderColor="#C5100E"
+      borderColor="#ED5734"
       _hover={{
-        bgGradient: "linear(0deg, #ED5734, #C5100E)",
-        transition: "background 0.3s ease",
+        bg: "#2a2a2a",
+        transition: "all 0.3s ease",
       }}
       aria-label="Login"
     >
@@ -100,14 +101,16 @@ const NavButtons = () => (
       </Link>
     </Button>
     <Button
+      width={isMobile ? "100%" : "auto"}
+      height={isMobile ? "3rem" : "auto"}
       fontSize=".9rem"
       fontWeight={600}
       color="white"
       borderRadius="lg"
-      bgGradient="linear(0deg, #C5100E, #ED5734)"
+      bg="#ED5734"
       _hover={{
-        bgGradient: "linear(0deg, #A00E0C, #C84B2E)",
-        transition: "background 0.3s ease",
+        bg: "#ED5731",
+        transition: "all 0.3s ease",
       }}
       aria-label="Get Started"
     >
@@ -196,6 +199,10 @@ export default function Hero() {
 
           {/* toggle button */}
           <Box
+            position="fixed"
+            top={4}
+            right={4}
+            zIndex={30}
             display={{ base: "flex", md: "none" }}
             alignItems="center"
             justifyContent="center"
@@ -223,44 +230,33 @@ export default function Hero() {
             top={0}
             left={0}
             width="100%"
-            height="100vh"
-            bg="rgba(0, 0, 0, 0.8)"
+            height="200vh"
+            bg="#000000"
+            py="8.4rem"
+            px={8}
             color="white"
             display={{ base: "flex", md: "none" }}
             flexDirection="column"
             alignItems="center"
-            justifyContent="center"
+            justifyContent="flex-start"
             zIndex={20}
             transform={isOpen ? "translateX(0)" : "translateX(100%)"}
-            transition="transform 0.3s ease-in-out"
+            transition="all 0.3s ease-in-out"
           >
-            <Flex
-              position="absolute"
-              top={4}
-              right={4}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <IconButton
-                icon={<CloseIcon boxSize={4} />}
-                variant={"ghost"}
-                color={"#848585"}
-                aria-label="Close menu"
-                onClick={onClose}
-              />
-            </Flex>
-            <Stack as="nav" spacing={4} textAlign="center">
+            <Stack as="nav" spacing={4} textAlign="center" width="90%" >
               {NavItems.map((navItem) => (
                 <ChakraLink
                   key={navItem.name}
                   href={navItem.href}
                   onClick={() => handleNavClick(navItem.name)}
                   fontSize="md"
+                  pb={4}
+                  _hover={{ textDecoration: "none", color:"#eeee" }}
                 >
                   {navItem.name}
                 </ChakraLink>
               ))}
-              <NavButtons />
+              <NavButtons isMobile />
             </Stack>
           </Box>
         ) : null}
@@ -276,11 +272,12 @@ export default function Hero() {
             spacing={{ base: 4, md: 6 }}
             py={{ base: 20, md: 32 }}
           >
-            <Heading as="h2" fontSize={{ base: "4xl", md: "6xl" }}>
+            <Heading as="h2" fontSize={{ base: "5xl", lg:"6xl"}}>
               Shorten and <br />
               <Text
                 as="span"
-                bgGradient="linear-gradient(0deg, #C5100E, #ED5734)"
+                bgGradient="linear-gradient(180deg, #C5100E, #ED5734)"
+                // bgGradient="linear-gradient(135deg, #2EA0E5, #65C8D8)"
                 bgClip="text"
               >
                 Customize Your Links
@@ -298,10 +295,10 @@ export default function Hero() {
                 Seamlessly manage and track your link performance.
               </Text>
             </Text>
-            <Box width="100%">
+            <Box width="100%" py={4}>
               <Flex alignItems="center" justifyContent="center">
                 <InputGroup
-                  size={{ base: "md", md: "lg" }}
+                  size="lg"
                   maxW={{ base: "auto", md: "3xl" }}
                   mr={3}
                   flex="1"
@@ -321,7 +318,7 @@ export default function Hero() {
                 </InputGroup>
                 <Button
                   fontSize=".9rem"
-                  py={{ md: "1.4rem" }}
+                  py={{ base: "1.4rem" }}
                   onClick={handleClick}
                 >
                   Shorten
@@ -336,8 +333,8 @@ export default function Hero() {
                   width="18rem"
                   mt={4}
                   py={2}
-                  bg="#FF7F7F"
-                  color="#FFFFFF"
+                  bg="#3B2B2B"
+                  color="#F86461"
                   fontSize="sm"
                   fontWeight="bold"
                   borderRadius="md"

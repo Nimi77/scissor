@@ -24,10 +24,10 @@ function Template({ icon, title, desc }: TemplateProps) {
       gap={3}
       alignItems="start"
       justifyItems="center"
-      py="1.4rem"
+      py="9"
       px="1.2rem"
-      bg="#090B0E"
-      boxShadow={"0px 8px 24px 0px rgba(0,0,0,0.42000000000000004)"}
+      bg="#18181B"
+      boxShadow={"0px 8px 24px 0px rgba(0,0,0,0.42)"}
       borderRadius="md"
       maxW={{ md: "lg", lg: "xl" }}
     >
@@ -35,7 +35,7 @@ function Template({ icon, title, desc }: TemplateProps) {
       <Text as="h3" fontSize={{base:"md", md:"lg"}}>
         {title}
       </Text>
-      <Text fontSize={{ base: "sm", md: ".9rem" }} color="#c8c8c8">
+      <Text fontSize={{ base: "sm", md: ".9rem" }} lineHeight="1.7" color="#C8C8C8">
         {desc}
       </Text>
     </Box>
@@ -45,21 +45,21 @@ const templates = [
   {
     icon: <LinkIcon />,
     title: "Custom URLs",
-    desc: "Create customizable URLs that not only mantain your brand consistency but also enhance user trust and recognition, making it easier for your audience to remember and share your links.",
+    desc: "Create customizable URLs that not only mantain your brand consistency but also enhance user trust and recognition.",
   },
   {
     icon: <LinkIcon />,
     title: "QR Code Generation",
-    desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline and enabling easy access for users through quick scans, on printed materials or digital screens.",
+    desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline.",
   },
   {
     icon: <LinkIcon />,
     title: "Basic Analytics",
-    desc: "Track your links performance and engagement comprehensively with linktrim's robust basic analytics tools, giving you valuable insights and overall effectiveness of your links.",
+    desc: "Track your links performance and engagement comprehensively with linktrim's robust basic analytics tools.",
   },
 ];
 
-export default function Features() {
+const Features = () => {
   return (
     <Box id="features">
       <Container py={8} maxW={"6xl"}>
@@ -68,8 +68,7 @@ export default function Features() {
             as="h2"
             textAlign={"left"}
             fontSize={{base:"lg", md:"xl"}}
-            bgGradient="linear-gradient(0deg, #C5100E, #ED5734)"
-            bgClip="text"
+            color="#ED5734"
             textTransform={"uppercase"}
           >
             Features
@@ -104,3 +103,4 @@ export default function Features() {
     </Box>
   );
 }
+export default Features;
