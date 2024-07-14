@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { LinkIcon } from "@chakra-ui/icons";
 import { ReactNode } from "react";
+import QrCode from "@/app/Assests/QrCode";
 
 interface TemplateProps {
   icon: ReactNode;
@@ -32,10 +33,14 @@ function Template({ icon, title, desc }: TemplateProps) {
       maxW={{ md: "lg", lg: "xl" }}
     >
       <Text as="span">{icon}</Text>
-      <Text as="h3" fontSize={{base:"md", md:"lg"}}>
+      <Text as="h3" fontSize={{ base: "md", md: "lg" }}>
         {title}
       </Text>
-      <Text fontSize={{ base: "sm", md: ".9rem" }} lineHeight="1.7" color="#C8C8C8">
+      <Text
+        fontSize={{ base: "sm", md: ".9rem" }}
+        lineHeight="1.7"
+        color="#C8C8C8"
+      >
         {desc}
       </Text>
     </Box>
@@ -48,7 +53,7 @@ const templates = [
     desc: "Create customizable URLs that not only mantain your brand consistency but also enhance user trust and recognition.",
   },
   {
-    icon: <LinkIcon />,
+    icon: <QrCode />,
     title: "QR Code Generation",
     desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline.",
   },
@@ -67,14 +72,13 @@ const Features = () => {
           <Heading
             as="h2"
             textAlign={"left"}
-            fontSize={{base:"lg", md:"xl"}}
+            fontSize={{ base: "lg", md: "xl" }}
             color="#ED5734"
             textTransform={"uppercase"}
           >
             Features
           </Heading>
           <Text
-           
             py={2}
             fontSize={{ base: "sm", md: "md" }}
             maxW={{ base: "2xl", lg: "3xl" }}
@@ -87,7 +91,7 @@ const Features = () => {
         <SimpleGrid
           alignItems="center"
           columns={{ base: 1, md: 2, lg: 3 }}
-          pt={4}
+          pt={9}
           spacing={8}
         >
           {templates.map((template, index) => (
@@ -102,5 +106,5 @@ const Features = () => {
       </Container>
     </Box>
   );
-}
+};
 export default Features;

@@ -28,7 +28,7 @@ const PriceWrapper = ({
     flexDirection="column"
     gap={4}
     p={8}
-    mb={{ base: 4, md: "0" }}
+    mb={3}
     bg="rgb(9,11,14)"
     borderWidth="1px"
     alignSelf="flex-start"
@@ -44,8 +44,8 @@ const PriceWrapper = ({
 
 const Pricing = () => {
   return (
-    <Box id="pricing" className="pricing-section">
-      <Container py={8} maxW={"6xl"} className="pricing-container">
+    <Box id="pricing"  py={{ base: 20, md: 28 }} className="pricing-section">
+      <Container maxW={"6xl"} className="pricing-container">
         <VStack align="left" className="pricing-header" spacing={4}>
           <Heading
             as="h2"
@@ -58,19 +58,18 @@ const Pricing = () => {
           </Heading>
           <Text
             color={"#EEEEEE"}
-            fontSize="md"
+            fontSize={{ base: "sm", md: "md" }}
             maxW={{ base: "2xl", lg: "3xl" }}
           >
-            Choose a plan that suits your needs. From free basic access to a
-            comprehensive professional package, we have everything to help you
-            achieve your goals.
+            Choose a plan that suits your needs. From comprehensive professional package to a free basic access 
+            we have everything to help you achieve your goals.
           </Text>
         </VStack>
         <SimpleGrid
           alignItems="center"
           columns={{ base: 1, md: 2, lg: 3 }}
           pt={9}
-          spacing={8}
+          spacing={{base:"10", md:"8"}}
           className="pricing-grid"
         >
           {/* Efficient Plan */}
@@ -165,7 +164,7 @@ const Pricing = () => {
               <Box className="pricing-body" mt={4}>
                 <HStack>
                   <Text as="span" fontSize="4xl" fontWeight="600">
-                    $49
+                    $40
                   </Text>
                   <Text as="span" fontSize=".8rem" color="#A1A1A1">
                     /month

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue, Link} from "@chakra-ui/react";
 
 const Footer = () => {
   return (
@@ -21,9 +21,25 @@ const Footer = () => {
           flexGrow: 1,
           ml: 8,
         }}
-      ></Flex>
+      ><Text
+      textAlign="left"
+      fontSize={{ base: "2xl" }}
+      fontWeight={600}
+      aria-label="linktrim"
+    >
+      linktrim
+    </Text>
+    <Box
+      bgGradient="linear-gradient(0deg, #C5100E, #ED5734)"
+      borderRadius="full"
+      ml={1}
+      w={2}
+      h={2}
+      mb="-8px"
+      aria-hidden="true"
+    ></Box></Flex>
       <Text pt={6} fontSize={"sm"} textAlign={"center"}>
-        © 2022 Chakra Templates. All rights reserved
+        © 2024 designed by <Link href="#">Abimbola Oladejo.</Link>
       </Text>
     </Box>
   );

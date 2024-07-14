@@ -143,10 +143,16 @@ export default function Hero() {
 
   return (
     <Box>
-      <Box position="sticky" top={0} zIndex={10} backdropFilter="blur(10px)">
+      <Box
+        position="fixed"
+        top={0}
+        zIndex={10}
+        backdropFilter="blur(10px)"
+        width="100%"
+        className="nav-bar"
+      >
         <Flex
           pt={{ base: 6 }}
-          px={{ base: 4 }}
           alignItems="center"
           justifyContent={{ base: "space-between", md: "space-around" }}
         >
@@ -230,7 +236,7 @@ export default function Hero() {
             top={0}
             left={0}
             width="100%"
-            height="200vh"
+            height="100vh"
             bg="#000000"
             py="8.4rem"
             px={8}
@@ -243,7 +249,7 @@ export default function Hero() {
             transform={isOpen ? "translateX(0)" : "translateX(100%)"}
             transition="all 0.3s ease-in-out"
           >
-            <Stack as="nav" spacing={4} textAlign="center" width="90%" >
+            <Stack as="nav" spacing={4} textAlign="center" width="90%">
               {NavItems.map((navItem) => (
                 <ChakraLink
                   key={navItem.name}
@@ -251,7 +257,7 @@ export default function Hero() {
                   onClick={() => handleNavClick(navItem.name)}
                   fontSize="md"
                   pb={4}
-                  _hover={{ textDecoration: "none", color:"#eeee" }}
+                  _hover={{ textDecoration: "none", color: "#eeee" }}
                 >
                   {navItem.name}
                 </ChakraLink>
@@ -263,21 +269,19 @@ export default function Hero() {
       </Box>
 
       {/* hero body */}
-      <Box>
+      <Box py={{ base: 20, md: 28 }}>
         <Container maxW={"6xl"}>
           <Stack
             textAlign={"center"}
             align={"center"}
             justify={"center"}
             spacing={{ base: 4, md: 6 }}
-            py={{ base: 20, md: 32 }}
           >
-            <Heading as="h2" fontSize={{ base: "5xl", lg:"6xl"}}>
+            <Heading as="h2" fontSize={{ base: "5xl", lg: "6xl" }}>
               Shorten and <br />
               <Text
                 as="span"
                 bgGradient="linear-gradient(180deg, #C5100E, #ED5734)"
-                // bgGradient="linear-gradient(135deg, #2EA0E5, #65C8D8)"
                 bgClip="text"
               >
                 Customize Your Links
