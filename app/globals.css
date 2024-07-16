@@ -12,4 +12,32 @@ h3,
   font-family: var(--font-inter-tight);
   letter-spacing: -0.5px;
 }
+/* glow css */
+.input-glow {
+  position: relative;
+  z-index: 0;
+}
+.input-glow::before {
+  content: '';
+  background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #ed5734, #f26b6b, #ba5b07, #ab1515, #c5100e, #ff0000);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
 
