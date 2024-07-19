@@ -2,7 +2,7 @@
 
 import { Box, Flex, Text, Link } from "@chakra-ui/react";
 
-export default function Footer() {
+const Footer = () => {
   return (
     <Box bg="#111316">
       <Box display="grid" placeItems="center" py={6}>
@@ -25,10 +25,11 @@ export default function Footer() {
             aria-hidden="true"
           ></Box>
         </Flex>
-        <Text fontSize={"sm"} textAlign={"center"}>
+        <Text textAlign={"center"}>
           © 2024 developed by <Link href="#">Abimbola Oladejo.</Link>
         </Text>
       </Box>
     </Box>
-  );
+  )
 }
+export default Footer;

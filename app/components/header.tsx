@@ -2,7 +2,6 @@
 
 import {
   Text,
-  Button,
   Stack,
   Box,
   Container,
@@ -11,11 +10,11 @@ import {
   useDisclosure,
   HStack,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, LinkIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
 
 const NavItems = [
   { name: "Home", href: "#" },
@@ -38,7 +37,6 @@ const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => {
       px={4}
       py={2}
       rounded={"lg"}
-      fontSize=".95rem"
       color={isActive ? "white" : "#eeee"}
       position="relative"
       sx={{
@@ -69,46 +67,46 @@ const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => {
 
 const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
   <>
-    <Link href="/Login" passHref>
-      <Button
-        width={isMobile ? "100%" : "auto"}
-        height={isMobile ? "3rem" : "2.5rem"}
-        fontSize=".95rem"
-        fontWeight={400}
-        color="white"
-        bg={isMobile ? "#1a1a1a" : "transparent"}
-        borderRadius="lg"
-        borderWidth="2px"
-        borderColor="#ED5734"
-        _hover={{
-          bg: "#2a2a2a",
-          transition: "all 0.3s ease",
-        }}
-        tabIndex={-1}
-        aria-label="Login"
-      >
-        Login
-      </Button>
-    </Link>
-    <Link href="/SignUp" passHref>
-      <Button
-        width={isMobile ? "100%" : "auto"}
-        height={isMobile ? "3rem" : "2.5rem"}
-        fontSize=".95rem"
-        fontWeight={600}
-        color="white"
-        borderRadius="lg"
-        bg="#ED5734"
-        _hover={{
-          bg: "#ED5731",
-          transition: "all 0.3s ease",
-        }}
-        tabIndex={-1}
-        aria-label="Get Started"
-      >
-        Get Started
-      </Button>
-    </Link>
+    <Box
+      as="span"
+      display="inline-flex"
+      alignItems="center"
+      justifyContent="center"
+      py={isMobile ? "1.5rem" : "1rem"}
+      px={isMobile ? "2rem" : "1rem"}
+      fontWeight={600}
+      color="white"
+      bg={isMobile ? "#1a1a1a" : "transparent"}
+      borderRadius="lg"
+      borderWidth="2px"
+      borderColor="#ED5734"
+      _hover={{
+        bg: "#2a2a2a",
+        transition: "all 0.3s ease",
+      }}
+      aria-label="Login"
+    >
+      <Link href="/login">Login</Link>
+    </Box>
+    <Box
+      as="span"
+      display="inline-flex"
+      alignItems="center"
+      justifyContent="center"
+      py={isMobile ? "1.5rem" : "1rem"}
+      px={isMobile ? "2rem" : "1rem"}
+      fontWeight={600}
+      color="white"
+      bg="#ED5734"
+      borderRadius="lg"
+      _hover={{
+        bg: "#ED5731",
+        transition: "all 0.3s ease",
+      }}
+      aria-label="Get Started"
+    >
+      <Link href="/register"></Link>
+    </Box>
   </>
 );
 
@@ -141,9 +139,6 @@ export default function Header() {
           justifyContent={{ base: "space-between" }}
         >
           <Flex alignItems="center" justify="start">
-            <Box mr={2} aria-label="Logo">
-              <LinkIcon aria-hidden="true" />
-            </Box>
             <Flex align="center" justify="center">
               <Text
                 textAlign="left"
@@ -242,7 +237,6 @@ export default function Header() {
                     key={navItem.name}
                     href={navItem.href}
                     onClick={() => handleNavClick(navItem.name)}
-                    fontSize=".95rem"
                     pb={4}
                     _hover={{ textDecoration: "none", color: "#eeee" }}
                   >

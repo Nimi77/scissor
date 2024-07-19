@@ -45,7 +45,7 @@ const PriceWrapper = ({
   </Box>
 );
 
-export default function Pricing() {
+const Pricing = () => {
   return (
     <Box id="pricing" pt="6rem" pb="8rem" className="pricing-section">
       <Container maxW={"6xl"}>
@@ -61,7 +61,6 @@ export default function Pricing() {
           </Heading>
           <Text
             color={"#EEEEEE"}
-            fontSize={{ base: "sm", md: "md" }}
             maxW={{ base: "2xl", lg: "3xl" }}
           >
             Choose a plan that suits your needs. From comprehensive professional
@@ -80,11 +79,11 @@ export default function Pricing() {
                 <Text as="span" fontWeight="600" fontSize="2xl">
                   Pro
                 </Text>
-                <Text color="#A1A1A1" fontSize=".95rem" pt="1">
+                <Text color="#A1A1A1" pt="1">
                   Ideal for professionals who need advanced tools.
                 </Text>
               </Box>
-              <HStack mt={4}>
+              <HStack mt={4} className="plan-price">
                 <Text as="span" fontSize="4xl" fontWeight="600">
                   $12
                 </Text>
@@ -101,7 +100,7 @@ export default function Pricing() {
                 mt={4}
                 mb={7}
               >
-                <List spacing={2} fontSize=".95rem" alignItems="flex-start">
+                <List spacing={2} alignItems="flex-start">
                   <ListItem color="#A1A1A1">
                     <CheckIcon color="orange.500" mr="6px" />
                     Unlimited custom URLs
@@ -122,7 +121,6 @@ export default function Pricing() {
                 </List>
                 <List
                   spacing={2}
-                  fontSize=".95rem"
                   alignItems="flex-start"
                   display={{ base: "none", lg: "block" }}
                 >
@@ -182,18 +180,18 @@ export default function Pricing() {
                 <Text as="span" fontWeight="600" fontSize="2xl">
                   Basic
                 </Text>
-                <Text color="#A1A1A1" fontSize=".95rem" pt="1">
+                <Text color="#A1A1A1" pt="1">
                   A great starting point for individuals and small teams.
                 </Text>
               </Box>
               <Box className="pricing-body" mt={4}>
                 <Box>
-                  <Text as="span" fontSize="4xl" fontWeight="600">
+                  <Text as="span" fontSize="4xl" fontWeight="600" className="plan-price">
                     Free
                   </Text>
                 </Box>
                 <VStack alignItems={"flex-start"}>
-                  <List spacing={2} my={2} fontSize=".95rem">
+                  <List spacing={2} my={2}>
                     <ListItem color="#A1A1A1">
                       <CheckIcon color="orange.500" mr="6px" />
                       Limited custom URLs
@@ -211,7 +209,6 @@ export default function Pricing() {
                     <Link href="/SignUp" passHref>
                       <Button
                         w={{ base: "full", md: "auto" }}
-                        fontSize=".95rem"
                         bg="#090B0E"
                         variant="outline"
                         color="white"
@@ -233,5 +230,6 @@ export default function Pricing() {
         </Box>
       </Container>
     </Box>
-  );
+  )
 }
+export default Pricing;

@@ -12,7 +12,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  useToast,
+
 } from "@chakra-ui/react";
 import { LinkIcon } from "@chakra-ui/icons";
 import { useState } from "react";
@@ -51,7 +51,6 @@ export default function Hero() {
           <Text
             color="#eeee"
             maxW={{ base: "3xl" }}
-            fontSize={{ base: "sm", md: ".95rem" }}
           >
             Simplify your links with our URL shortening tool. Enhance your
             marketing strategy with custom URLs, QR code generation, and
@@ -75,14 +74,12 @@ export default function Hero() {
                   placeholder="Paste a link to shorten it"
                   border="none"
                   borderColor="transparent"
-                  fontSize="sm"
                   onChange={(e) => setInputValue(e.target.value)}
                   bg="#090B0E"
                   aria-label="Paste a link to shorten it"
                 />
                 <InputRightElement mr="1.8rem">
                   <Button
-                    fontSize=".9rem"
                     onClick={handleClick}
                     bg="#ED5734"
                     color="white"

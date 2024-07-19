@@ -9,10 +9,10 @@ import {
   SimpleGrid,
   Icon,
 } from "@chakra-ui/react";
-import { AttachmentIcon, LinkIcon } from "@chakra-ui/icons";
+import { AttachmentIcon} from "@chakra-ui/icons";
 import { ReactNode } from "react";
-import AnalyticsIcon from "@/app/public/analytic.svg";
-import QRCodeIcon from "@/app/public/qr_code.svg";
+import AnalyticsIcon from "@/public/analytic.svg";
+import QRCodeIcon from "@/public/qr_code.svg";
 
 interface TemplateProps {
   icon: ReactNode;
@@ -72,7 +72,7 @@ const templates = [
   },
 ];
 
-export default function Features() {
+const Features = () => {
   return (
     <Box id="features" role="region" aria-labelledby="features-heading">
       <Container py={8} maxW={"6xl"}>
@@ -89,7 +89,6 @@ export default function Features() {
           </Heading>
           <Text
             py={2}
-            fontSize={{ base: "sm", md: "md" }}
             maxW={{ base: "2xl", lg: "3xl" }}
             color="#E0E0E0"
           >
@@ -115,5 +114,6 @@ export default function Features() {
         </SimpleGrid>
       </Container>
     </Box>
-  );
+  )
 }
+export default Features;
