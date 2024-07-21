@@ -1,10 +1,11 @@
-"use client";
-
-import { ChakraProvider } from "@chakra-ui/react";
-import Head from "next/head";
-import theme from "./theme";
+import ChakraWrapper from "./chakra_ui/setup";
+import { Metadata } from "next";
 import "./globals.css";
 
+export const metadata: Metadata = {
+  title: "Linktrim - URL Shortening tool",
+  description: "Shorten, customize, and track your URLs with scissor. The ultimate tool for URL shortening, QR code generation, and link analytics."
+}
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -12,17 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        <title>Scissor - URL Shortening tool</title>
-        <meta
-          name="description"
-          content="Shorten, customize, and track your URLs with scissor. The ultimate
-          tool for URL shortening, QR code generation, and link analytics."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <body>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <ChakraWrapper>{children}</ChakraWrapper>
       </body>
     </html>
   );

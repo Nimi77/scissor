@@ -15,7 +15,6 @@ import {
 import { ArrowForwardIcon, CheckIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { ReactNode } from "react";
-
 interface Props {
   children: React.ReactNode;
 }
@@ -53,7 +52,7 @@ const Pricing = () => {
           <Heading
             as="h2"
             textAlign={"left"}
-            fontSize={{ base: "lg", md: "xl" }}
+            fontSize="xl"
             color="#ED5734"
             textTransform={"uppercase"}
           >
@@ -139,15 +138,14 @@ const Pricing = () => {
                 </List>
               </Box>
               <Box w="100%">
-                <Link href="/SignUp" passHref>
+                <Link href="/SignUp">
                   <Button
                     w="full"
                     variant="solid"
                     color="white"
                     borderRadius="lg"
-                    bg="#ED5734"
+                    bg="#FF4C24"
                     _hover={{
-                      bg: "#FF4C24",
                       transition: "all 0.3s ease",
                       boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
                     }}
@@ -206,7 +204,7 @@ const Pricing = () => {
                     </ListItem>
                   </List>
                   <Box w="100%">
-                    <Link href="/SignUp" passHref>
+                    <Link href="/SignUp">
                       <Button
                         w={{ base: "full", md: "auto" }}
                         bg="#090B0E"

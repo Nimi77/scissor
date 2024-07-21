@@ -41,13 +41,12 @@ function Template({ icon, title, desc }: TemplateProps) {
       <Text
         as="h3"
         id={`${title}-heading`}
-        fontSize={{ base: "md", md: "lg" }}
         pt={4}
         pb={2}
       >
         {title}
       </Text>
-      <Text fontSize={{ base: "sm", md: ".9rem" }} color="#C8C8C8">
+      <Text fontSize="1rem" color="#C8C8C8">
         {desc}
       </Text>
     </Box>
@@ -63,7 +62,7 @@ const templates = [
   {
     icon: <QRCodeIcon aria-label="QRCode icon" />,
     title: "QR Code Generation",
-    desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline.",
+    desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline on different platforms.",
   },
   {
     icon: <AnalyticsIcon aria-label="Analytics icon" />,
@@ -75,13 +74,13 @@ const templates = [
 const Features = () => {
   return (
     <Box id="features" role="region" aria-labelledby="features-heading">
-      <Container py={8} maxW={"6xl"}>
+      <Container maxW={"6xl"}>
         <VStack align="left">
           <Heading
             as="h2"
             id="features-heading"
             textAlign={"left"}
-            fontSize={{ base: "lg", md: "xl" }}
+            fontSize="xl"
             color="#ED5734"
             textTransform={"uppercase"}
           >
@@ -90,7 +89,7 @@ const Features = () => {
           <Text
             py={2}
             maxW={{ base: "2xl", lg: "3xl" }}
-            color="#E0E0E0"
+           
           >
             A short link is a powerful tool when you use it carefully and it
             unlocks infinite possibilities. It is not just a link but a medium

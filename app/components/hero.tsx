@@ -11,13 +11,12 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
-
+  InputRightElement
 } from "@chakra-ui/react";
 import { LinkIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
-export default function Hero() {
+const Hero = () => {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
 
@@ -30,15 +29,15 @@ export default function Hero() {
   };
 
   return (
-    <Box className="hero" pt="10rem" pb="8rem">
-      <Container maxW={"6xl"}>
+    <Box className="hero" pt={{base:"9rem", md:"11rem"}} pb="8rem">
+      <Container maxW={"6xl"} position="relative">
         <Stack
           textAlign={"center"}
           align={"center"}
           justify={"center"}
           spacing={{ base: 4, md: 6 }}
         >
-          <Heading as="h2" fontSize={{ base: "5xl", lg: "6xl" }}>
+          <Heading as="h2" fontSize={{ base: "5xl", lg: "6xl" }} lineHeight={0.9}>
             Shorten and <br />
             <Text
               as="span"
@@ -50,7 +49,8 @@ export default function Hero() {
           </Heading>
           <Text
             color="#eeee"
-            maxW={{ base: "3xl" }}
+            maxW={{ base: "4xl", md:"2xl" }}
+            fontSize={{base:"md"}}
           >
             Simplify your links with our URL shortening tool. Enhance your
             marketing strategy with custom URLs, QR code generation, and
@@ -81,11 +81,11 @@ export default function Hero() {
                 <InputRightElement mr="1.8rem">
                   <Button
                     onClick={handleClick}
-                    bg="#ED5734"
+                    bg="#FF4C24"
                     color="white"
                     px="3rem"
                     _hover={{
-                      bg: "#FF4C24",
+                      bg: "#ED5734",
                       transition: "all 0.3s ease",
                     }}
                     aria-label="Shorten Link"
@@ -119,5 +119,6 @@ export default function Hero() {
         </Stack>
       </Container>
     </Box>
-  );
+  )
 }
+export default Hero;

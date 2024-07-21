@@ -54,7 +54,7 @@ const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => {
         _hover: {
           color: "white",
           _after: {
-            width: "100%",
+            width: "90%",
           },
         },
       }}
@@ -72,11 +72,11 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
-      py={isMobile ? "1.5rem" : "1rem"}
-      px={isMobile ? "2rem" : "1rem"}
+      bg={isMobile ? "#1a1a1a" : "transparent"}
+      py={isMobile ? ".9rem" : ".2rem"}
+      px={isMobile ? ".9rem" : "1.2rem"}
       fontWeight={600}
       color="white"
-      bg={isMobile ? "#1a1a1a" : "transparent"}
       borderRadius="lg"
       borderWidth="2px"
       borderColor="#ED5734"
@@ -93,19 +93,20 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
-      py={isMobile ? "1.5rem" : "1rem"}
-      px={isMobile ? "2rem" : "1rem"}
+      py={isMobile ? ".9rem" : ".4rem"}
+      px={isMobile ? ".9rem" : "1.2rem"}
       fontWeight={600}
       color="white"
-      bg="#ED5734"
+      bg="#FF4C24"
       borderRadius="lg"
+      minWidth="6rem"
+      whiteSpace="nowrap"
       _hover={{
-        bg: "#ED5731",
+        bg: "#ED5734",
         transition: "all 0.3s ease",
       }}
-      aria-label="Get Started"
     >
-      <Link href="/register"></Link>
+      <Link href="/register">Get Started</Link>
     </Box>
   </>
 );
@@ -142,7 +143,7 @@ export default function Header() {
             <Flex align="center" justify="center">
               <Text
                 textAlign="left"
-                fontSize={{ base: "2xl", md: "3xl" }}
+                fontSize={{ base: "3xl", md: "4xl" }}
                 fontWeight={600}
                 aria-label="linktrim"
               >
@@ -154,7 +155,6 @@ export default function Header() {
                 ml={1}
                 w={2}
                 h={2}
-                mb="-8px"
                 aria-hidden="true"
               ></Box>
             </Flex>
