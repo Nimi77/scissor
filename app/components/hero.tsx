@@ -48,7 +48,7 @@ const Hero = () => {
             </Text>
           </Heading>
           <Text
-            color="#eeee"
+            color="white"
             maxW={{ base: "4xl", md:"2xl" }}
             fontSize={{base:"md"}}
           >

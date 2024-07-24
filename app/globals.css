@@ -7,7 +7,7 @@ a,
 input,
 button,
 p,
-li {
+li{
   font-size: 18px;
 }
 /* styling for the input animation */
@@ -55,24 +55,13 @@ li {
   }
 }
 
-/*(authentication) input group styling */
-.input-group {
-  width: 320px;
-  margin-block:12px;
-}
-.input-group input {
-  width: 100%;
-  height: 40px;
-  font-size: 16px;
-  color: #1e2022;
-  padding: 0 10px;
-  background: transparent;
-  border: 1px solid #1e2022;
-  outline: none;
-  border-radius: 5px;
-}
-.forget-passkey a,
-.register-link {
+/*(authentication) styling */
+.forget-passkey,
+.register-link,
+.login-link
+ {
+  color:#ED5734;
+
   &:hover {
     text-decoration: underline;
   }
