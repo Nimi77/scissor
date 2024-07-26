@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import {
   Box,
   Button,
@@ -15,23 +15,40 @@ import {
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+interface SignInResponse {
+  error?: string;
+  status?: number;
+  ok: boolean;
+  url?: string;
+}
 
 const LoginForm = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const response = await signIn('credentials', {
-        email: formData.get('email'),
-        password: formData.get('password'),
-        redirect: false
-    })
-    console.log({response})
+    try {
+      const formData = new FormData(e.currentTarget);
+      const response = (await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        redirect: false,
+      })) as SignInResponse;
 
-    if(!response?.error){
-      router.push("/dashboard");
-      router.refresh();
+      console.log("login", response);
+      if (!response || response.error) {
+        console.log(`Login failed: ${response?.error || "unknown error"}`);
+      } else {
+        console.log("login successful");
+        router.replace("dashboard");
+        // router.refresh();
+      }
+    } catch (error) {
+      setError("Invalid Credentials ");
+      console.log(error);
     }
   };
 
@@ -57,11 +74,11 @@ const LoginForm = () => {
             Login
           </Heading>
           <Box my={6} width={{ base: "280px", lg: "26rem" }}>
-            <form onSubmit={handleSubmit} method="POST">
+            <form onSubmit={handleLogin} method="POST">
               <FormControl>
                 <FormLabel
                   htmlFor="email"
-                  fontSize={{base:"md", md:"lg"}}
+                  fontSize={{ base: "md", md: "lg" }}
                   color={useColorModeValue("gray.900", "gray.100")}
                 >
                   Email address
@@ -78,7 +95,7 @@ const LoginForm = () => {
                 />
               </FormControl>
 
-              <FormControl mt={{ base: 4, md: 6 }} mb={8}>
+              <FormControl mt={{ base: 4, md: 6 }} mb={2}>
                 <Box
                   display="flex"
                   alignItems="center"
@@ -86,7 +103,7 @@ const LoginForm = () => {
                 >
                   <FormLabel
                     htmlFor="password"
-                    fontSize={{base:"md", md:"lg"}}
+                    fontSize={{ base: "md", md: "lg" }}
                     color={useColorModeValue("gray.900", "gray.100")}
                     m={0}
                   >
@@ -109,12 +126,15 @@ const LoginForm = () => {
                 />
               </FormControl>
 
+              {error && <span> {error} </span>}
+              
               <Button
                 type="submit"
                 w="100%"
                 h="2.4rem"
+                mt={4}
                 fontWeight={600}
-                fontSize={{base:"md", md:"lg"}}
+                fontSize={{ base: "md", md: "lg" }}
                 color="white"
                 bg="#FF4C24"
                 borderRadius="lg"
@@ -123,7 +143,7 @@ const LoginForm = () => {
                   bg: "#ED5734",
                   transition: "all 0.3s ease",
                 }}
-                onClick={e=> console.log("clicked")}
+                onClick={(e) => console.log("clicked")}
               >
                 Login
               </Button>
@@ -131,7 +151,7 @@ const LoginForm = () => {
           </Box>
 
           <Box textAlign="center">
-            <Text fontSize={{base:"md", md:"lg"}}>
+            <Text fontSize={{ base: "md", md: "lg" }}>
               Don&apos;t have an account?{" "}
               <Link href="/register" color="#ED5734" className="register-link">
                 Sign Up

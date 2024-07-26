@@ -3,9 +3,9 @@ import { Box, Text } from "@chakra-ui/react"
 
 const Dashboard = () => {
     return (
-        <Box>
+        <div>
             <Text>Hello welcome to your dashboard</Text> 
-        </Box>
+        </div>
     )
 }
-export default Dashboard
+export default Dashboard;

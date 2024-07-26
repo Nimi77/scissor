@@ -13,6 +13,7 @@
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
+    "@hookform/resolvers": "^3.9.0",
     "@svgr/webpack": "^8.1.0",
     "@types/bcryptjs": "^2.4.6",
     "@vercel/postgres": "^0.9.0",
@@ -20,9 +21,9 @@
     "framer-motion": "^11.2.13",
     "next": "14.2.4",
     "next-auth": "^4.24.7",
-    "package-lock-only": "^0.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.52.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {

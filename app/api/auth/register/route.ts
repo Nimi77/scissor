@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
-    console.log({ email, password });
 
     // // Hashing the password
     const hashedPassword = await hash(password, 10);
@@ -14,7 +13,6 @@ export async function POST(request: Request) {
     const response = await sql`
       INSERT INTO users (email, password)
       VALUES (${email}, ${hashedPassword})
-    
     `;
    
   } catch (e: any) {

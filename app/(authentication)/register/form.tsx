@@ -10,23 +10,76 @@ import {
   FormLabel,
   FormControl,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
-  //handles form submit
+  const [status, setStatus] = useState<
+    "idle" | "registering" | "success" | "redirecting" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const router = useRouter();
+
+  // Handle form submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const response = await fetch(`api/auth/register`, {
-      method: "POST",
-      body: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password"),
-      }),
-    });
-    console.log({response})
+    setStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      // Check if user exists
+      const resUserExist = await fetch(`/api/auth/userExist`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await resUserExist.json();
+
+      if (data.error) {
+        setErrorMessage(data.error);
+        setStatus("error");
+      } else {
+        setStatus("registering");
+
+        // Proceed with registration if user does not exist
+        const response = await fetch(`/api/auth/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+          setStatus("success");
+
+          setTimeout(() => {
+            setStatus("redirecting");
+            setTimeout(() => {
+              router.push("/login");
+            }, 2000); // 2 seconds to read the redirect message
+          }, 2000);
+        } else {
+          const errorData = await response.json();
+          setErrorMessage(
+            errorData.error || "An error occurred during registration"
+          );
+          setStatus("error");
+        }
+      }
+    } catch (error) {
+      setErrorMessage("An unexpected error occurred");
+      setStatus("error");
+    }
   };
 
   return (
@@ -55,7 +108,7 @@ const RegisterForm = () => {
               <FormControl>
                 <FormLabel
                   htmlFor="email"
-                  fontSize={{base:"md", md:"lg"}}
+                  fontSize={{ base: "md", md: "lg" }}
                   color={useColorModeValue("gray.900", "gray.100")}
                 >
                   Email address
@@ -71,13 +124,11 @@ const RegisterForm = () => {
                 />
               </FormControl>
 
-              <FormControl mt={{ base: 4, md: 6 }} mb={8}>
+              <FormControl mt={{ base: 4, md: 6 }} mb={2}>
                 <FormLabel
                   htmlFor="password"
-                  fontSize={{base:"md", md:"lg"}}
+                  fontSize={{ base: "md", md: "lg" }}
                   color={useColorModeValue("gray.900", "gray.100")}
-                  m={0}
-                  p={0}
                 >
                   Password
                 </FormLabel>
@@ -92,12 +143,43 @@ const RegisterForm = () => {
                 />
               </FormControl>
 
+              {status !== "idle" && (
+                <Box className="text-center italic">
+                  {status === "registering" && (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      className="text-green-400"
+                    >
+                      <Spinner size="sm" mr={2} />{" "}
+                      <span>Registering user...</span>
+                    </Box>
+                  )}
+                  {status === "success" && (
+                    <Box className="text-green-500">
+                      <span>User registration successful</span>
+                    </Box>
+                  )}
+                  {status === "redirecting" && (
+                    <Box className="text-green-500">
+                      <span>Redirecting to login page...</span>
+                    </Box>
+                  )}
+                  {status === "error" && (
+                    <Box className="text-red-500">
+                      <span>{errorMessage}</span>
+                    </Box>
+                  )}
+                </Box>
+              )}
+
               <Button
                 type="submit"
                 w="100%"
                 h="2.4rem"
+                mt={4}
                 fontWeight={600}
-                fontSize={{base:"md", md:"lg"}}
+                fontSize={{ base: "md", md: "lg" }}
                 color="white"
                 bg="#FF4C24"
                 borderRadius="lg"
@@ -124,5 +206,6 @@ const RegisterForm = () => {
       </Box>
     </Box>
   );
-}
+};
+
 export default RegisterForm;
