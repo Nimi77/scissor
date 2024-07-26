@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,45 +9,57 @@ import {
   Heading,
   Input,
   Text,
-  useColorModeValue,
   Flex,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 interface SignInResponse {
   error?: string;
   status?: number;
   ok: boolean;
-  url?: string;
+  url: string;
 }
 
 const LoginForm = () => {
-  const router = useRouter();
   const [error, setError] = useState("");
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("Session status:", status);
+    if (status === "authenticated") {
+      console.log("User authenticated, redirecting to dashboard...");
+      router.push("/dashboard");
+    }
+  }, [status, router]);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget);
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
       const response = (await signIn("credentials", {
-        email: formData.get("email"),
-        password: formData.get("password"),
+        email,
+        password,
         redirect: false,
+        callbackUrl: "/dashboard",
       })) as SignInResponse;
 
       console.log("login", response);
-      if (!response || response.error) {
-        console.log(`Login failed: ${response?.error || "unknown error"}`);
+      if (response && response.ok) {
+        router.push(response.url || "/dashboard");
       } else {
-        console.log("login successful");
-        router.replace("dashboard");
-        // router.refresh();
+        // Handle login error
+        console.error("Login failed", response.error);
       }
     } catch (error) {
-      setError("Invalid Credentials ");
+      setError("Invalid Credentials");
       console.log(error);
     }
   };
@@ -79,7 +91,7 @@ const LoginForm = () => {
                 <FormLabel
                   htmlFor="email"
                   fontSize={{ base: "md", md: "lg" }}
-                  color={useColorModeValue("gray.900", "gray.100")}
+                  color="gray.900"
                 >
                   Email address
                 </FormLabel>
@@ -104,7 +116,7 @@ const LoginForm = () => {
                   <FormLabel
                     htmlFor="password"
                     fontSize={{ base: "md", md: "lg" }}
-                    color={useColorModeValue("gray.900", "gray.100")}
+                    color="gray.900"
                     m={0}
                   >
                     Password
@@ -127,7 +139,7 @@ const LoginForm = () => {
               </FormControl>
 
               {error && <span> {error} </span>}
-              
+
               <Button
                 type="submit"
                 w="100%"

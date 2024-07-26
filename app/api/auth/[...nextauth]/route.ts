@@ -8,7 +8,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: "process.env.NEXTAUTH_SECRET",
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/login",
   },
@@ -24,17 +24,12 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const response =
-            await sql`SELECT * FROM users WHERE email = ${credentials.email}`;
-
+          const response = await sql`SELECT * FROM users WHERE email = ${credentials.email}`;
           const user = response.rows[0];
 
           if (!user) return null;
 
-          const passwordCorrect = await compare(
-            credentials.password,
-            user.password
-          );
+          const passwordCorrect = await compare(credentials.password, user.password);
 
           if (!passwordCorrect) {
             return null;
@@ -48,32 +43,33 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  // callbacks: {
-  //   async signIn({ user, credentials }) {
-  //     const isAllowedToSignIn = "true";
-
-  //     if (isAllowedToSignIn) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   },
-  //   async redirect({ url, baseUrl }) {
-  //     if (url.startsWith("/")) return `${url}`;
-  //     return baseUrl;
-  //   },
-  //   async session({ session, token }) {
-  //     session.user = token.user as typeof session.user;
-  //     return session;
-  //   },
-  //   async jwt({ token, user }) {
-  //     if (user) {
-  //       token.user = user;
-  //     }
-  //     return token;
-  //   },
-  // },
+  callbacks: {
+    async signIn({ user }) {
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+    async session({ session, token }) {
+      if (token.sub) {
+        session.user = {
+          ...session.user,
+          id: token.sub,
+        };
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
+  },
 };
+
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

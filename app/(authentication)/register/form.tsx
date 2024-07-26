@@ -34,47 +34,33 @@ const RegisterForm = () => {
       const email = formData.get("email") as string;
       const password = formData.get("password") as string;
 
-      // Check if user exists
-      const resUserExist = await fetch(`/api/auth/userExist`, {
+      // Try to register user
+      setStatus("registering");
+
+      const response = await fetch(`/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, password }),
       });
-      const data = await resUserExist.json();
 
-      if (data.error) {
-        setErrorMessage(data.error);
-        setStatus("error");
-      } else {
-        setStatus("registering");
+      const registerData = await response.json();
 
-        // Proceed with registration if user does not exist
-        const response = await fetch(`/api/auth/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+      if (response.ok) {
+        setStatus("success");
 
-        if (response.ok) {
-          setStatus("success");
-
+        setTimeout(() => {
+          setStatus("redirecting");
           setTimeout(() => {
-            setStatus("redirecting");
-            setTimeout(() => {
-              router.push("/login");
-            }, 2000); // 2 seconds to read the redirect message
-          }, 2000);
-        } else {
-          const errorData = await response.json();
-          setErrorMessage(
-            errorData.error || "An error occurred during registration"
-          );
-          setStatus("error");
-        }
+            router.push("/login");
+          }, 2000); // 2 seconds to read the redirect message
+        }, 2000);
+      } else {
+        setErrorMessage(
+          registerData.error || "An error occurred during registration"
+        );
+        setStatus("error");
       }
     } catch (error) {
       setErrorMessage("An unexpected error occurred");
@@ -124,7 +110,7 @@ const RegisterForm = () => {
                 />
               </FormControl>
 
-              <FormControl mt={{ base: 4, md: 6 }} mb={2}>
+              <FormControl mt={{ base: 4 }} mb={2}>
                 <FormLabel
                   htmlFor="password"
                   fontSize={{ base: "md", md: "lg" }}
@@ -144,11 +130,11 @@ const RegisterForm = () => {
               </FormControl>
 
               {status !== "idle" && (
-                <Box className="text-center italic">
+                <Box className="text-left italic">
                   {status === "registering" && (
                     <Box
                       display="flex"
-                      alignItems="center"
+                      alignItems="left"
                       className="text-green-400"
                     >
                       <Spinner size="sm" mr={2} />{" "}
@@ -198,7 +184,7 @@ const RegisterForm = () => {
             <Text>
               Already have an account?{" "}
               <Link href="/login" color="#ED5734" className="login-link">
-                Sign In
+                Login
               </Link>
             </Text>
           </Box>
