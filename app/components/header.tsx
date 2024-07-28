@@ -12,9 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 
 const NavItems = [
   { name: "Home", href: "#" },
@@ -39,25 +39,8 @@ const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => {
       rounded={"lg"}
       color={isActive ? "white" : "#eeee"}
       position="relative"
-      sx={{
-        _after: {
-          content: '""',
-          position: "absolute",
-          width: "0",
-          height: "2px",
-          bottom: "0",
-          left: "50%",
-          transform: "translateX(-50%)",
-          bgGradient: "linear(0deg, #ED5734, #C5100E)",
-          transition: "width 0.3s ease",
-        },
-        _hover: {
-          color: "white",
-          _after: {
-            width: "90%",
-          },
-        },
-      }}
+      textDecoration="none"
+      className="nav-link"
       aria-current={isActive ? "page" : undefined}
     >
       {name}
@@ -142,6 +125,7 @@ export default function Header() {
           <Flex alignItems="center" justify="start">
             <Flex align="center" justify="center">
               <Text
+                as="span"
                 textAlign="left"
                 fontSize={{ base: "3xl", md: "4xl" }}
                 fontWeight={600}

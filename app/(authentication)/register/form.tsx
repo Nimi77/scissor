@@ -1,40 +1,52 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   Box,
-  Flex,
-  Text,
-  Heading,
-  Input,
   Button,
-  FormLabel,
   FormControl,
-  useColorModeValue,
+  FormLabel,
+  Input,
+  Text,
+  Flex,
   Spinner,
+  InputGroup,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "@/app/schemas";
+import * as z from "zod";
 
 const RegisterForm = () => {
   const [status, setStatus] = useState<
     "idle" | "registering" | "success" | "redirecting" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
-  // Handle form submit
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     setStatus("idle");
     setErrorMessage("");
 
     try {
-      const formData = new FormData(e.currentTarget);
-      const email = formData.get("email") as string;
-      const password = formData.get("password") as string;
-
-      // Try to register user
       setStatus("registering");
 
       const response = await fetch(`/api/auth/register`, {
@@ -42,7 +54,7 @@ const RegisterForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(data),
       });
 
       const registerData = await response.json();
@@ -54,7 +66,7 @@ const RegisterForm = () => {
           setStatus("redirecting");
           setTimeout(() => {
             router.push("/login");
-          }, 2000); // 2 seconds to read the redirect message
+          }, 2000);
         }, 2000);
       } else {
         setErrorMessage(
@@ -76,7 +88,7 @@ const RegisterForm = () => {
       alignItems="center"
       bg="white"
     >
-      <Box maxW="md" className="login-wrapper">
+      <Box maxW="md" className="register-wrapper">
         <Flex
           flexDir="column"
           alignItems="center"
@@ -86,47 +98,83 @@ const RegisterForm = () => {
           color="black"
           className="container"
         >
-          <Heading as="h2" fontSize="3xl" textAlign="center">
-            Register
-          </Heading>
-          <Box my={6} width={{ base: "280px", lg: "26rem" }}>
-            <form onSubmit={handleSubmit} method="POST">
-              <FormControl>
-                <FormLabel
-                  htmlFor="email"
-                  fontSize={{ base: "md", md: "lg" }}
-                  color={useColorModeValue("gray.900", "gray.100")}
-                >
+          <Box className="register-heading">
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Text
+                as="span"
+                fontSize={{ base: "3xl", md: "4xl" }}
+                fontWeight={600}
+                aria-label="linktrim"
+              >
+                linktrim
+              </Text>
+              <Box
+                bgGradient="linear-gradient(0deg, #C5100E, #ED5734)"
+                borderRadius="full"
+                ml={1}
+                w={2}
+                h={2}
+                aria-hidden="true"
+              ></Box>
+            </Box>
+            <Text mt="-14px" fontSize="xl">
+              Create an account and get started!
+            </Text>
+          </Box>
+          <Box
+            mt={8}
+            mb={4}
+            width={{ base: "18rem", md: "20rem", lg: "26rem" }}
+          >
+            <form onSubmit={handleSubmit(handleRegister)} method="POST">
+              <FormControl isInvalid={!!errors.email}>
+                <FormLabel htmlFor="email" fontSize="lg" color="gray.900">
                   Email address
                 </FormLabel>
                 <Input
                   id="email"
-                  name="email"
+                  {...register("email")}
                   type="email"
-                  required
                   autoComplete="email"
+                  w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
                 />
+                {errors.email && (
+                  <Text color="red.500" mt={1}>
+                    {errors.email.message}
+                  </Text>
+                )}
               </FormControl>
 
-              <FormControl mt={{ base: 4 }} mb={2}>
-                <FormLabel
-                  htmlFor="password"
-                  fontSize={{ base: "md", md: "lg" }}
-                  color={useColorModeValue("gray.900", "gray.100")}
-                >
+              <FormControl mt={4} mb={2} isInvalid={!!errors.password}>
+                <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
                   Password
                 </FormLabel>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  focusBorderColor="#ED5734"
-                  placeholder="Password"
-                />
+                <InputGroup>
+                  <Input
+                    id="password"
+                    {...register("password")}
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    w="100%"
+                    focusBorderColor="#ED5734"
+                    placeholder="Password"
+                  />
+                  <InputRightElement h="full">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      variant="ghost"
+                      onClick={() => setShowPassword((show) => !show)}
+                      icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+                {errors.password && (
+                  <Text color="red.500" mt={1}>
+                    {errors.password.message}
+                  </Text>
+                )}
               </FormControl>
 
               {status !== "idle" && (
@@ -163,9 +211,9 @@ const RegisterForm = () => {
                 type="submit"
                 w="100%"
                 h="2.4rem"
-                mt={4}
+                mt={5}
                 fontWeight={600}
-                fontSize={{ base: "md", md: "lg" }}
+                fontSize="lg"
                 color="white"
                 bg="#FF4C24"
                 borderRadius="lg"
@@ -175,13 +223,13 @@ const RegisterForm = () => {
                   transition: "all 0.3s ease",
                 }}
               >
-                Register
+                Sign Up
               </Button>
             </form>
           </Box>
 
           <Box textAlign="center">
-            <Text>
+            <Text fontSize="lg">
               Already have an account?{" "}
               <Link href="/login" color="#ED5734" className="login-link">
                 Login

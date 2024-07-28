@@ -11,8 +11,27 @@ a,
 input,
 button,
 p,
-li{
+li {
   font-size: 18px;
+}
+/* header navlink */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(0deg, #ed5734, #c5100e);
+  transition: width 0.3s ease;
+}
+.nav-link:hover {
+  color: white;
+  text-decoration: none !important;
+}
+.nav-link:hover::after {
+  width: 90%;
 }
 /* styling for the input animation */
 .input-glow {
@@ -62,9 +81,8 @@ li{
 /*(authentication) styling */
 .forget-passkey,
 .register-link,
-.login-link
- {
-  color:#ED5734;
+.login-link {
+  color: #ed5734;
 
   &:hover {
     text-decoration: underline;
