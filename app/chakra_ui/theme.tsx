@@ -7,14 +7,6 @@ const harmattan = Harmattan({
 })
 
 const theme = extendTheme({
-  styles: {
-    global: {
-      body: {
-        bg: "#000000", 
-        color: "white" 
-      },
-    },
-  },
   fonts: {
     heading: `${harmattan.style.fontFamily}, sans-serif`,
     body: `${harmattan.style.fontFamily}, sans-serif`,

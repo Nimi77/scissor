@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { sql } from "@vercel/postgres";
-import { compare } from "bcryptjs";
+import Credentials from "next-auth/providers/credentials";
+import { getUser } from "./actions";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -12,69 +12,59 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   providers: [
-    CredentialsProvider({
+    Credentials({
       credentials: {
         email: {},
         password: {},
       },
       async authorize(credentials) {
         if (!credentials) {
-          throw new Error("No credentials provided");
+          throw new Error("Credentials are missing");
         }
 
-        try {
-          // Query to find user by email
-          const response =
-            await sql`SELECT * FROM users WHERE email = ${credentials.email}`;
-          const user = response.rows[0];
+        console.log("credentials", credentials);
+        const email = credentials.email as string;
+        const password = credentials.password as string;
 
-          // Check if user exists
-          if (!user) {
-            throw new Error("No user found with this email");
-          }
+        const user = await getUser(email);
+        console.log(user);
 
-          // Compare passwords
-          const passwordMatch = await compare(
-            credentials.password,
-            user.password
-          );
-
-          // Check if passwords match
-          if (!passwordMatch) {
-            throw new Error("Incorrect password");
-          }
-
-          // Return user data if authentication is successful
-          return { id: user.id, email: user.email };
-        } catch (error) {
-          throw new Error("Login failed");
+        if (!user) {
+          return null;
         }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        console.log("passwordMatch", passwordMatch);
+
+        if (passwordMatch) {
+          console.log("logged in");
+          return user;
+        }
+
+        return null;
       },
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      return true;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
+      }
+      return session;
     },
     async redirect({ url, baseUrl }) {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async session({ session, token }) {
-      if (token.sub) {
-        session.user = {
-          ...session.user,
-          id: token.sub,
-        };
-      }
-      return session;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.sub = user.id;
-      }
-      return token;
-    },
   },
-};
+  debug: true,
+}

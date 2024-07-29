@@ -28,7 +28,7 @@ li {
 }
 .nav-link:hover {
   color: white;
-  text-decoration: none !important;
+  text-decoration:none!important;
 }
 .nav-link:hover::after {
   width: 90%;

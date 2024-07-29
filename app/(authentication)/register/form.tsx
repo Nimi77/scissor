@@ -19,7 +19,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "@/app/schemas";
+import { AuthSchema } from "@/app/schemas";
 import * as z from "zod";
 
 const RegisterForm = () => {
@@ -34,15 +34,16 @@ const RegisterForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+    reset
+  } = useForm<z.infer<typeof AuthSchema>>({
+    resolver: zodResolver(AuthSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
+  const handleRegister = async (data: z.infer<typeof AuthSchema>) => {
     setStatus("idle");
     setErrorMessage("");
 
@@ -58,9 +59,11 @@ const RegisterForm = () => {
       });
 
       const registerData = await response.json();
+      console.log(registerData)
 
       if (response.ok) {
         setStatus("success");
+        reset();
 
         setTimeout(() => {
           setStatus("redirecting");
@@ -80,6 +83,7 @@ const RegisterForm = () => {
     }
   };
 
+  
   return (
     <Box
       display="grid"
@@ -139,6 +143,7 @@ const RegisterForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
+                  isDisabled={status === "registering"}
                 />
                 {errors.email && (
                   <Text color="red.500" mt={1}>
@@ -151,7 +156,7 @@ const RegisterForm = () => {
                 <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
                   Password
                 </FormLabel>
-                <InputGroup>
+                <InputGroup display="flex" alignItems="center">
                   <Input
                     id="password"
                     {...register("password")}
@@ -160,13 +165,20 @@ const RegisterForm = () => {
                     w="100%"
                     focusBorderColor="#ED5734"
                     placeholder="Password"
+                    isDisabled={status === "registering"}
                   />
                   <InputRightElement h="full">
                     <IconButton
-                      aria-label="Toggle password visibility"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
                       variant="ghost"
                       onClick={() => setShowPassword((show) => !show)}
-                      icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                      icon={showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      size={"sm"}
+                      _hover={{
+                        bg: "transparent",
+                      }}
                     />
                   </InputRightElement>
                 </InputGroup>
@@ -211,7 +223,7 @@ const RegisterForm = () => {
                 type="submit"
                 w="100%"
                 h="2.4rem"
-                mt={5}
+                mt={6}
                 fontWeight={600}
                 fontSize="lg"
                 color="white"
@@ -222,8 +234,9 @@ const RegisterForm = () => {
                   bg: "#ED5734",
                   transition: "all 0.3s ease",
                 }}
+                isDisabled={status === "registering"}
               >
-                Sign Up
+                Submit
               </Button>
             </form>
           </Box>

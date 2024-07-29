@@ -5,11 +5,10 @@ import {
   Skeleton,
   SkeletonText,
   Flex,
-  InputGroup,
-  Input,
-  InputRightElement,
-  Button,
   VStack,
+  HStack,
+  List,
+  ListItem,
   SimpleGrid,
 } from "@chakra-ui/react";
 
@@ -26,22 +25,25 @@ const TemplateSkeleton = () => (
     aria-hidden="true"
   >
     <Skeleton
-      height="40px"
-      width="40px"
+      height="20px"
+      width="30px"
       startColor="#2D3748"
       endColor="#4A5568"
     />
     <Skeleton
-      height="30px"
-      width="70%"
+      height="20px"
+      width="40%"
       mt={4}
       startColor="#2D3748"
       endColor="#4A5568"
     />
     <SkeletonText
       mt="4"
-      noOfLines={4}
-      spacing="4"
+      textAlign="left"
+      noOfLines={2}
+      spacing="2"
+      skeletonHeight="15px"
+      width="100%"
       startColor="#2D3748"
       endColor="#4A5568"
     />
@@ -54,12 +56,8 @@ const PriceWrapperSkeleton = () => (
     flexDirection="column"
     alignSelf="flex-start"
     flexGrow="1"
-    p={8}
-    bg="rgb(9,11,14)"
     borderWidth="1px"
-    borderColor="rgb(49,49,49)"
     borderRadius="lg"
-    shadow="0px 5px 14px 0px rgba(0, 0, 0, 0.1)"
     zIndex="2"
     position="relative"
     height="100%"
@@ -73,8 +71,9 @@ const PriceWrapperSkeleton = () => (
     />
     <SkeletonText
       mt="4"
-      noOfLines={4}
-      spacing="4"
+      skeletonHeight="20px"
+      noOfLines={3}
+      spacing="2"
       startColor="#2D3748"
       endColor="#4A5568"
     />
@@ -88,7 +87,7 @@ const PriceWrapperSkeleton = () => (
     <SkeletonText
       mt="4"
       noOfLines={6}
-      spacing="4"
+      spacing="3"
       startColor="#2D3748"
       endColor="#4A5568"
     />
@@ -105,7 +104,6 @@ const PriceWrapperSkeleton = () => (
 const LoadingSkeleton = () => {
   return (
     <>
-      {/* hero skeleton */}
       <Box className="hero" pt="10rem" pb="8rem" bg="black">
         <Container maxW={"6xl"}>
           <Stack
@@ -116,69 +114,48 @@ const LoadingSkeleton = () => {
           >
             <Skeleton
               height="50px"
-              width="70%"
-              startColor="#2D3748"
-              endColor="#4A5568"
-            >
-              <Box>Placeholder for Heading</Box>
-            </Skeleton>
-            <SkeletonText
-              mt="4"
-              noOfLines={3}
-              spacing="4"
-              skeletonHeight="2"
-              width="80%"
-              startColor="#2D3748"
-              endColor="#4A5568"
-            >
-              <Box>Placeholder for Text</Box>
-            </SkeletonText>
-            <Box width="100%" py={4}>
-              <Flex alignItems="center" justifyContent="center">
-                <Skeleton
-                  height="60px"
-                  width="100%"
-                  startColor="#2D3748"
-                  endColor="#4A5568"
-                >
-                  <InputGroup size="lg" maxW="4xl" className="input-glow">
-                    <Input
-                      border="none"
-                      borderColor="transparent"
-                      bg="#090B0E"
-                    />
-                    <InputRightElement mr="1.8rem">
-                      <Button bg="#FF4C24" color="white" px="3rem">
-                        <span>Shorten</span>
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </Skeleton>
-              </Flex>
-            </Box>
-          </Stack>
-        </Container>
-      </Box>
-      {/* features */}
-      <Box
-        id="features"
-        role="region"
-        aria-labelledby="features-heading"
-        bg="black"
-      >
-        <Container maxW={"6xl"}>
-          <VStack align="left">
-            <Skeleton
-              height="30px"
-              width="200px"
+              width="60%"
               startColor="#2D3748"
               endColor="#4A5568"
             />
             <SkeletonText
               mt="4"
-              noOfLines={3}
+              textAlign="center"
+              noOfLines={2}
               spacing="4"
+              skeletonHeight="20px"
               width="80%"
+              startColor="#2D3748"
+              endColor="#4A5568"
+            />
+            <Box width="100%" py={4}>
+              <Flex alignItems="center" justifyContent="center">
+                <Skeleton
+                  height="60px"
+                  width="95%"
+                  startColor="#2D3748"
+                  endColor="#4A5568"
+                ></Skeleton>
+              </Flex>
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
+      <Box id="features" bg="black">
+        <Container maxW={"6xl"}>
+          <VStack align="left">
+            <Skeleton
+              height="30px"
+              width="150px"
+              startColor="#2D3748"
+              endColor="#4A5568"
+            />
+            <SkeletonText
+              mt="4"
+              noOfLines={2}
+              spacing="4"
+              skeletonHeight="20px"
+              width="60%"
               startColor="#2D3748"
               endColor="#4A5568"
             />
@@ -195,7 +172,7 @@ const LoadingSkeleton = () => {
           </SimpleGrid>
         </Container>
       </Box>
-      {/* pricing */}
+      {/* skleton for pricing section */}
       <Box
         id="pricing"
         pt="6rem"
@@ -207,27 +184,153 @@ const LoadingSkeleton = () => {
           <VStack align="left" spacing={4}>
             <Skeleton
               height="40px"
-              width="200px"
+              width="150px"
               startColor="#2D3748"
               endColor="#4A5568"
             />
             <SkeletonText
               mt="4"
-              noOfLines={3}
+              noOfLines={2}
               spacing="4"
-              skeletonHeight="2"
-              width="80%"
+              skeletonHeight="20px"
+              width="60%"
               startColor="#2D3748"
               endColor="#4A5568"
             />
           </VStack>
-          <Box mt={8}>
+          <Box mt={8} className="pricing-box">
             <Flex
               flexDir={{ base: "column", md: "row" }}
               gap={{ base: 5, md: 0 }}
             >
-              <PriceWrapperSkeleton />
-              <PriceWrapperSkeleton />
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignSelf="flex-start"
+                flexGrow="1"
+                p={8}
+                bg="rgb(9,11,14)"
+                borderWidth="1px"
+                borderColor="rgb(49,49,49)"
+                borderRadius="lg"
+                shadow="0px 5px 14px 0px rgba(0, 0, 0, 0.1)"
+                zIndex="2"
+                position="relative"
+                height="100%"
+                width={{ base: "100%", md: "50%" }}
+                className="premium-pricing"
+              >
+                <Box as="header" className="pricing-header-box">
+                  <Skeleton
+                    height="30px"
+                    width="60%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                  <SkeletonText
+                    mt="4"
+                    noOfLines={1}
+                    spacing="0"
+                    skeletonHeight="20px"
+                    width="80%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                </Box>
+                <HStack mt={4} className="plan-price">
+                  <Skeleton
+                    height="40px"
+                    width="20%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                  <Skeleton
+                    height="20px"
+                    width="8%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                </HStack>
+                <Box
+                  display="flex"
+                  justifyContent="flex-start"
+                  alignContent="center"
+                  gap={{ md: "0", lg: "5rem" }}
+                  mt={4}
+                  mb={7}
+                >
+                  <SkeletonText
+                    noOfLines={4}
+                    spacing="2"
+                    skeletonHeight="20px"
+                    width="60%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                </Box>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                width={{ base: "100%", md: "40%" }}
+                ml={{ base: "0", md: "-2rem" }}
+                pl={{ base: "2rem", md: "4rem" }}
+                my="1rem"
+                py="2rem"
+                pr="2rem"
+                bg="rgb(9,11,14)"
+                borderWidth="1px"
+                borderColor="rgb(49,49,49)"
+                borderRadius="lg"
+                className="free-pricing"
+              >
+                <Box as="header" className="pricing-header-box">
+                  <Skeleton
+                    height="40px"
+                    width="150px"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                  <SkeletonText
+                    mt="4"
+                    noOfLines={2}
+                    spacing="4"
+                    skeletonHeight="20px"
+                    width="60%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                </Box>
+                <Box className="pricing-body" mt={4}>
+                  <Box>
+                    <Skeleton
+                      height="40px"
+                      width="40%"
+                      startColor="#2D3748"
+                      endColor="#4A5568"
+                    />
+                  </Box>
+                  <VStack alignItems={"flex-start"}>
+                    <SkeletonText
+                      mt="2"
+                      noOfLines={3}
+                      spacing="2"
+                      skeletonHeight="20px"
+                      width="60%"
+                      startColor="#2D3748"
+                      endColor="#4A5568"
+                    />
+                    <Box w="100%">
+                      <Skeleton
+                        height="50px"
+                        width="100%"
+                        startColor="#2D3748"
+                        endColor="#4A5568"
+                      />
+                    </Box>
+                  </VStack>
+                </Box>
+              </Box>
             </Flex>
           </Box>
         </Container>
@@ -235,4 +338,5 @@ const LoadingSkeleton = () => {
     </>
   );
 };
+
 export default LoadingSkeleton;

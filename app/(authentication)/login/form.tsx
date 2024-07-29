@@ -12,35 +12,39 @@ import {
   IconButton,
   Text,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon, CheckIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/app/schemas";
+import { AuthSchema } from "@/app/schemas";
 import * as z from "zod";
 
 const LoginForm = () => {
   const [error, setError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<z.infer<typeof AuthSchema>>({
+    resolver: zodResolver(AuthSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const handleLogin = async (data: z.infer<typeof LoginSchema>) => {
+  const handleLogin = async (data: z.infer<typeof AuthSchema>) => {
     setError("");
+    setIsLoading(true);
 
     try {
       const response = await signIn("credentials", {
@@ -49,15 +53,23 @@ const LoginForm = () => {
         redirect: false,
       });
 
-      console.log("login", response);
       if (response?.error) {
         setError("Invalid Credentials");
+        setIsLoading(false);
         return;
       }
-      router.replace("/dashboard");
+      
+      // Reset isLoading to false after successful login
+      setIsLoading(false);
+      setIsSuccess(true);
+
+      setTimeout(() => {
+        router.replace("/dashboard");
+      }, 2000);
     } catch (error) {
       console.error("Login failed", error);
       setError("An unexpected error occurred.");
+      setIsLoading(false);
     }
   };
 
@@ -120,6 +132,7 @@ const LoginForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
+                  isDisabled={isLoading} // Disable input when loading
                 />
                 {errors.email && (
                   <Text color="red.500" mt={1}>
@@ -146,8 +159,7 @@ const LoginForm = () => {
                     Forgot password?
                   </Link>
                 </Box>
-
-                <InputGroup>
+                <InputGroup display="flex" alignItems="center" mt={2}>
                   <Input
                     id="password"
                     {...register("password")}
@@ -156,14 +168,20 @@ const LoginForm = () => {
                     w="100%"
                     focusBorderColor="#ED5734"
                     placeholder="Password"
-                    mt={2}
+                    isDisabled={isLoading}
                   />
                   <InputRightElement h="full">
                     <IconButton
-                      aria-label="Toggle password visibility"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
                       variant="ghost"
                       onClick={() => setShowPassword((show) => !show)}
-                      icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                      icon={showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      size={"sm"}
+                      _hover={{
+                        bg: "transparent",
+                      }}
                     />
                   </InputRightElement>
                 </InputGroup>
@@ -174,17 +192,13 @@ const LoginForm = () => {
                 )}
               </FormControl>
 
-              {error && (
-                <Box className="text-red-500">
-                  <span>{error}</span>
-                </Box>
-              )}
+              {error && <Text className="text-red-500">{error}</Text>}
 
               <Button
                 type="submit"
                 w="100%"
                 h="2.4rem"
-                mt={5}
+                mt={6}
                 fontWeight={600}
                 fontSize="lg"
                 color="white"
@@ -195,8 +209,9 @@ const LoginForm = () => {
                   bg: "#ED5734",
                   transition: "all 0.3s ease",
                 }}
+                isLoading={isLoading}
               >
-                Login
+                {isSuccess ? <CheckIcon /> : "Login"}
               </Button>
             </form>
           </Box>
