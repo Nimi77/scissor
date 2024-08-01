@@ -3,26 +3,33 @@ import { AuthSchema } from "@/app/schemas";
 import { hash } from "bcryptjs";
 import { createUser } from "@/lib/actions";
 
-export async function handleUserRegistration(request: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const result = AuthSchema.safeParse(body);
+    const registerData = await request.json();
+    const validatedField = AuthSchema.safeParse(registerData);
 
-    if (!result.success) {
+    if (!validatedField.success) {
       return NextResponse.json({ error: "Invalid field" });
     }
-    const { email, password } = result.data;
 
-    // Hashing the password
+    const { email, password } = validatedField.data;
     const hashedPassword = await hash(password, 10);
+    const user = {
+      email,
+      password: hashedPassword,
+    };
+    console.log(user);
+    
     // Inserting the new user into the database
-    await createUser(email, hashedPassword);
-    return NextResponse.json({ message: "User registered successfully" });
+    await createUser(user);
+    return NextResponse.json({ message: "Registration Successfully!" });
+  
+  } catch (error: any) {
+    console.error("Error inserting user", error);
 
-  } catch (e: any) {
-    console.error("Error inserting user:", e);
-
-    if (e.message.includes("duplicate key value violates unique constraint")) {
+    if (
+      error.message.includes("duplicate key value violates unique constraint")
+    ) {
       return NextResponse.json(
         { error: "User already exists" },
         { status: 400 }
@@ -34,5 +41,3 @@ export async function handleUserRegistration(request: Request) {
     );
   }
 }
-
-export { handleUserRegistration as POST };

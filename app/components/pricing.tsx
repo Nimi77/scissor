@@ -139,7 +139,7 @@ const Pricing = () => {
                 </List>
               </Box>
               <Box w="100%">
-                <Link href="/register">
+                <Link href="/signup">
                   <Button
                     w="full"
                     variant="solid"
@@ -205,7 +205,7 @@ const Pricing = () => {
                     </ListItem>
                   </List>
                   <Box w="100%">
-                    <Link href="/register">
+                    <Link href="/signup">
                       <Button
                         w={{ base: "full", md: "auto" }}
                         bg="#090B0E"

@@ -10,42 +10,41 @@ import {
   Text,
   Flex,
   Spinner,
-  InputGroup,
-  InputRightElement,
-  IconButton,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthSchema } from "@/app/schemas";
+import { RegisterSchema } from "@/app/schemas";
 import * as z from "zod";
 
 const RegisterForm = () => {
   const [status, setStatus] = useState<
     "idle" | "registering" | "success" | "redirecting" | "error"
   >("idle");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [serverMessage, setServerMessage] = useState<string | null>(null);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm<z.infer<typeof AuthSchema>>({
-    resolver: zodResolver(AuthSchema),
+    reset,
+  } = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const handleRegister = async (data: z.infer<typeof AuthSchema>) => {
+  const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     setStatus("idle");
-    setErrorMessage("");
+    setServerMessage(null);
+
+    // Exclude confirmPassword from the data being sent to the server
+    const { confirmPassword, ...formData } = data;
 
     try {
       setStatus("registering");
@@ -55,35 +54,32 @@ const RegisterForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
-      const registerData = await response.json();
-      console.log(registerData)
+      const result = await response.json();
 
       if (response.ok) {
         setStatus("success");
+        setServerMessage(result.message);
         reset();
 
-        setTimeout(() => {
-          setStatus("redirecting");
-          setTimeout(() => {
-            router.push("/login");
-          }, 2000);
-        }, 2000);
+        // setTimeout(() => {
+        //   setStatus("redirecting");
+        //   setTimeout(() => {
+        //     router.push("/login");
+        //   }, 2000);
+        // }, 2000);
       } else {
-        setErrorMessage(
-          registerData.error || "An error occurred during registration"
-        );
         setStatus("error");
+        setServerMessage(result.error);
       }
     } catch (error) {
-      setErrorMessage("An unexpected error occurred");
       setStatus("error");
+      setServerMessage("An error occurred. Please try again.");
     }
   };
 
-  
   return (
     <Box
       display="grid"
@@ -156,35 +152,44 @@ const RegisterForm = () => {
                 <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
                   Password
                 </FormLabel>
-                <InputGroup display="flex" alignItems="center">
-                  <Input
-                    id="password"
-                    {...register("password")}
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    w="100%"
-                    focusBorderColor="#ED5734"
-                    placeholder="Password"
-                    isDisabled={status === "registering"}
-                  />
-                  <InputRightElement h="full">
-                    <IconButton
-                      aria-label={
-                        showPassword ? "Hide password" : "Show password"
-                      }
-                      variant="ghost"
-                      onClick={() => setShowPassword((show) => !show)}
-                      icon={showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                      size={"sm"}
-                      _hover={{
-                        bg: "transparent",
-                      }}
-                    />
-                  </InputRightElement>
-                </InputGroup>
+                <Input
+                  id="password"
+                  {...register("password")}
+                  type="password"
+                  autoComplete="current-password"
+                  w="100%"
+                  focusBorderColor="#ED5734"
+                  placeholder="Password"
+                  isDisabled={status === "registering"}
+                />
                 {errors.password && (
                   <Text color="red.500" mt={1}>
                     {errors.password.message}
+                  </Text>
+                )}
+              </FormControl>
+
+              <FormControl mt={4} mb={2} isInvalid={!!errors.confirmPassword}>
+                <FormLabel
+                  htmlFor="confirmPassword"
+                  fontSize="lg"
+                  color="gray.900"
+                >
+                  Confirm Password
+                </FormLabel>
+                <Input
+                  id="confirmPassword"
+                  {...register("confirmPassword")}
+                  type="password"
+                  autoComplete="new-password"
+                  w="100%"
+                  focusBorderColor="#ED5734"
+                  placeholder="Confirm Password"
+                  isDisabled={status === "registering"}
+                />
+                {errors.confirmPassword && (
+                  <Text color="red.500" mt={1}>
+                    {errors.confirmPassword.message}
                   </Text>
                 )}
               </FormControl>
@@ -203,7 +208,7 @@ const RegisterForm = () => {
                   )}
                   {status === "success" && (
                     <Box className="text-green-500">
-                      <span>User registration successful</span>
+                      <span>{serverMessage}</span>
                     </Box>
                   )}
                   {status === "redirecting" && (
@@ -213,7 +218,7 @@ const RegisterForm = () => {
                   )}
                   {status === "error" && (
                     <Box className="text-red-500">
-                      <span>{errorMessage}</span>
+                      <span>{serverMessage}</span>
                     </Box>
                   )}
                 </Box>

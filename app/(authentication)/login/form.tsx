@@ -14,7 +14,7 @@ import {
   Flex,
   Spinner,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, CheckIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -132,7 +132,8 @@ const LoginForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
-                  isDisabled={isLoading} // Disable input when loading
+                  // Disable input when loading
+                  isDisabled={isLoading}
                 />
                 {errors.email && (
                   <Text color="red.500" mt={1}>
@@ -193,6 +194,9 @@ const LoginForm = () => {
               </FormControl>
 
               {error && <Text className="text-red-500">{error}</Text>}
+              {isSuccess && (
+                <Text className="italic text-green-500">Login successful!</Text>
+              )}
 
               <Button
                 type="submit"
@@ -210,8 +214,9 @@ const LoginForm = () => {
                   transition: "all 0.3s ease",
                 }}
                 isLoading={isLoading}
+                disabled={isSuccess}
               >
-                {isSuccess ? <CheckIcon /> : "Login"}
+                {isSuccess ? <Spinner /> : "Login"}
               </Button>
             </form>
           </Box>
@@ -219,8 +224,8 @@ const LoginForm = () => {
           <Box textAlign="center">
             <Text fontSize="lg">
               Don&apos;t have an account?{" "}
-              <Link href="/register" color="#ED5734" className="register-link">
-                Create an account
+              <Link href="/signup" color="#ED5734" className="register-link">
+                Sign Up
               </Link>
             </Text>
           </Box>

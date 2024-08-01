@@ -89,7 +89,7 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
         transition: "all 0.3s ease",
       }}
     >
-      <Link href="/register">Get Started</Link>
+      <Link href="/signup">Get Started</Link>
     </Box>
   </>
 );

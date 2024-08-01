@@ -7,10 +7,9 @@ import {
   Flex,
   VStack,
   HStack,
-  List,
-  ListItem,
   SimpleGrid,
 } from "@chakra-ui/react";
+import React from "react";
 
 const TemplateSkeleton = () => (
   <Box
@@ -261,9 +260,25 @@ const LoadingSkeleton = () => {
                 >
                   <SkeletonText
                     noOfLines={4}
-                    spacing="2"
+                    spacing="4"
                     skeletonHeight="20px"
-                    width="60%"
+                    width="50%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                  <SkeletonText
+                    noOfLines={3}
+                    spacing="4"
+                    skeletonHeight="20px"
+                    width="50%"
+                    startColor="#2D3748"
+                    endColor="#4A5568"
+                  />
+                </Box>
+                <Box w="100%">
+                  <Skeleton
+                    height="50px"
+                    width="100%"
                     startColor="#2D3748"
                     endColor="#4A5568"
                   />
@@ -293,10 +308,10 @@ const LoadingSkeleton = () => {
                   />
                   <SkeletonText
                     mt="4"
-                    noOfLines={2}
-                    spacing="4"
+                    noOfLines={1}
+                    spacing="0"
                     skeletonHeight="20px"
-                    width="60%"
+                    width="80%"
                     startColor="#2D3748"
                     endColor="#4A5568"
                   />
@@ -312,9 +327,9 @@ const LoadingSkeleton = () => {
                   </Box>
                   <VStack alignItems={"flex-start"}>
                     <SkeletonText
-                      mt="2"
+                      my="4"
                       noOfLines={3}
-                      spacing="2"
+                      spacing="3"
                       skeletonHeight="20px"
                       width="60%"
                       startColor="#2D3748"

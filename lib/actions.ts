@@ -1,5 +1,7 @@
 "use server";
 import { sql } from "@vercel/postgres";
+import pool from "./db";
+import bcrypt from "bcryptjs";
 
 export type User = {
   id: string;
@@ -7,29 +9,35 @@ export type User = {
   password: string;
 };
 
-export async function createUser(email: string, hashedPassword: string) {
-  try {
-    const result = await sql`
+export async function createUser(user: Omit<User, "id">) {
+  const saveUser = await sql`
         INSERT INTO users (email, password)
-        VALUES (${email}, ${hashedPassword})
+        VALUES (${user.email}, ${user.password})
       `;
-    console.log("User created", result);
-    return result;
-  } catch (error) {
-    console.log("Internal server error", error);
-    throw new Error("Failed to create user.");
-  }
+  console.log("User created", saveUser);
+  return saveUser;
 }
 
-export async function getUser(email: string) {
-  console.log("getUser", email);
+export async function verifyUserCredentials(email: string, password: string) {
+  const client = await pool.connect();
   try {
-    const result = await sql`SELECT * FROM users WHERE email = ${email}`;
-    console.log("result", result);
+    const res = await client.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+    if (res.rows.length > 0) {
+      const user = res.rows[0];
 
-    return result?.rows[0] as User;
-  } catch (error) {
-    console.log("Internal server error", error);
-    throw new Error("Failed to fetch user.");
+      //verify the password using bcrypt
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (passwordMatch) {
+        return {
+          id: user.id,
+          email: user.email,
+        };
+      }
+    }
+    return null;
+  } finally {
+    client.release();
   }
 }
