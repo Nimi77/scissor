@@ -64,7 +64,7 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       borderWidth="2px"
       borderColor="#ED5734"
       _hover={{
-        bg: "#2a2a2a",
+        bg: "#2A2A2A",
         transition: "all 0.3s ease",
       }}
       aria-label="Login"
@@ -116,7 +116,7 @@ export default function Header() {
       width="100%"
       className="nav-bar"
     >
-      <Container maxW={"6xl"}>
+      <Container maxW="6xl">
         <Flex
           py={{ base: 4 }}
           alignItems="center"

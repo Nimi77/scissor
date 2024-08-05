@@ -34,9 +34,10 @@ export async function verifyUserCredentials(email: string, password: string) {
           id: user.id,
           email: user.email,
         };
+      }else{
+        return null;      
       }
     }
-    return null;
   } finally {
     client.release();
   }

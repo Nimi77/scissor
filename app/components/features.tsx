@@ -28,7 +28,7 @@ function Template({ icon, title, desc }: TemplateProps) {
       flexDirection="column"
       alignItems="start"
       py="7"
-      px={4}
+      px="4"
       bg="#18181B"
       boxShadow={"0px 8px 24px 0px rgba(0,0,0,0.42)"}
       borderRadius="lg"
@@ -43,10 +43,11 @@ function Template({ icon, title, desc }: TemplateProps) {
         id={`${title}-heading`}
         pt={4}
         pb={2}
+        fontSize="lg"
       >
         {title}
       </Text>
-      <Text fontSize="1rem" color="#C8C8C8">
+      <Text color="#C8C8C8">
         {desc}
       </Text>
     </Box>
@@ -74,24 +75,24 @@ const templates = [
 const Features = () => {
   return (
     <Box id="features" role="region" aria-labelledby="features-heading">
-      <Container maxW={"6xl"}>
+      <Container maxW="6xl">
         <VStack align="left">
           <Heading
             as="h2"
             id="features-heading"
-            textAlign={"left"}
+            textAlign="left"
             fontSize="xl"
             color="#ED5734"
-            textTransform={"uppercase"}
+            textTransform="uppercase"
           >
             Features
           </Heading>
           <Text
             py={2}
-            maxW={{ base: "2xl", lg: "3xl" }}
+            maxW="2xl"
            
           >
-            A short link is a powerful tool when you use it carefully and it
+            A short link is a powerful tool when used carefully and it
             unlocks infinite possibilities. It is not just a link but a medium
             between your customer and their destination.
           </Text>

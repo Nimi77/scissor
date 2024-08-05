@@ -77,7 +77,14 @@ li {
     background-position: 0 0;
   }
 }
-
+.pricing-package li{
+  display:flex;
+  textAlign:center;
+  align-items:center;
+  justify-content:flex-start;
+  gap:6px;
+  color:#A1A1A1;
+}
 /*(authentication) styling */
 .forget-passkey,
 .register-link,

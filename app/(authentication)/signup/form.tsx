@@ -64,12 +64,12 @@ const RegisterForm = () => {
         setServerMessage(result.message);
         reset();
 
-        // setTimeout(() => {
-        //   setStatus("redirecting");
-        //   setTimeout(() => {
-        //     router.push("/login");
-        //   }, 2000);
-        // }, 2000);
+        setTimeout(() => {
+          setStatus("redirecting");
+          setTimeout(() => {
+            router.push("/login");
+          }, 2000);
+        }, 2000);
       } else {
         setStatus("error");
         setServerMessage(result.error);
@@ -83,7 +83,6 @@ const RegisterForm = () => {
   return (
     <Box
       display="grid"
-      h="100vh"
       placeItems="center"
       alignItems="center"
       bg="white"
@@ -93,8 +92,8 @@ const RegisterForm = () => {
           flexDir="column"
           alignItems="center"
           justifyContent="center"
-          w="100%"
-          h="100%"
+          // w="100%"
+          // h="100%"
           color="black"
           className="container"
         >

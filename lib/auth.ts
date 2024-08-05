@@ -1,7 +1,16 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextAuthOptions } from "next-auth";
+import { sql } from "@vercel/postgres";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -9,28 +18,40 @@ export const authOptions: NextAuthOptions = {
         email: {},
         password: {},
       },
-      async authorize(credentials, req) {
-        const res = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/auth/authenticate`,
-          {
-            method: "POST",
-            body: JSON.stringify(credentials),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-        const user = await res.json();
-        if (res.ok && user) {
-          return user;
+      async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("No credentials provided");
         }
+        try {
+          // Query to find user by email
+          const response =
+            await sql`SELECT * FROM users WHERE email = ${credentials.email}`;
+          const user = response.rows[0];
 
-        return null;
+          // Check if user exists
+          if (!user) {
+            throw new Error("No user found with this email");
+          }
+
+          // Compare passwords
+          const passwordMatch = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          // Check if passwords match
+          if (!passwordMatch) {
+            throw new Error("Incorrect password");
+          }
+
+          // Return user data if authentication is successful
+          return { id: user.id, email: user.email };
+        } catch (error) {
+          throw new Error("Login failed");
+        }
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

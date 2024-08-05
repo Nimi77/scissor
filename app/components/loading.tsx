@@ -104,26 +104,31 @@ const LoadingSkeleton = () => {
   return (
     <>
       <Box className="hero" pt="10rem" pb="8rem" bg="black">
-        <Container maxW={"6xl"}>
+        <Container maxW="6xl">
           <Stack
-            textAlign={"center"}
-            align={"center"}
-            justify={"center"}
+            textAlign="center"
+            alignItems="center"
+            justify="center"
             spacing={{ base: 4, md: 6 }}
           >
             <Skeleton
               height="50px"
-              width="60%"
+              width="30%"
+              startColor="#2D3748"
+              endColor="#4A5568"
+            />
+            <Skeleton
+              height="50px"
+              width="40%"
               startColor="#2D3748"
               endColor="#4A5568"
             />
             <SkeletonText
               mt="4"
-              textAlign="center"
               noOfLines={2}
               spacing="4"
               skeletonHeight="20px"
-              width="80%"
+              width="70%"
               startColor="#2D3748"
               endColor="#4A5568"
             />
@@ -131,7 +136,7 @@ const LoadingSkeleton = () => {
               <Flex alignItems="center" justifyContent="center">
                 <Skeleton
                   height="60px"
-                  width="95%"
+                  width="85%"
                   startColor="#2D3748"
                   endColor="#4A5568"
                 ></Skeleton>
@@ -141,7 +146,7 @@ const LoadingSkeleton = () => {
         </Container>
       </Box>
       <Box id="features" bg="black">
-        <Container maxW={"6xl"}>
+        <Container maxW="6xl">
           <VStack align="left">
             <Skeleton
               height="30px"
@@ -179,7 +184,7 @@ const LoadingSkeleton = () => {
         className="pricing-section"
         bg="black"
       >
-        <Container maxW={"6xl"}>
+        <Container maxW="6xl">
           <VStack align="left" spacing={4}>
             <Skeleton
               height="40px"

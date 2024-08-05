@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon, CheckIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { ReactNode } from "react";
 
 interface Props {
   children: React.ReactNode;
@@ -48,30 +47,27 @@ const PriceWrapper = ({
 const Pricing = () => {
   return (
     <Box id="pricing" pt="6rem" pb="8rem" className="pricing-section">
-      <Container maxW={"6xl"}>
+      <Container maxW="6xl">
         <VStack align="left" spacing={4}>
           <Heading
             as="h2"
-            textAlign={"left"}
+            textAlign="left"
             fontSize="xl"
             color="#ED5734"
             textTransform={"uppercase"}
           >
             Pricing
           </Heading>
-          <Text
-            color={"#EEEEEE"}
-            maxW={{ base: "2xl", lg: "3xl" }}
-          >
+          <Text color="#eeeeee" maxW="2xl">
             Choose a plan that suits your needs. From comprehensive professional
-            package to a free basic access we have everything to help you
+            package to a free basic access which have various features available to help you
             achieve your goals.
           </Text>
         </VStack>
         <Box mt={8}>
           <Flex
             flexDir={{ base: "column", md: "row" }}
-            gap={{ base: 5, md: 0 }}
+            gap={{ md: 5 }}
           >
             {/* first pricing */}
             <PriceWrapper className="premium-pricing">
@@ -87,7 +83,7 @@ const Pricing = () => {
                 <Text as="span" fontSize="4xl" fontWeight="600">
                   $12
                 </Text>
-                <Text as="span" fontSize=".8rem" color="#A1A1A1">
+                <Text as="span" fontSize="1rem" color="#A1A1A1">
                   /month
                 </Text>
               </HStack>
@@ -96,44 +92,44 @@ const Pricing = () => {
                 display="flex"
                 justifyContent="flex-start"
                 alignContent="center"
-                gap={{ md: "0", lg: "5rem" }}
+                gap={{ md: "5rem" }}
                 mt={4}
                 mb={7}
               >
-                <List spacing={2} alignItems="flex-start">
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                <List spacing={2} alignItems="flex-start" className="pricing-package">
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Unlimited custom URLs
                   </ListItem>
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Detailed analytics
                   </ListItem>
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Custom QR Code
                   </ListItem>
-
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Monitor link clicks
                   </ListItem>
                 </List>
                 <List
                   spacing={2}
                   alignItems="flex-start"
-                  display={{ base: "none", lg: "block" }}
+                  display={{ base: "none", md: "block" }}
+                  className="pricing-package"
                 >
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Ad-free experience
                   </ListItem>
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Access to personal dashboard
                   </ListItem>
-                  <ListItem color="#A1A1A1">
-                    <CheckIcon color="orange.500" mr="6px" />
+                  <ListItem>
+                    <CheckIcon color="orange.500"/>
                     Unique features
                   </ListItem>
                 </List>
@@ -185,22 +181,27 @@ const Pricing = () => {
               </Box>
               <Box className="pricing-body" mt={4}>
                 <Box>
-                  <Text as="span" fontSize="4xl" fontWeight="600" className="plan-price">
+                  <Text
+                    as="span"
+                    fontSize="4xl"
+                    fontWeight="600"
+                    className="plan-price"
+                  >
                     Free
                   </Text>
                 </Box>
                 <VStack alignItems={"flex-start"}>
-                  <List spacing={2} my={2}>
-                    <ListItem color="#A1A1A1">
-                      <CheckIcon color="orange.500" mr="6px" />
+                  <List spacing={2} my={2} className="pricing-package">
+                    <ListItem>
+                      <CheckIcon  color="orange.500"/>
                       Limited custom URLs
                     </ListItem>
-                    <ListItem color="#A1A1A1">
-                      <CheckIcon color="orange.500" mr="6px" />
+                    <ListItem>
+                      <CheckIcon color="orange.500"/>
                       Basic analytics
                     </ListItem>
-                    <ListItem color="#A1A1A1">
-                      <CheckIcon color="orange.500" mr="6px" />
+                    <ListItem>
+                      <CheckIcon color="orange.500"/>
                       No credit card required
                     </ListItem>
                   </List>
@@ -229,6 +230,6 @@ const Pricing = () => {
         </Box>
       </Container>
     </Box>
-  )
-}
+  );
+};
 export default Pricing;

@@ -52,7 +52,7 @@ const LoginForm = () => {
         password: data.password,
         redirect: false,
       });
-
+      console.log(response)
       if (response?.error) {
         setError("Invalid Credentials");
         setIsLoading(false);
@@ -65,6 +65,7 @@ const LoginForm = () => {
 
       setTimeout(() => {
         router.replace("/dashboard");
+        router.refresh();
       }, 2000);
     } catch (error) {
       console.error("Login failed", error);
@@ -179,7 +180,7 @@ const LoginForm = () => {
                       variant="ghost"
                       onClick={() => setShowPassword((show) => !show)}
                       icon={showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                      size={"sm"}
+                      size="sm"
                       _hover={{
                         bg: "transparent",
                       }}
