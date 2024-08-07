@@ -6,12 +6,7 @@ const Footer = () => {
   return (
     <footer className="border-t border-gray-400">
       <Container maxW="6xl" mx="auto" py={4}>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-       
-        >
+        <Box display="flex" alignItems="center" justifyContent="space-between">
           <Flex alignItems="center" justifyItems="center">
             <Text
               textAlign="left"
@@ -27,14 +22,16 @@ const Footer = () => {
               ml={1}
               w={2}
               h={2}
-              mb="-8px"
               aria-hidden="true"
             ></Box>
           </Flex>
           <Flex alignItems="center" justifyItems="center">
             <Text>
               built by{" "}
-              <Link href="" textDecoration="underline">
+              <Link
+                href="https://www.linkedin.com/in/abimbola-oladejo-58372a285/"
+                textDecoration="underline"
+              >
                 Abimbola Oladejo
               </Link>
             </Text>

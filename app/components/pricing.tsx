@@ -146,7 +146,6 @@ const Pricing = () => {
                       transition: "all 0.3s ease",
                       boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
                     }}
-                    aria-label="Get Started with Premium Plan"
                     display="flex"
                     alignItems="center"
                   >
@@ -190,7 +189,7 @@ const Pricing = () => {
                     Free
                   </Text>
                 </Box>
-                <VStack alignItems={"flex-start"}>
+                <VStack alignItems="flex-start">
                   <List spacing={2} my={2} className="pricing-package">
                     <ListItem>
                       <CheckIcon  color="orange.500"/>

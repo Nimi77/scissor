@@ -24,10 +24,10 @@ import { AuthSchema } from "@/app/schemas";
 import * as z from "zod";
 
 const LoginForm = () => {
-  const [error, setError] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const {
@@ -45,28 +45,33 @@ const LoginForm = () => {
   const handleLogin = async (data: z.infer<typeof AuthSchema>) => {
     setError("");
     setIsLoading(true);
-
+    
     try {
       const response = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
       });
-      console.log(response)
+      console.log("SignIn response:", response);
+
       if (response?.error) {
         setError("Invalid Credentials");
         setIsLoading(false);
         return;
       }
-      
-      // Reset isLoading to false after successful login
-      setIsLoading(false);
-      setIsSuccess(true);
 
-      setTimeout(() => {
-        router.replace("/dashboard");
-        router.refresh();
-      }, 2000);
+      if (response?.ok) {
+        setIsLoading(false);
+        setIsSuccess(true);
+        setTimeout(() => {
+          router.replace("/dashboard");
+          router.refresh();
+        }, 2000);
+      } else {
+        // Handle any other unexpected responses
+        setError("An unexpected error occurred.");
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error("Login failed", error);
       setError("An unexpected error occurred.");
@@ -87,8 +92,6 @@ const LoginForm = () => {
           flexDir="column"
           alignItems="center"
           justifyContent="center"
-          w="100%"
-          h="100%"
           color="black"
           className="container"
         >
@@ -130,11 +133,11 @@ const LoginForm = () => {
                   {...register("email")}
                   type="email"
                   autoComplete="email"
-                  w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
-                  // Disable input when loading
                   isDisabled={isLoading}
+                  required
+                  w="100%"
                 />
                 {errors.email && (
                   <Text color="red.500" mt={1}>
@@ -167,10 +170,11 @@ const LoginForm = () => {
                     {...register("password")}
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
-                    w="100%"
                     focusBorderColor="#ED5734"
                     placeholder="Password"
                     isDisabled={isLoading}
+                    required
+                    w="100%"
                   />
                   <InputRightElement h="full">
                     <IconButton

@@ -83,6 +83,7 @@ const RegisterForm = () => {
   return (
     <Box
       display="grid"
+      h="100vh"
       placeItems="center"
       alignItems="center"
       bg="white"
@@ -92,8 +93,6 @@ const RegisterForm = () => {
           flexDir="column"
           alignItems="center"
           justifyContent="center"
-          // w="100%"
-          // h="100%"
           color="black"
           className="container"
         >

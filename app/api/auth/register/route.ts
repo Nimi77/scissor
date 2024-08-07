@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { AuthSchema } from "@/app/schemas";
 import { hash } from "bcryptjs";
-import { createUser } from "@/lib/actions";
+import { createUser } from "@/app/lib/actions";
 
 export async function POST(request: Request) {
   try {
@@ -18,12 +18,10 @@ export async function POST(request: Request) {
       email,
       password: hashedPassword,
     };
-    console.log(user);
-    
+
     // Inserting the new user into the database
     await createUser(user);
     return NextResponse.json({ message: "Registration Successfully!" });
-  
   } catch (error: any) {
     console.error("Error inserting user", error);
 
