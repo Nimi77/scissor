@@ -10,7 +10,7 @@ export const AuthSchema = z.object({
     .string()
     .min(1, { message: "Password is required" })
     .min(8, { message: "Password must be at least 8 characters" })
-    .max(32, { message: "Password must be less than 32 characters" })
+    .max(60, { message: "Password must be less than 60 characters" })
     .trim(),
 });
 
@@ -24,7 +24,7 @@ export const RegisterSchema = z
       .string({ required_error: "Password is required" })
       .min(1, { message: "Password is required" })
       .min(8, { message: "Password must be at least 8 characters" })
-      .max(32, { message: "Password must be less than 32 characters" })
+      .max(60, { message: "Password must be less than 60 characters" })
       .trim(),
     confirmPassword: z
       .string()

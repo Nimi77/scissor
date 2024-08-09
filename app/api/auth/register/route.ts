@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { AuthSchema } from "@/app/schemas";
-import { hash } from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { createUser } from "@/app/lib/actions";
 
 export async function POST(request: Request) {
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     }
 
     const { email, password } = validatedField.data;
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = {
       email,
       password: hashedPassword,
