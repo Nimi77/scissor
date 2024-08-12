@@ -26,7 +26,6 @@ import * as z from "zod";
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -45,7 +44,7 @@ const LoginForm = () => {
   const handleLogin = async (data: z.infer<typeof AuthSchema>) => {
     setError("");
     setIsLoading(true);
-    
+
     try {
       const response = await signIn("credentials", {
         email: data.email,
@@ -55,20 +54,20 @@ const LoginForm = () => {
       console.log("SignIn response:", response);
 
       if (response?.error) {
-        setError("Invalid Credentials");
+        if (response.error.includes("Incorrect password")) {
+          setError("Incorrect password");
+        } else {
+          setError("Invalid credentials");
+        }
         setIsLoading(false);
         return;
       }
 
       if (response?.ok) {
         setIsLoading(false);
-        setIsSuccess(true);
-        setTimeout(() => {
-          router.replace("/dashboard");
-          router.refresh();
-        }, 2000);
+        router.replace("/dashboard");
+        router.refresh();
       } else {
-        // Handle any other unexpected responses
         setError("An unexpected error occurred.");
         setIsLoading(false);
       }
@@ -81,10 +80,10 @@ const LoginForm = () => {
 
   return (
     <Box
-      display="grid"
-      h="100vh"
-      placeItems="center"
+      display="flex"
+      minH="100vh"
       alignItems="center"
+      justifyContent="center"
       bg="white"
     >
       <Box maxW="md" className="login-wrapper">
@@ -146,7 +145,7 @@ const LoginForm = () => {
                 )}
               </FormControl>
 
-              <FormControl mt={4} mb={2} isInvalid={!!errors.password}>
+              <FormControl mt={6} mb={2} isInvalid={!!errors.password}>
                 <Box
                   display="flex"
                   alignItems="center"
@@ -199,9 +198,6 @@ const LoginForm = () => {
               </FormControl>
 
               {error && <Text className="text-red-500">{error}</Text>}
-              {isSuccess && (
-                <Text className="italic text-green-500">Login successful!</Text>
-              )}
 
               <Button
                 type="submit"
@@ -219,9 +215,8 @@ const LoginForm = () => {
                   transition: "all 0.3s ease",
                 }}
                 isLoading={isLoading}
-                disabled={isSuccess}
               >
-                {isSuccess ? <Spinner /> : "Login"}
+                {isLoading ? <Spinner /> : "Login"}
               </Button>
             </form>
           </Box>

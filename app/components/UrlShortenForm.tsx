@@ -18,8 +18,8 @@ import {
 import { isURL } from "validator";
 import { LinkIcon } from "@chakra-ui/icons";
 import { BeatLoader } from "react-spinners";
-import ClipBoardIcon from "@/public/copy.svg";
-import ShareIcon from "@/public/share.svg";
+import { PiCopy } from "react-icons/pi";
+import { BsShare } from "react-icons/bs";
 
 const UrlShortenForm: React.FC = () => {
   const [url, setUrl] = useState("");
@@ -92,7 +92,6 @@ const UrlShortenForm: React.FC = () => {
               border="none"
               borderColor="transparent"
               bg="#090B0E"
-              color="gray.200"
               placeholder="Paste a link to shorten it"
               aria-label="Paste a link to shorten it"
               value={url}
@@ -170,7 +169,7 @@ const UrlShortenForm: React.FC = () => {
                 {hasCopied ? "Copied" : "Copy"}
                 {!hasCopied && (
                   <span className="flex justify-center items-center h-8 w-8">
-                    <ClipBoardIcon />
+                    <PiCopy />
                   </span>
                 )}
               </Flex>
@@ -182,11 +181,10 @@ const UrlShortenForm: React.FC = () => {
                 bg: "#2A2A2A",
                 transition: "all ease",
               }}
-              p={0}
               ml="-8px"
             >
               <span className="flex justify-center items-center">
-                <ShareIcon />
+                <BsShare />
               </span>
             </Button>
           </Stack>

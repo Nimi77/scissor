@@ -1,34 +1,32 @@
-"use client"
+"use client";
 
 import React from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Icon,
-  useColorModeValue,
-  CloseButton,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Icon, CloseButton, Button } from "@chakra-ui/react";
 import {
   FiHome,
   FiSettings,
   FiLink,
   FiPieChart,
-  FiFileText,
   FiLogOut,
 } from "react-icons/fi";
-import { LinkItemProps, NavItemProps, SidebarProps } from "../types";
+import { BsQrCode } from "react-icons/bs";
+import { MdOutlineAddLink } from "react-icons/md";
 import Link from "next/link";
+import { LinkItemProps, NavItemProps, SidebarProps } from "../types";
+import { usePathname } from "next/navigation";
 
 // Link items to be displayed in the sidebar
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, href: "/dashboard"},
-  { name: "Links", icon: FiLink, href: "/dashboard/links"},
-  { name: "Microsite", icon: FiFileText, href: "/dashboard/microsite"},
-  { name: "Campaigns", icon: FiPieChart, href: "/dashboard/campaigns"},
-  { name: "Custom Link", icon: FiLink, href: "/dashboard/custom-links"},
-  { name: "Settings", icon: FiSettings, href: "/dashboard/settings"}
+  { name: "Home", icon: FiHome, href: "/dashboard/home" },
+  { name: "Links", icon: FiLink, href: "/dashboard" },
+  { name: "QR Codes", icon: BsQrCode, href: "/dashboard/qrcode" },
+  { name: "Campaigns", icon: FiPieChart, href: "/dashboard/campaigns" },
+  {
+    name: "Custom links",
+    icon: MdOutlineAddLink,
+    href: "/dashboard/custom-links",
+  },
+  { name: "Settings", icon: FiSettings, href: "/dashboard/settings" },
 ];
 
 export const NavItem = ({
@@ -38,26 +36,28 @@ export const NavItem = ({
   isActive = false,
   ...rest
 }: NavItemProps) => {
+  const isCustomLink = href === "/dashboard/custom-links";
+
   return (
     <Link href={href} style={{ textDecoration: "none" }}>
       <Flex
         align="center"
         p="3"
         my="1"
-        borderRadius="lg"
         role="group"
         cursor="pointer"
+        borderRadius={isActive ? "lg" : "none"}
         bg={isActive ? "rgba(255, 255, 255, 0.16)" : "transparent"}
-        _hover={{ bg: "rgba(255, 255, 255, 0.1)" }}
+        _hover={{ bg: "rgba(255, 255, 255, 0.1)", borderRadius: "lg" }}
         {...rest}
       >
         {icon && (
           <Icon
+            as={icon}
             mr="4"
-            fontSize="16"
+            fontSize={isCustomLink ? "20" : "16"}
             color={isActive ? "white" : "inherit"}
             _groupHover={{ color: "white" }}
-            as={icon}
           />
         )}
         <Text color={isActive ? "white" : "inherit"}>{children}</Text>
@@ -67,13 +67,13 @@ export const NavItem = ({
 };
 
 const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
+  const pathname = usePathname();
+
   return (
     <Box
       transition="3s ease"
       bg="black"
       color="white"
-      borderRight="1px"
-      borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
@@ -108,15 +108,14 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
       </Flex>
       {/* new link button */}
       <Box mt={6} mb={4}>
-        <Link href="">
+        <Link href="/dashboard/custom-links">
           <Button
             w="full"
-            variant="solid"
             color="white"
             borderRadius="lg"
             bg="#FF4C24"
             _hover={{
-              transition: "all 0.3s ease",
+              transition: "0.3s ease-in-out",
               boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
               textDecoration: "none",
             }}
@@ -133,11 +132,9 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
           key={link.name}
           icon={link.icon}
           href={link.href}
-          isActive={activeNav === link.name}
-          borderTop={link.href === "/dashboard/settings" ? "1px solid" : "none"}
-          borderColor={
-            link.href === "/dashboard/settings" ? "gray.400" : "transparent"
-          }
+          isActive={pathname === link.href}
+          borderTop={link.name === "Settings" ? "1px solid" : "none"}
+          borderColor={link.name === "Settings" ? "gray.400" : "transparent"}
         >
           {link.name}
         </NavItem>

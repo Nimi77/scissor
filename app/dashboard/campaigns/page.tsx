@@ -5,7 +5,7 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 
 const Campaigns = () => {
   return (
-    <Box p={4} borderRadius="lg" shadow="md">
+    <Box p={4} borderRadius="lg" shadow="md" bgColor="white">
       <Heading as="h2" size="lg" mb={4}>
         Campaigns
       </Heading>

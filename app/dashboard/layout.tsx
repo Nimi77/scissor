@@ -14,14 +14,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex minH="100vh" bg="gray.100">
+    <Flex minH="100vh" bg="white">
       {/* Sidebar for larger screens */}
       <Sidebar
         onClose={onClose}
         activeNav="Links"
         display={{ base: "none", md: "block" }}
       />
-
       {/* Sidebar for smaller screens as a Drawer */}
       <Drawer
         isOpen={isOpen}
@@ -35,11 +34,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar activeNav="Links" onClose={onClose} />
         </DrawerContent>
       </Drawer>
-
-      {/* Main content area */}
-      <Box flex="1" overflow="auto">
+      {/* Main content */}
+      <Box flex="1" ml={{ base: 0, md: 60 }} overflow="auto" bgColor="#e8e8e8">
         <Header onOpen={onOpen} />
-        <Box ml={{ base: 0, md: 60 }} p="4" as="main">
+        <Box as="main" px="8" py="6" >
           {children}
         </Box>
       </Box>

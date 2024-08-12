@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/app/schemas";
 import * as z from "zod";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 
 const RegisterForm = () => {
   const [status, setStatus] = useState<
@@ -78,6 +79,15 @@ const RegisterForm = () => {
       setStatus("error");
       setServerMessage("An error occurred. Please try again.");
     }
+  };
+
+  //styling for registering status message
+  const statusStyles = {
+    display: "flex",
+    alignItems: "left",
+    bg: "rgba(34, 197, 94, 0.2)",
+    borderRadius: "md",
+    p: 3,
   };
 
   return (
@@ -146,7 +156,7 @@ const RegisterForm = () => {
                 )}
               </FormControl>
 
-              <FormControl mt={4} mb={2} isInvalid={!!errors.password}>
+              <FormControl my={6} mb={2} isInvalid={!!errors.password}>
                 <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
                   Password
                 </FormLabel>
@@ -167,7 +177,7 @@ const RegisterForm = () => {
                 )}
               </FormControl>
 
-              <FormControl mt={4} mb={2} isInvalid={!!errors.confirmPassword}>
+              <FormControl mb={2} isInvalid={!!errors.confirmPassword}>
                 <FormLabel
                   htmlFor="confirmPassword"
                   fontSize="lg"
@@ -193,24 +203,23 @@ const RegisterForm = () => {
               </FormControl>
 
               {status !== "idle" && (
-                <Box className="text-left italic">
+                <Box className="text-left">
                   {status === "registering" && (
-                    <Box
-                      display="flex"
-                      alignItems="left"
-                      className="text-green-400"
-                    >
-                      <Spinner size="sm" mr={2} />{" "}
-                      <span>Registering user...</span>
+                    <Box {...statusStyles}>
+                      <Spinner size="sm" mr={2} />
+                      <span>Registering...</span>
                     </Box>
                   )}
                   {status === "success" && (
-                    <Box className="text-green-500">
-                      <span>{serverMessage}</span>
+                    <Box {...statusStyles}>
+                      <CheckCircleIcon color="green.500" boxSize={5} mr={2} />
+                      <Text color="green.500" fontWeight="bold">
+                        {serverMessage}
+                      </Text>
                     </Box>
                   )}
                   {status === "redirecting" && (
-                    <Box className="text-green-500">
+                    <Box {...statusStyles}>
                       <span>Redirecting to login page...</span>
                     </Box>
                   )}
@@ -227,8 +236,7 @@ const RegisterForm = () => {
                 w="100%"
                 h="2.4rem"
                 mt={6}
-                fontWeight={600}
-                fontSize="lg"
+                fontWeight={600}              
                 color="white"
                 bg="#FF4C24"
                 borderRadius="lg"

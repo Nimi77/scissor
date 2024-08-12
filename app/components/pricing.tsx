@@ -212,9 +212,10 @@ const Pricing = () => {
                         variant="outline"
                         color="white"
                         borderRadius="lg"
+                        borderWidth="2px"
+                        borderColor="#ED5734"
                         _hover={{
-                          borderColor: "#ED5731",
-                          transition: "all 0.3s ease",
+                          transition: ".3s ease",
                         }}
                         aria-label="Get Started with Basic Plan"
                       >

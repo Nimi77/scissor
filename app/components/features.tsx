@@ -12,7 +12,7 @@ import {
 import { AttachmentIcon} from "@chakra-ui/icons";
 import { ReactNode } from "react";
 import AnalyticsIcon from "@/public/analytic.svg";
-import QRCodeIcon from "@/public/qr_code.svg";
+import { BsQrCode } from "react-icons/bs";
 
 interface TemplateProps {
   icon: ReactNode;
@@ -61,7 +61,7 @@ const templates = [
     desc: "Create customizable URLs that not only maintain your brand consistency but also enhance user trust and recognition.",
   },
   {
-    icon: <QRCodeIcon aria-label="QRCode icon" />,
+    icon: <BsQrCode aria-label="QRCode icon" />,
     title: "QR Code Generation",
     desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline on different platforms.",
   },

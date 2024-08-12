@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import {
   Box,
@@ -12,7 +13,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import { FiTrendingUp, FiLink, FiPieChart } from "react-icons/fi";
+import { FiTrendingUp, FiLink, FiPieChart, FiSettings } from "react-icons/fi";
 import Link from "next/link";
 
 const stats = [
@@ -40,15 +41,13 @@ const stats = [
 ];
 
 const sections = [
-  { name: "Links", icon: FiLink, href: "/dashboard/links" },
-  { name: "Microsite", icon: FiLink, href: "/dashboard/microsite" },
-  { name: "Campaigns", icon: FiPieChart, href: "/dashboard/campaigns" },
-  { name: "Settings", icon: FiLink, href: "/dashboard/settings" },
+  { name: "Campaigns", icon: FiPieChart, href: "/dashboard/campaigns"},
+  { name: "Settings", icon: FiSettings, href: "/dashboard/settings"}
 ];
 
-const DashboardHome = () => {
+const DefaultPage = () => {
   return (
-    <Box p={4} borderRadius="lg" shadow="md">
+    <Box p={4} borderRadius="lg" shadow="md" bgColor="white">
       <Heading as="h1" size="xl" mb={4}>
         Welcome to Scissor Dashboard
       </Heading>
@@ -58,14 +57,14 @@ const DashboardHome = () => {
 
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={8}>
         {stats.map((stat) => (
-          <Stat key={stat.id} p={4} bg="white" borderRadius="lg" shadow="md">
+          <Stat key={stat.id} p={4} bg="white" borderRadius="lg" shadow="base">
             <Flex justify="space-between" align="center">
               <Box>
                 <StatLabel fontSize="lg">{stat.title}</StatLabel>
                 <StatNumber>{stat.stat}</StatNumber>
-                <StatHelpText>{stat.description}</StatHelpText>
+                <StatHelpText fontSize="md">{stat.description}</StatHelpText>
               </Box>
-              <Box as={stat.icon} size="40px" />
+              <Box as={stat.icon} size="30px" />
             </Flex>
           </Stat>
         ))}
@@ -114,4 +113,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default DefaultPage;

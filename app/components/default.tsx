@@ -21,7 +21,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <Box bg="gray.900" color="white">
+    <Box bg="black" color="white">
       <Header />
       {isLoading ? (
         <LoadingSkeleton />
