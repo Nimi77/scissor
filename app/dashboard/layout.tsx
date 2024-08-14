@@ -4,6 +4,7 @@ import {
   Box,
   Drawer,
   DrawerContent,
+  DrawerOverlay,
   Flex,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -28,16 +29,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
       >
-        <DrawerContent>
+        <DrawerOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
+
+        <DrawerContent maxW="22rem">
           <Sidebar activeNav="Links" onClose={onClose} />
         </DrawerContent>
       </Drawer>
+
       {/* Main content */}
-      <Box flex="1" ml={{ base: 0, md: 60 }} overflow="auto" bgColor="#e8e8e8">
+      <Box flex="1" ml={{ base: 0, md: 60 }} overflow="auto" bgColor="#f5f5f5">
         <Header onOpen={onOpen} />
-        <Box as="main" px="8" py="6" >
+        <Box as="main" px="8" py="6" mt="20">
           {children}
         </Box>
       </Box>

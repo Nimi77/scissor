@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/app/schemas";
 import * as z from "zod";
 import { CheckCircleIcon } from "@chakra-ui/icons";
+import axios from "axios";
 
 const RegisterForm = () => {
   const [status, setStatus] = useState<
@@ -43,28 +44,24 @@ const RegisterForm = () => {
   const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     setStatus("idle");
     setServerMessage(null);
-
+  
     // Exclude confirmPassword from the data being sent to the server
     const { confirmPassword, ...formData } = data;
-
+  
     try {
       setStatus("registering");
-
-      const response = await fetch(`/api/auth/register`, {
-        method: "POST",
+  
+      const response = await axios.post("/api/auth/register", formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
+  
+      if (response.status === 200) {
         setStatus("success");
-        setServerMessage(result.message);
+        setServerMessage(response.data.message);
         reset();
-
+  
         setTimeout(() => {
           setStatus("redirecting");
           setTimeout(() => {
@@ -73,11 +70,16 @@ const RegisterForm = () => {
         }, 2000);
       } else {
         setStatus("error");
-        setServerMessage(result.error);
+        setServerMessage(response.data.error);
       }
     } catch (error) {
       setStatus("error");
-      setServerMessage("An error occurred. Please try again.");
+      if (axios.isAxiosError(error)) {
+        setServerMessage(error.response?.data?.error || "An error occurred. Please try again.");
+      } else {
+        // Handle unknown error
+        setServerMessage("An unexpected error occurred. Please try again.");
+      }
     }
   };
 

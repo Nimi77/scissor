@@ -53,7 +53,7 @@ const Logout = () => {
           </Button>
           <Link href="/dashboard">
             <Button
-              colorScheme="teal"
+              colorScheme="red"
               size="lg"
               borderRadius="lg"
               transition=".4s ease-in-out"

@@ -74,7 +74,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
       transition="3s ease"
       bg="black"
       color="white"
-      w={{ base: "full", md: 60 }}
+      w={{ base: "22rem", md: 60 }}
       pos="fixed"
       h="full"
       px="6"
@@ -115,9 +115,8 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
             borderRadius="lg"
             bg="#FF4C24"
             _hover={{
-              transition: "0.3s ease-in-out",
-              boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
-              textDecoration: "none",
+              transition: "0.4s ease-in-out",
+              bg: "#ED5734"
             }}
             display="flex"
             alignItems="center"

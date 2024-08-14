@@ -76,24 +76,31 @@ const QRCodeGenerator = () => {
     <Flex
       maxW="xl"
       mx="auto"
-      mt={8}
       p={4}
       bg="white"
       shadow="md"
       borderRadius="lg"
       direction="column"
+      role="main"
+      aria-labelledby="qr-form-heading"
     >
       <form onSubmit={handleGenerateQRCode}>
-        <FormControl id="url" mb={4}>
-          <FormLabel fontWeight="bold">Enter your URL</FormLabel>
+        <FormControl id="url" mb={4} isRequired>
+          <FormLabel fontWeight="bold" id="qr-form-heading">
+            Enter your URL
+          </FormLabel>
           <Input
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com"
             focusBorderColor="#ED5734"
-            isRequired
+            aria-describedby="url-description"
+            aria-required="true"
           />
+          <Text id="url-description" mt={2} fontSize="sm" color="gray.600">
+            Please enter a valid URL to generate a QR code.
+          </Text>
         </FormControl>
 
         <Button
@@ -103,17 +110,22 @@ const QRCodeGenerator = () => {
           borderRadius="lg"
           bg="#FF4C24"
           _hover={{
-            transition: "0.4s ease",
-            boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
+            transition: "0.4s ease-in",
+            bg: "#ED5734"
+          }}
+          _focus={{
+            outline: "none",
+            boxShadow: "0 0 0 3px rgba(255, 76, 36, 0.6)",
           }}
           mt={4}
+          aria-label="Generate QR Code"
         >
           Generate QR Code
         </Button>
       </form>
 
       {error && (
-        <Alert status="error" mt={2}>
+        <Alert status="error" mt={2} role="alert">
           {error}
         </Alert>
       )}
@@ -126,9 +138,16 @@ const QRCodeGenerator = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Text fontWeight="600">QR Code:</Text>
+          <Text fontWeight="600" id="qr-code-label">
+            QR Code
+          </Text>
           <Box>
-            <QRCode id="qr-code-canvas" value={qrCodeUrl} size={200} />
+            <QRCode
+              id="qr-code-canvas"
+              value={qrCodeUrl}
+              size={200}
+              aria-labelledby="qr-code-label"
+            />
           </Box>
 
           <HStack mt={4} spacing={4} justify="center">
@@ -136,6 +155,11 @@ const QRCodeGenerator = () => {
               color="#FF4C24"
               onClick={downloadQRCode}
               leftIcon={<FaDownload />}
+              aria-label="Download QR Code"
+              _focus={{
+                outline: "none",
+                boxShadow: "0 0 0 3px rgba(255, 76, 36, 0.6)",
+              }}
             >
               Download
             </Button>
@@ -143,6 +167,11 @@ const QRCodeGenerator = () => {
               color="#FF4C24"
               onClick={shareQRCode}
               leftIcon={<BsShare />}
+              aria-label="Share QR Code"
+              _focus={{
+                outline: "none",
+                boxShadow: "0 0 0 3px rgba(255, 76, 36, 0.6)",
+              }}
             >
               Share
             </Button>

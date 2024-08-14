@@ -16,6 +16,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { isURL } from "validator";
+import axios from "axios";
 import { LinkIcon } from "@chakra-ui/icons";
 import { BeatLoader } from "react-spinners";
 import { PiCopy } from "react-icons/pi";
@@ -28,40 +29,38 @@ const UrlShortenForm: React.FC = () => {
   const [shortenedUrl, setShortenedUrl] = useState("");
   const { hasCopied, onCopy } = useClipboard(shortenedUrl);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
 
-    //validating Url
-    if (!isURL(url)) {
-      setError("Please enter a valid URL.");
-      return;
+
+const handleSubmit = async (event: React.FormEvent) => {
+  event.preventDefault();
+
+  // Validating URL
+  if (!isURL(url)) {
+    setError("Please enter a valid URL.");
+    return;
+  }
+  setError("");
+  setShortenedUrl("");
+  setLoading(true);
+
+  try {
+    const response = await axios.post("/api/shorten", { url }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      setShortenedUrl(response.data.shortUrl);
+    } else {
+      setError(response.data.message || "Something went wrong");
     }
-    setError("");
-    setShortenedUrl("");
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/shorten", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setShortenedUrl(data.shortUrl);
-      } else {
-        setError(data.message || "Something went wrong");
-      }
-    } catch (error) {
-      setError("Error Shortening Url");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    setError("Error Shortening URL");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCopy = () => {
     onCopy();

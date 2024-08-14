@@ -1,4 +1,5 @@
 import ChakraWrapper from "./chakra_ui/setup";
+import AuthProvider from "@/app/lib/provider";
 import { Metadata } from "next";
 import "./globals.css";
 
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ChakraWrapper>{children}</ChakraWrapper>
+        <AuthProvider>
+          <ChakraWrapper>{children}</ChakraWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
