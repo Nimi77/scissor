@@ -33,7 +33,7 @@ const DashboardHome: React.FC = () => {
   const fetchLinks = async () => {
     try {
       const response = await axios.get("/api/links");
-  
+
       setLinks(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -55,7 +55,11 @@ const DashboardHome: React.FC = () => {
 
   return (
     <Box p={{ base: 4, md: 8 }} borderRadius="lg" shadow="md" bgColor="white">
-      <Flex direction={{ base: "column", md: "row" }} justify="space-between" mb={4}>
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        justify="space-between"
+        mb={4}
+      >
         <Heading as="h2" size="lg">
           Manage Your Links
         </Heading>
@@ -75,7 +79,8 @@ const DashboardHome: React.FC = () => {
         </Link>
       </Flex>
       <Text fontSize="md" color="gray.500" mb={8}>
-        View, edit, and manage all your shortened links. Track analytics such as the number of clicks and unique visitors.
+        View, edit, and manage all your shortened links. Track analytics such as
+        the number of clicks and unique visitors.
       </Text>
 
       {isLoading ? (
@@ -99,16 +104,16 @@ const DashboardHome: React.FC = () => {
                     <Icon as={FaChartBar} color="#FF4C24" mr={2} />
                     Clicks: {link.clicks}
                   </Text>
-                  <Text>
-                    Unique Visitors: {link.uniqueVisitors}
-                  </Text>
+                  <Text>Unique Visitors: {link.uniqueVisitors}</Text>
                 </HStack>
               </HStack>
             </Box>
           ))}
         </VStack>
       ) : (
-        <Text color="gray.500">No links created yet. Start by creating a new link!</Text>
+        <Text color="gray.500">
+          No links created yet. Start by creating a new link!
+        </Text>
       )}
     </Box>
   );

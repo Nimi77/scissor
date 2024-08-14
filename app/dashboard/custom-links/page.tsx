@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import {
   Box,
@@ -98,7 +100,7 @@ const CustomLink: React.FC = () => {
                 value={customPath}
                 onChange={(e) => setCustomPath(e.target.value)}
                 focusBorderColor="#ED5734"
-                placeholder="/custom-path"
+                placeholder="custom-path"
               />
             </FormControl>
 
