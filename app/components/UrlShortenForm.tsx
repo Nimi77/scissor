@@ -168,7 +168,7 @@ const handleSubmit = async (event: React.FormEvent) => {
                 {hasCopied ? "Copied" : "Copy"}
                 {!hasCopied && (
                   <span className="flex justify-center items-center h-8 w-8">
-                    <PiCopy />
+                    <PiCopy color="white" />
                   </span>
                 )}
               </Flex>
@@ -180,10 +180,10 @@ const handleSubmit = async (event: React.FormEvent) => {
                 bg: "#2A2A2A",
                 transition: "all ease",
               }}
-              ml="-8px"
+              ml="-6px"
             >
               <span className="flex justify-center items-center">
-                <BsShare />
+                <BsShare color="white" />
               </span>
             </Button>
           </Stack>

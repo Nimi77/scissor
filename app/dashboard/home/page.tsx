@@ -54,7 +54,7 @@ const DashboardHome: React.FC = () => {
   }
 
   return (
-    <Box p={{ base: 4, md: 8 }} borderRadius="lg" shadow="md" bgColor="white">
+    <Box maxW="3xl" p={{ base: 4, md: 8 }} borderRadius="lg" shadow="md" bgColor="white">
       <Flex
         direction={{ base: "column", md: "row" }}
         justify="space-between"

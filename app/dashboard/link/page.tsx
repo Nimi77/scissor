@@ -22,7 +22,7 @@ interface Link {
   originalUrl: string;
   customDomain?: string;
   customPath?: string;
-  shortUrl: string;
+  customUrl: string;
   createdAt: string;
 }
 
@@ -44,8 +44,8 @@ const UserLinks: React.FC = () => {
         if (response.status !== 200) {
           throw new Error("Failed to fetch links");
         }
-
         const data: Link[] = response.data;
+        console.log("fetched data:", data)
         setLinks(data);
       } catch (error) {
         console.error("Error fetching links:", error);
@@ -92,9 +92,8 @@ const UserLinks: React.FC = () => {
       shadow="md"
       p={6}
       rounded="lg"
-      maxW="xl"
-      mx="auto"
-      mt={8}
+      mt={6}
+      maxW="3xl"
       aria-live="polite"
       role="main"
     >
@@ -127,7 +126,7 @@ const UserLinks: React.FC = () => {
         onDeleteLink={handleDeleteLink}
       />
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -14,11 +14,11 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 
-const CustomLink: React.FC = () => {
+const CustomURL: React.FC = () => {
   const [originalUrl, setOriginalUrl] = useState<string>("");
   const [customDomain, setCustomDomain] = useState<string>("");
   const [customPath, setCustomPath] = useState<string>("");
-  const [shortenedUrl, setShortenedUrl] = useState<string>("");
+  const [customUrl, setCustomUrl] = useState<string>("");
   const toast = useToast();
 
   const handleSave = async (event: React.FormEvent) => {
@@ -43,8 +43,8 @@ const CustomLink: React.FC = () => {
           position: "top",
         });
 
-        // Display the shortened URL to the user
-        setShortenedUrl(data.shortened_url);
+        // Display the custom URL to the user
+        setCustomUrl(data.shortened_url);
 
         // Reset the form
         setOriginalUrl("");
@@ -67,8 +67,8 @@ const CustomLink: React.FC = () => {
   };
 
   return (
-    <Container centerContent>
-      <Box bg="white" shadow="md" p={6} rounded="lg" w="full" maxW="xl">
+    <Container centerContent maxW="3xl">
+      <Box bg="white" shadow="md" p={6} rounded="lg" w="full">
         <Heading as="h3" size="lg" mb={6} textAlign="center">
           Create a Custom Link
         </Heading>
@@ -85,7 +85,7 @@ const CustomLink: React.FC = () => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>Custom Domain (Optional)</FormLabel>
+              <FormLabel>Custom Domain</FormLabel>
               <Input
                 value={customDomain}
                 onChange={(e) => setCustomDomain(e.target.value)}
@@ -95,7 +95,7 @@ const CustomLink: React.FC = () => {
             </FormControl>
 
             <FormControl>
-              <FormLabel>Custom Path (Optional)</FormLabel>
+              <FormLabel>Custom Path</FormLabel>
               <Input
                 value={customPath}
                 onChange={(e) => setCustomPath(e.target.value)}
@@ -104,10 +104,10 @@ const CustomLink: React.FC = () => {
               />
             </FormControl>
 
-            {shortenedUrl && (
+            {customUrl && (
               <FormControl>
-                <FormLabel>Shortened URL</FormLabel>
-                <Input value={shortenedUrl} isReadOnly />
+                <FormLabel>Custom URL</FormLabel>
+                <Input value={customUrl} isReadOnly />
               </FormControl>
             )}
 
@@ -118,7 +118,7 @@ const CustomLink: React.FC = () => {
               borderRadius="lg"
               bg="#FF4C24"
               _hover={{
-                transition: "0.3s ease-in-out",
+                transition: "0.2s ease-in-out",
                 bg: "#ED5734",
               }}
             >
@@ -131,4 +131,4 @@ const CustomLink: React.FC = () => {
   );
 };
 
-export default CustomLink;
+export default CustomURL;

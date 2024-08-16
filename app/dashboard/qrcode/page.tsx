@@ -74,7 +74,7 @@ const QRCodeGenerator = () => {
 
   return (
     <Flex
-      maxW="xl"
+      maxW="2xl"
       mx="auto"
       p={4}
       bg="white"

@@ -9,7 +9,7 @@ import {
   SimpleGrid,
   Icon,
 } from "@chakra-ui/react";
-import { AttachmentIcon} from "@chakra-ui/icons";
+import { AttachmentIcon } from "@chakra-ui/icons";
 import { ReactNode } from "react";
 import AnalyticsIcon from "@/public/analytic.svg";
 import { BsQrCode } from "react-icons/bs";
@@ -35,21 +35,13 @@ function Template({ icon, title, desc }: TemplateProps) {
       maxW={{ md: "lg", lg: "xl" }}
       aria-labelledby={`${title}-heading`}
     >
-      <Icon as="span" aria-hidden="true">
+      <Icon as="span" aria-hidden="true" fontSize="1.2rem">
         {icon}
       </Icon>
-      <Text
-        as="h3"
-        id={`${title}-heading`}
-        pt={4}
-        pb={2}
-        fontSize="lg"
-      >
+      <Text as="h3" id={`${title}-heading`} pt={4} pb={2} fontSize="lg">
         {title}
       </Text>
-      <Text color="#C8C8C8">
-        {desc}
-      </Text>
+      <Text color="#C8C8C8">{desc}</Text>
     </Box>
   );
 }
@@ -87,14 +79,10 @@ const Features = () => {
           >
             Features
           </Heading>
-          <Text
-            py={2}
-            maxW="2xl"
-           
-          >
-            A short link is a powerful tool when used carefully and it
-            unlocks infinite possibilities. It is not just a link but a medium
-            between your customer and their destination.
+          <Text py={2} maxW="2xl">
+            A short link is a powerful tool when used carefully and it unlocks
+            infinite possibilities. It is not just a link but a medium between
+            your customer and their destination.
           </Text>
         </VStack>
         <SimpleGrid
@@ -114,6 +102,6 @@ const Features = () => {
         </SimpleGrid>
       </Container>
     </Box>
-  )
-}
+  );
+};
 export default Features;

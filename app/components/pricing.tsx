@@ -60,15 +60,12 @@ const Pricing = () => {
           </Heading>
           <Text color="#eeeeee" maxW="2xl">
             Choose a plan that suits your needs. From comprehensive professional
-            package to a free basic access which have various features available to help you
-            achieve your goals.
+            package to a free basic access which have various features available
+            to help you achieve your goals.
           </Text>
         </VStack>
         <Box mt={8}>
-          <Flex
-            flexDir={{ base: "column", md: "row" }}
-            gap={{ md: 5 }}
-          >
+          <Flex flexDir={{ base: "column", md: "row" }} gap={{ md: 5 }}>
             {/* first pricing */}
             <PriceWrapper className="premium-pricing">
               <Box as="header" className="pricing-header-box">
@@ -96,21 +93,25 @@ const Pricing = () => {
                 mt={4}
                 mb={7}
               >
-                <List spacing={2} alignItems="flex-start" className="pricing-package">
+                <List
+                  spacing={2}
+                  alignItems="flex-start"
+                  className="pricing-package"
+                >
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Unlimited custom URLs
                   </ListItem>
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Detailed analytics
                   </ListItem>
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Custom QR Code
                   </ListItem>
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Monitor link clicks
                   </ListItem>
                 </List>
@@ -121,15 +122,15 @@ const Pricing = () => {
                   className="pricing-package"
                 >
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Ad-free experience
                   </ListItem>
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Access to personal dashboard
                   </ListItem>
                   <ListItem>
-                    <CheckIcon color="orange.500"/>
+                    <CheckIcon color="orange.500" />
                     Unique features
                   </ListItem>
                 </List>
@@ -143,13 +144,13 @@ const Pricing = () => {
                     borderRadius="lg"
                     bg="#FF4C24"
                     _hover={{
-                      transition: "all 0.3s ease",
+                      transition: "0.3s ease",
                       boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
                     }}
-                    display="flex"
-                    alignItems="center"
                   >
-                    Get Started <ArrowForwardIcon boxSize="5" />
+                    <Flex alignItems="center">
+                      Get Started <ArrowForwardIcon boxSize="4" />
+                    </Flex>
                   </Button>
                 </Link>
               </Box>
@@ -160,6 +161,7 @@ const Pricing = () => {
               display="flex"
               flexDir="column"
               width={{ base: "100%", md: "40%" }}
+              height="2.6rem"
               ml={{ base: "0", md: "-2rem" }}
               pl={{ base: "2rem", md: "4rem" }}
               my="1rem"
@@ -192,15 +194,15 @@ const Pricing = () => {
                 <VStack alignItems="flex-start">
                   <List spacing={2} my={2} className="pricing-package">
                     <ListItem>
-                      <CheckIcon  color="orange.500"/>
+                      <CheckIcon color="orange.500" />
                       Limited custom URLs
                     </ListItem>
                     <ListItem>
-                      <CheckIcon color="orange.500"/>
+                      <CheckIcon color="orange.500" />
                       Basic analytics
                     </ListItem>
                     <ListItem>
-                      <CheckIcon color="orange.500"/>
+                      <CheckIcon color="orange.500" />
                       No credit card required
                     </ListItem>
                   </List>
@@ -216,6 +218,7 @@ const Pricing = () => {
                         borderColor="#ED5734"
                         _hover={{
                           transition: ".3s ease",
+                          bgColor: "#2A2A2A",
                         }}
                         aria-label="Get Started with Basic Plan"
                       >

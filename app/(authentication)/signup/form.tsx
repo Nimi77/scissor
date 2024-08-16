@@ -44,29 +44,27 @@ const RegisterForm = () => {
   const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     setStatus("idle");
     setServerMessage(null);
-  
+
     // Exclude confirmPassword from the data being sent to the server
     const { confirmPassword, ...formData } = data;
-  
+
     try {
       setStatus("registering");
-  
+
       const response = await axios.post("/api/auth/register", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (response.status === 200) {
         setStatus("success");
         setServerMessage(response.data.message);
         reset();
-  
+
+        setStatus("redirecting");
         setTimeout(() => {
-          setStatus("redirecting");
-          setTimeout(() => {
-            router.push("/login");
-          }, 2000);
+          router.push("/login");
         }, 2000);
       } else {
         setStatus("error");
@@ -75,7 +73,9 @@ const RegisterForm = () => {
     } catch (error) {
       setStatus("error");
       if (axios.isAxiosError(error)) {
-        setServerMessage(error.response?.data?.error || "An error occurred. Please try again.");
+        setServerMessage(
+          error.response?.data?.error || "An error occurred. Please try again."
+        );
       } else {
         // Handle unknown error
         setServerMessage("An unexpected error occurred. Please try again.");
@@ -83,13 +83,22 @@ const RegisterForm = () => {
     }
   };
 
+  const handleInputChange = () => {
+    // Clear server message on any input change
+    setServerMessage("");
+  };
+
   //styling for registering status message
   const statusStyles = {
+    className: "reg-mss",
     display: "flex",
-    alignItems: "left",
+    alignItems: "center",
+    justifyContent: "flex-start",
     bg: "rgba(34, 197, 94, 0.2)",
     borderRadius: "md",
-    p: 3,
+    p: "6px",
+    width: "max-content",
+    fontSize: "16px",
   };
 
   return (
@@ -131,11 +140,7 @@ const RegisterForm = () => {
               Create an account and get started!
             </Text>
           </Box>
-          <Box
-            mt={8}
-            mb={4}
-            width={{ base: "18rem", md: "20rem", lg: "26rem" }}
-          >
+          <Box mt={8} mb={4} width={{ md: "20rem", lg: "26rem" }}>
             <form onSubmit={handleSubmit(handleRegister)} method="POST">
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel htmlFor="email" fontSize="lg" color="gray.900">
@@ -149,6 +154,7 @@ const RegisterForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
+                  onChange={handleInputChange}
                   isDisabled={status === "registering"}
                 />
                 {errors.email && (
@@ -158,7 +164,7 @@ const RegisterForm = () => {
                 )}
               </FormControl>
 
-              <FormControl my={6} mb={2} isInvalid={!!errors.password}>
+              <FormControl my={4} isInvalid={!!errors.password}>
                 <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
                   Password
                 </FormLabel>
@@ -170,6 +176,7 @@ const RegisterForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Password"
+                  onChange={handleInputChange}
                   isDisabled={status === "registering"}
                 />
                 {errors.password && (
@@ -179,7 +186,7 @@ const RegisterForm = () => {
                 )}
               </FormControl>
 
-              <FormControl mb={2} isInvalid={!!errors.confirmPassword}>
+              <FormControl mb={4} isInvalid={!!errors.confirmPassword}>
                 <FormLabel
                   htmlFor="confirmPassword"
                   fontSize="lg"
@@ -195,6 +202,7 @@ const RegisterForm = () => {
                   w="100%"
                   focusBorderColor="#ED5734"
                   placeholder="Confirm Password"
+                  onChange={handleInputChange}
                   isDisabled={status === "registering"}
                 />
                 {errors.confirmPassword && (
@@ -208,13 +216,13 @@ const RegisterForm = () => {
                 <Box className="text-left">
                   {status === "registering" && (
                     <Box {...statusStyles}>
-                      <Spinner size="sm" mr={2} />
-                      <span>Registering...</span>
+                      <Spinner size="sm" mr={2} color="green.500" />
+                      <span color="green.500">Registering...</span>
                     </Box>
                   )}
                   {status === "success" && (
                     <Box {...statusStyles}>
-                      <CheckCircleIcon color="green.500" boxSize={5} mr={2} />
+                      <CheckCircleIcon color="green.500" boxSize={4} mr={2} />
                       <Text color="green.500" fontWeight="bold">
                         {serverMessage}
                       </Text>
@@ -222,7 +230,9 @@ const RegisterForm = () => {
                   )}
                   {status === "redirecting" && (
                     <Box {...statusStyles}>
-                      <span>Redirecting to login page...</span>
+                      <span color="green.500">
+                        Redirecting to login page...
+                      </span>
                     </Box>
                   )}
                   {status === "error" && (
@@ -238,14 +248,15 @@ const RegisterForm = () => {
                 w="100%"
                 h="2.4rem"
                 mt={6}
-                fontWeight={600}              
+                fontWeight="600"
+                fontSize="lg"
                 color="white"
                 bg="#FF4C24"
                 borderRadius="lg"
                 boxShadow="md"
                 _hover={{
                   bg: "#ED5734",
-                  transition: "all 0.3s ease",
+                  transition: "0.3s ease-in",
                 }}
                 isDisabled={status === "registering"}
               >

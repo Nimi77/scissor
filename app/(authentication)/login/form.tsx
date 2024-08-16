@@ -78,6 +78,10 @@ const LoginForm = () => {
     }
   };
 
+  const handleInputChange = () => {
+    setError("");
+  };
+
   return (
     <Box
       display="flex"
@@ -134,8 +138,8 @@ const LoginForm = () => {
                   autoComplete="email"
                   focusBorderColor="#ED5734"
                   placeholder="Email address"
+                  onChange={handleInputChange}
                   isDisabled={isLoading}
-                  required
                   w="100%"
                 />
                 {errors.email && (
@@ -171,8 +175,8 @@ const LoginForm = () => {
                     autoComplete="current-password"
                     focusBorderColor="#ED5734"
                     placeholder="Password"
+                    onChange={handleInputChange}
                     isDisabled={isLoading}
-                    required
                     w="100%"
                   />
                   <InputRightElement h="full">
@@ -212,7 +216,7 @@ const LoginForm = () => {
                 boxShadow="md"
                 _hover={{
                   bg: "#ED5734",
-                  transition: "all 0.3s ease",
+                  transition: "0.3s ease-in",
                 }}
                 isLoading={isLoading}
               >

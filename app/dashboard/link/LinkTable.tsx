@@ -10,12 +10,14 @@ import {
   Thead,
   Button,
   useBreakpointValue,
+  Link,
 } from "@chakra-ui/react";
+import { FiEdit, FiTrash } from "react-icons/fi";
 
 interface Link {
   id: string;
   originalUrl: string;
-  shortUrl: string;
+  customUrl: string;
   createdAt: string;
 }
 
@@ -33,26 +35,57 @@ const LinksTable: React.FC<LinksTableProps> = ({
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Table variant="striped" size={isMobile ? 'sm' : 'md'}>
+    <Table variant="striped" size={isMobile ? "sm" : "md"}>
       <Thead>
         <Tr>
-          <Th>Date</Th>
+          <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
           <Th>URL</Th>
-          <Th>Shortened URL</Th>
+          <Th>Custom Url</Th>
           <Th>Actions</Th>
         </Tr>
       </Thead>
       <Tbody>
         {links.map((link) => (
           <Tr key={link.id}>
-            <Td>{new Date(link.createdAt).toLocaleString()}</Td>
-            <Td>{link.originalUrl}</Td>
-            <Td>{link.shortUrl}</Td>
+            <Td display={{ base: "none", md: "table-cell" }}>
+              {new Date(link.createdAt).toLocaleDateString()}
+            </Td>
+            <Td
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              title={link.originalUrl}
+            >
+              {link.originalUrl}
+            </Td>
+            <Td
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              title={link.customUrl}
+            >
+              <Link href={link.customUrl} isExternal>
+                {link.customUrl}
+              </Link>
+            </Td>
             <Td>
-              <Button onClick={() => onEditLink(link)} mr={2}>
+              <Button
+                onClick={() => onEditLink(link)}
+                leftIcon={<FiEdit />}
+                mr={1}
+              >
                 Edit
               </Button>
-              <Button onClick={() => onDeleteLink(link.id)} colorScheme="red">
+              <Button
+                onClick={() => onDeleteLink(link.id)}
+                colorScheme="red"
+                leftIcon={<FiTrash />}
+                mr={1}
+              >
                 Delete
               </Button>
             </Td>

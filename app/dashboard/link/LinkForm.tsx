@@ -20,7 +20,7 @@ interface LinkFormProps {
     originalUrl: string;
     customDomain?: string;
     customPath?: string;
-    shortUrl: string;
+    customUrl: string;
   } | null;
 }
 
@@ -34,8 +34,8 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
   const [customPath, setCustomPath] = useState<string>(
     linkToEdit?.customPath || ""
   );
-  const [shortenedUrl, setShortenedUrl] = useState<string>(
-    linkToEdit?.shortUrl || ""
+  const [customUrl, setCustomUrl] = useState<string>(
+    linkToEdit?.customUrl || ""
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -51,18 +51,27 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
     }
 
     setError("");
-    setShortenedUrl("");
+    setCustomUrl("");
     setLoading(true);
 
     try {
+      // validation for the custom URL
+      if (customDomain && customPath) {
+        const fullCustomUrl = `https://${customDomain}/${customPath}`;
+        if (!isURL(fullCustomUrl)) {
+          setError("The custom domain or path is not valid.");
+          return;
+        }
+      }
+
       const response = await axios({
         method: linkToEdit ? "PATCH" : "POST",
-        url: linkToEdit ? `/api/links/${linkToEdit.id}` : "/api/shorten",
+        url: linkToEdit ? `/api/links/${linkToEdit.id}` : "/api/links/create",
         headers: {
           "Content-Type": "application/json",
         },
         data: {
-          url: originalUrl,
+          originalUrl,
           customDomain,
           customPath,
         },
@@ -70,7 +79,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
 
       if (response.status === 200) {
         if (!linkToEdit) {
-          setShortenedUrl(response.data.shortUrl);
+          setCustomUrl(response.data.shortened_url);
         }
         onLinkCreated(response.data);
         toast({
@@ -94,7 +103,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
 
   return (
     <Box as="form" onSubmit={handleSubmit}>
-      <Stack spacing={4}>
+      <Stack spacing={5} pb={6}>
         <FormControl isRequired>
           <FormLabel>URL</FormLabel>
           <Input
@@ -106,7 +115,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
         </FormControl>
 
         <FormControl>
-          <FormLabel>Custom Domain (Optional)</FormLabel>
+          <FormLabel>Custom Domain</FormLabel>
           <Input
             value={customDomain}
             onChange={(e) => setCustomDomain(e.target.value)}
@@ -116,21 +125,21 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
         </FormControl>
 
         <FormControl>
-          <FormLabel>Custom Path (Optional)</FormLabel>
+          <FormLabel>Custom Path</FormLabel>
           <Input
             value={customPath}
             onChange={(e) => setCustomPath(e.target.value)}
             focusBorderColor="#ED5734"
-            placeholder="/custompath"
+            placeholder="custompath"
           />
         </FormControl>
 
         {error && <Box color="red.500">{error}</Box>}
 
-        {shortenedUrl && (
+        {customUrl && (
           <Box>
-            <FormLabel>Shortened URL</FormLabel>
-            <Input value={shortenedUrl} isReadOnly />
+            <FormLabel>Custom Url</FormLabel>
+            <Input value={customUrl} isReadOnly />
           </Box>
         )}
 
@@ -139,6 +148,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
           color="white"
           borderRadius="lg"
           bg="#FF4C24"
+          mt={4}
           _hover={{
             transition: "0.3s ease-in-out",
             bg: "#ED5734",

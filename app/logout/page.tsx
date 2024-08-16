@@ -1,14 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  Flex,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, Button, Flex } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -42,10 +35,9 @@ const Logout = () => {
             borderRadius="lg"
             onClick={handleLogout}
             bg="#FF4C24"
-            color="white"
+            colorScheme="white"
             _hover={{
-              transition: ".3s ease-in-out",
-              boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
+              transition: ".3s ease-in",
               textDecoration: "none",
             }}
           >

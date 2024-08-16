@@ -24,7 +24,10 @@ const Campaigns: React.FC = () => {
   const toast = useToast();
 
   const handleCreateCampaign = () => {
-    const newCampaign = { id: campaigns.length + 1, name: `Campaign ${campaigns.length + 1}` };
+    const newCampaign = {
+      id: campaigns.length + 1,
+      name: `Campaign ${campaigns.length + 1}`,
+    };
     setCampaigns([...campaigns, newCampaign]);
     toast({
       title: "Campaign Created",
@@ -47,7 +50,14 @@ const Campaigns: React.FC = () => {
   };
 
   return (
-    <Box p={4} borderRadius="lg" shadow="md" bgColor="white">
+    <Box
+      mt={6}
+      p={4}
+      borderRadius="lg"
+      shadow="md"
+      bgColor="white"
+      maxW="3xl"
+    >
       <Heading as="h2" size="lg" mb={4}>
         Campaigns
       </Heading>

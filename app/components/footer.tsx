@@ -4,7 +4,7 @@ import { Box, Container, Flex, Text, Link } from "@chakra-ui/react";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-gray-400">
+    <footer className="border-t border-gray-600">
       <Container maxW="6xl" mx="auto" py={4}>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Flex alignItems="center" justifyItems="center">
