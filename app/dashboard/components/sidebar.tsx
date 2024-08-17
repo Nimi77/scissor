@@ -56,8 +56,8 @@ export const NavItem = ({
             as={icon}
             mr="4"
             fontSize={isCustomLink ? "20" : "16"}
-            color={isActive ? "white" : "inherit"}
-            _groupHover={{ color: "white" }}
+            color="#2A2A2A"
+            // _groupHover={{ color: "white" }}
           />
         )}
         <Text color={isActive ? "white" : "inherit"}>{children}</Text>
@@ -72,8 +72,8 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      bg="black"
-      color="white"
+      bgColor="#f5f5f5"
+      color="gray.900"
       w={{ base: "22rem", md: 60 }}
       pos="fixed"
       h="full"

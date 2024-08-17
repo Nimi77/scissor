@@ -29,26 +29,28 @@ const UrlShortenForm: React.FC = () => {
   const [shortenedUrl, setShortenedUrl] = useState("");
   const { hasCopied, onCopy } = useClipboard(shortenedUrl);
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
+    // Validating URL
+    if (!isURL(url)) {
+      setError("Please enter a valid URL.");
+      return;
+    }
+    setError("");
+    setShortenedUrl("");
+    setLoading(true);
 
-const handleSubmit = async (event: React.FormEvent) => {
-  event.preventDefault();
-
-  // Validating URL
-  if (!isURL(url)) {
-    setError("Please enter a valid URL.");
-    return;
-  }
-  setError("");
-  setShortenedUrl("");
-  setLoading(true);
-
-  try {
-    const response = await axios.post("/api/shorten", { url }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await axios.post(
+        "/api/shorten",
+        { url },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
     if (response.status === 200) {
       setShortenedUrl(response.data.shortUrl);
@@ -192,4 +194,5 @@ const handleSubmit = async (event: React.FormEvent) => {
     </VStack>
   );
 };
+
 export default UrlShortenForm;
