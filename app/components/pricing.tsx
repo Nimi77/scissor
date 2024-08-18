@@ -139,6 +139,7 @@ const Pricing = () => {
                 <Link href="/signup">
                   <Button
                     w="full"
+                    height="2.6rem"
                     variant="solid"
                     color="white"
                     borderRadius="lg"
@@ -161,7 +162,6 @@ const Pricing = () => {
               display="flex"
               flexDir="column"
               width={{ base: "100%", md: "40%" }}
-              height="2.6rem"
               ml={{ base: "0", md: "-2rem" }}
               pl={{ base: "2rem", md: "4rem" }}
               my="1rem"
@@ -210,6 +210,7 @@ const Pricing = () => {
                     <Link href="/signup">
                       <Button
                         w={{ base: "full", md: "auto" }}
+                        height="2.6rem"
                         bg="#090B0E"
                         variant="outline"
                         color="white"

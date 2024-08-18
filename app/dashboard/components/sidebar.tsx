@@ -48,7 +48,7 @@ export const NavItem = ({
         cursor="pointer"
         borderRadius={isActive ? "lg" : "none"}
         bg={isActive ? "rgba(255, 255, 255, 0.16)" : "transparent"}
-        _hover={{ bg: "rgba(255, 255, 255, 0.1)", borderRadius: "lg" }}
+        _hover={{ bg: "rgba(0, 0, 0, 0.1)", borderRadius: "lg" }}
         {...rest}
       >
         {icon && (
@@ -56,8 +56,8 @@ export const NavItem = ({
             as={icon}
             mr="4"
             fontSize={isCustomLink ? "20" : "16"}
-            color="#2A2A2A"
-            // _groupHover={{ color: "white" }}
+            color={isActive ? "white" : "#2A2A2A"}
+            _groupHover={{ color: "white" }}
           />
         )}
         <Text color={isActive ? "white" : "inherit"}>{children}</Text>
@@ -116,7 +116,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
             bg="#FF4C24"
             _hover={{
               transition: "0.4s ease-in-out",
-              bg: "#ED5734"
+              bg: "#ED5734",
             }}
             display="flex"
             alignItems="center"
