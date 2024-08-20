@@ -91,34 +91,43 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-// import { NextApiRequest, NextApiResponse } from 'next';
-// import { sql } from '@vercel/postgres';
+// GET method for redirecting to the original URL
+export async function GET(req: NextRequest) {
+  // Extracting the ID from the path
+  console.log("GET request received");
 
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   const { shortened_url } = req.query;
+  const id = req.nextUrl.pathname.split("/").pop();
+  console.log(`ID extracted from URL: ${id}`);  
 
-//   // confirming that shortened_url is a string
-//   const shortenedUrl = Array.isArray(shortened_url) ? shortened_url[0] : shortened_url;
+  if (!id) {
+    console.error("Invalid link ID");
+    return NextResponse.json({ message: "Invalid link ID" }, { status: 400 });
+  }
 
-//   if (!shortenedUrl) {
-//     return res.status(400).json({ error: 'Invalid URL' });
-//   }
+  try {
+    const result = await sql`
+      SELECT original_url
+      FROM user_links
+      WHERE id = ${id}
+      LIMIT 1;
+    `;
 
-//   try {
-//     const result = await sql`
-//       SELECT original_url
-//       FROM user_links
-//       WHERE shortened_url = ${shortenedUrl}
-//     `;
+    console.log(`Database query result: ${JSON.stringify(result)}`);
 
-//     if (result.rowCount === 0) {
-//       return res.status(404).json({ error: 'URL not found' });
-//     }
+    if (result.rowCount === 0) {
+      console.error("URL not found");
+      return NextResponse.json({ message: "URL not found" }, { status: 404 });
+    }
 
-//     const originalUrl = result.rows[0].original_url;
-//     res.redirect(originalUrl);
-//   } catch (error) {
-//     console.error('Error redirecting to original URL:', error);
-//     res.status(500).json({ error: 'Failed to redirect' });
-//   }
-// }
+    const originalUrl = result.rows[0].original_url;
+    console.log(`Redirecting to: ${originalUrl}`);  
+
+    return NextResponse.redirect(originalUrl, 301);
+  } catch (error) {
+    console.error("Error redirecting to original URL:", error);
+    return NextResponse.json(
+      { message: "Failed to redirect" },
+      { status: 500 }
+    );
+  }
+}

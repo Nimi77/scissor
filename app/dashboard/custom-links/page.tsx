@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import {
@@ -11,6 +11,7 @@ import {
   useToast,
   Container,
   Heading,
+  Link,
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -105,10 +106,14 @@ const CustomURL: React.FC = () => {
             </FormControl>
 
             {customUrl && (
-              <FormControl>
-                <FormLabel>Custom URL</FormLabel>
-                <Input value={customUrl} isReadOnly />
-              </FormControl>
+              <Box mt={2} borderWidth="1px" borderRadius="lg">
+                <Heading as="h4" mb={2}>
+                  Custom URL
+                </Heading>
+                <Link href={customUrl} isExternal fontWeight="bold">
+                  {customUrl}
+                </Link>
+              </Box>
             )}
 
             <Button
@@ -118,7 +123,7 @@ const CustomURL: React.FC = () => {
               borderRadius="lg"
               bg="#FF4C24"
               _hover={{
-                transition: "0.2s ease-in-out",
+                transition: "0.2s ease-in",
                 bg: "#ED5734",
               }}
             >

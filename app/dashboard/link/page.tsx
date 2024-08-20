@@ -16,7 +16,7 @@ import {
 import axios from "axios";
 import LinkForm from "./LinkForm";
 import LinksTable from "./LinkTable";
-import LinksTableSkeleton from "./LinkTableSkeleton"; 
+import LinksTableSkeleton from "./LinkTableSkeleton";
 
 interface Link {
   id: string;
@@ -29,11 +29,11 @@ interface Link {
 
 const UserLinks: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
-  const [loading, setLoading] = useState(true); // State to manage loading
+  const [loading, setLoading] = useState(true);
   const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Fetch links data from the server
+  // Fetching the links data from the server
   useEffect(() => {
     const fetchLinks = async () => {
       try {
@@ -42,6 +42,7 @@ const UserLinks: React.FC = () => {
             "Cache-Control": "no-store",
           },
         });
+        console.log("Server response:", response);
 
         if (response.status !== 200) {
           throw new Error("Failed to fetch links");
@@ -58,6 +59,7 @@ const UserLinks: React.FC = () => {
     fetchLinks();
   }, []);
 
+  // creating new links and updating new existing ones
   const handleLinkCreated = (newLink: Link) => {
     setLinks((prevLinks) =>
       linkToEdit
@@ -95,12 +97,7 @@ const UserLinks: React.FC = () => {
       shadow="base"
       p={6}
       rounded="lg"
-<<<<<<< HEAD
       m={4}
-=======
-      my={5}
-      mx={2}
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
       maxW="3xl"
       aria-live="polite"
       role="main"
@@ -129,7 +126,7 @@ const UserLinks: React.FC = () => {
       </Button>
 
       {loading ? (
-        <LinksTableSkeleton /> 
+        <LinksTableSkeleton />
       ) : (
         <LinksTable
           links={links}
@@ -138,18 +135,14 @@ const UserLinks: React.FC = () => {
         />
       )}
 
-<<<<<<< HEAD
       <Modal
         isOpen={isOpen}
         onClose={onClose}
         size={{ base: "sm", md: "lg" }}
         isCentered
       >
-=======
-      <Modal isOpen={isOpen} onClose={onClose} size={{base:"sm", md:"lg"}} isCentered>
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
         <ModalOverlay />
-        <ModalContent mx="4">
+        <ModalContent>
           <ModalHeader>
             {linkToEdit ? "Edit Link" : "Create New Link"}
           </ModalHeader>

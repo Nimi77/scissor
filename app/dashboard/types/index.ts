@@ -14,11 +14,7 @@ export interface NavItemProps extends FlexProps {
   children: React.ReactNode;
   href: string;
   isActive?: boolean;
-<<<<<<< HEAD
   onClose?: () => void;
-=======
-  onClose: () => void;
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
 }
 
 // Interface for SidebarContent component props

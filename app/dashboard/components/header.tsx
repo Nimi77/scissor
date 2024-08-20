@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown, FiX } from "react-icons/fi";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;

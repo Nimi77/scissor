@@ -36,7 +36,6 @@ export const NavItem = ({
   isActive = false,
   onClose,
   ...rest
-<<<<<<< HEAD
 }: NavItemProps) => (
   <Link href={href} style={{ textDecoration: "none" }}>
     <Flex
@@ -65,55 +64,15 @@ export const NavItem = ({
     </Flex>
   </Link>
 );
-=======
-}: NavItemProps) => {
-  const isCustomLink = href === "/dashboard/custom-links";
-
-  return (
-    <Link href={href} style={{ textDecoration: "none" }}>
-      <Flex
-        align="center"
-        p="3"
-        my="1"
-        role="group"
-        cursor="pointer"
-        borderRadius={isActive ? "lg" : "none"}
-        bg={isActive ? "#ededed" : "transparent"}
-        _hover={{ bg: "#ededed", borderRadius: "lg" }}
-        transition=".3s ease"
-        onClick={onClose}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            as={icon}
-            mr="4"
-            fontSize={isCustomLink ? "20" : "16"}
-            color="#2A2A2A"
-            _groupHover={{ color: "gray.600" }}
-          />
-        )}
-        <Text>{children}</Text>
-      </Flex>
-    </Link>
-  );
-};
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
 
 const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
   const pathname = usePathname();
 
   return (
     <Box
-<<<<<<< HEAD
       transition="all .4s ease"
       bgColor={{ base: "#f5f5f5", md: "#fbfbfb" }}
       borderRightWidth={{ base: "none", md: "1px" }}
-=======
-      transition=".4s ease"
-      bgColor="#fbfbfb"
-      borderRightWidth="1px"
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
       borderRightColor="gray.200"
       color="gray.900"
       w={{ base: "22rem", md: 60 }}
@@ -158,11 +117,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
             bg="#FF4C24"
             _hover={{
               transition: "0.4s ease-in",
-<<<<<<< HEAD
               bg: "#ED5734",
-=======
-              bg: "#ED5734"
->>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
             }}
             display="flex"
             alignItems="center"
@@ -182,7 +137,6 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
           onClose={onClose}
           borderTop={link.name === "Settings" ? "1px solid" : "none"}
           borderColor={link.name === "Settings" ? "gray.400" : "transparent"}
-          onClose={onClose}
         >
           {link.name}
         </NavItem>

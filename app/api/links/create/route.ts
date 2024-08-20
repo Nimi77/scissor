@@ -16,8 +16,11 @@ export const POST = async (req: NextRequest) => {
   try {
     const { originalUrl, customDomain, customPath, createdAt } =
       await req.json();
-
+     
+    // constructing a base URL using the customDomain provided by the user
     let customUrl = `https://${customDomain}`;
+    
+    // If customPath is present, it appends it to the customUrl
     if (customPath) {
       customUrl = `${customUrl}/${customPath}`;
     }
