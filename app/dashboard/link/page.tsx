@@ -16,6 +16,7 @@ import {
 import axios from "axios";
 import LinkForm from "./LinkForm";
 import LinksTable from "./LinkTable";
+import LinksTableSkeleton from "./LinkTableSkeleton"; 
 
 interface Link {
   id: string;
@@ -28,6 +29,7 @@ interface Link {
 
 const UserLinks: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
+  const [loading, setLoading] = useState(true); // State to manage loading
   const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -45,10 +47,11 @@ const UserLinks: React.FC = () => {
           throw new Error("Failed to fetch links");
         }
         const data: Link[] = response.data;
-        console.log("fetched data:", data)
         setLinks(data);
       } catch (error) {
         console.error("Error fetching links:", error);
+      } finally {
+        setTimeout(() => setLoading(false), 2000);
       }
     };
 
@@ -92,7 +95,12 @@ const UserLinks: React.FC = () => {
       shadow="base"
       p={6}
       rounded="lg"
+<<<<<<< HEAD
       m={4}
+=======
+      my={5}
+      mx={2}
+>>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
       maxW="3xl"
       aria-live="polite"
       role="main"
@@ -120,18 +128,26 @@ const UserLinks: React.FC = () => {
         Create New Link
       </Button>
 
-      <LinksTable
-        links={links}
-        onEditLink={handleEditLink}
-        onDeleteLink={handleDeleteLink}
-      />
+      {loading ? (
+        <LinksTableSkeleton /> 
+      ) : (
+        <LinksTable
+          links={links}
+          onEditLink={handleEditLink}
+          onDeleteLink={handleDeleteLink}
+        />
+      )}
 
+<<<<<<< HEAD
       <Modal
         isOpen={isOpen}
         onClose={onClose}
         size={{ base: "sm", md: "lg" }}
         isCentered
       >
+=======
+      <Modal isOpen={isOpen} onClose={onClose} size={{base:"sm", md:"lg"}} isCentered>
+>>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
         <ModalOverlay />
         <ModalContent mx="4">
           <ModalHeader>

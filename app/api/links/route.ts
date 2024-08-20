@@ -16,7 +16,11 @@ export const GET = async (req: NextRequest) => {
       ORDER BY created_at DESC;
     `;
 
+<<<<<<< HEAD
     return NextResponse.json(result.rows[0], { status: 200 });
+=======
+    return NextResponse.json(result.rows, { status: 200 });
+>>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3
   } catch (error) {
     console.error("Error fetching links:", error);
     return NextResponse.json(
@@ -28,4 +32,8 @@ export const GET = async (req: NextRequest) => {
 
 export const OPTIONS = async () => {
   return NextResponse.json({}, { status: 200 });
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> d3d538c7d0f72827f8e88f61303532d1344b6de3

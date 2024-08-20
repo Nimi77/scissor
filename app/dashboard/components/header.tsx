@@ -14,10 +14,18 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  Button,
+  useDisclosure,
   FlexProps,
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown, FiX } from "react-icons/fi";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -26,12 +34,21 @@ interface MobileProps extends FlexProps {
 const Header = ({ onOpen, ...rest }: MobileProps) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { data: session, status } = useSession();
+  const { isOpen, onOpen: openModal, onClose } = useDisclosure();
+  const router = useRouter();
 
   if (status === "loading") {
     return null;
   }
+
   const userInitial = session?.user?.email?.charAt(0).toUpperCase() || "";
   const userEmail = session?.user?.email || "User";
+
+  const handleLogOut = async () => {
+    await signOut({ redirect: false });
+    router.push("/login");
+    onClose();
+  };
 
   return (
     <Box
@@ -144,13 +161,51 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
                   <MenuItem>Settings</MenuItem>
                   <MenuItem>Billing</MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
+                  <MenuItem onClick={openModal}> Log out</MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
           </HStack>
         </Flex>
       </Box>
+
+      {/* Logout Confirmation Modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
+        <ModalContent
+          p="1.5rem"
+          minH="100vh"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <ModalHeader textAlign="center" fontWeight="500" fontSize="1.2rem">
+            Confirm Logout
+          </ModalHeader>
+          <ModalFooter mt="2rem">
+            <Flex alignItems="center" justifyContent="space-between">
+              <Button
+                variant="outline"
+                size="lg"
+                borderRadius="lg"
+                transition="all .4s ease-in"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                colorScheme="red"
+                size="lg"
+                borderRadius="lg"
+                transition="all .4s ease-in"
+                onClick={handleLogOut}
+              >
+                Yes, Log out
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
