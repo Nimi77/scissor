@@ -11,12 +11,12 @@ const Logout = () => {
   };
 
   return (
-    <Flex minH="100vh" align="center" justify="center" bgColor="#e8e8e8">
+    <Flex minH="100vh" align="center" justify="center" bgColor="white">
       <Box
         px={6}
         py={14}
         w={{ base: "auto", md: "xl" }}
-        bgGradient="linear(to-l, #fafafa, #ebebeb)"
+        bgColor="#fafafa"
         borderRadius="lg"
         boxShadow="md"
         textAlign="center"
@@ -30,29 +30,30 @@ const Logout = () => {
         </Text>
 
         <Box display="flex" gap="4" alignItems="center" justifyContent="center">
-          <Button
-            size="lg"
-            borderRadius="lg"
-            onClick={handleLogout}
-            bg="#FF4C24"
-            colorScheme="white"
-            _hover={{
-              transition: ".3s ease-in",
-              textDecoration: "none",
-            }}
-          >
-            Confirm Log Out
-          </Button>
           <Link href="/dashboard">
             <Button
-              colorScheme="red"
+              variant="outline"
               size="lg"
               borderRadius="lg"
-              transition=".4s ease-in-out"
+              _hover={{
+                transition: ".3s ease-in",
+                textDecoration: "none"
+              }}
             >
               Cancel
             </Button>
           </Link>
+          <Button
+            size="lg"
+            borderRadius="lg"
+            onClick={handleLogout}
+            colorScheme="red"
+            _hover={{
+              transition: ".3s ease-in",
+            }}
+          >
+            Confirm Log Out
+          </Button>
         </Box>
       </Box>
     </Flex>

@@ -35,7 +35,11 @@ const LinksTable: React.FC<LinksTableProps> = ({
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Table variant="striped" size={isMobile ? "sm" : "md"}>
+    <Table
+      variant="striped"
+      size={isMobile ? "sm" : "md"}
+      bgColor="transparent"
+    >
       <Thead>
         <Tr>
           <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
@@ -78,7 +82,7 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 leftIcon={<FiEdit />}
                 mr={1}
               >
-                Edit
+                {!isMobile && "Edit"}
               </Button>
               <Button
                 onClick={() => onDeleteLink(link.id)}
@@ -86,7 +90,7 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 leftIcon={<FiTrash />}
                 mr={1}
               >
-                Delete
+                {!isMobile && "Delete"}
               </Button>
             </Td>
           </Tr>

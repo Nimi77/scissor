@@ -25,14 +25,13 @@ const QRCodeGenerator = () => {
   const handleGenerateQRCode = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Validate URL
+    // Validating URL
     if (!isURL(url)) {
       setError("Please enter a valid URL.");
       return;
     }
 
     setError("");
-    // Set the QR code URL to the input URL
     setQrCodeUrl(url);
   };
 
@@ -74,12 +73,12 @@ const QRCodeGenerator = () => {
 
   return (
     <Flex
-      maxW="2xl"
-      mx="auto"
-      p={4}
       bg="white"
       shadow="md"
       borderRadius="lg"
+      m={4}
+      maxW="3xl"
+      p={4}
       direction="column"
       role="main"
       aria-labelledby="qr-form-heading"

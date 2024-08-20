@@ -14,13 +14,17 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const { originalUrl, customDomain, customPath, createdAt } = await req.json();
+    const { originalUrl, customDomain, customPath, createdAt } =
+      await req.json();
 
-    const customUrl = `https://${customDomain}/${customPath}`;
+    let customUrl = `https://${customDomain}`;
+    if (customPath) {
+      customUrl = `${customUrl}/${customPath}`;
+    }
 
     // Validate the original URL and the custom URL
     urlSchema.parse(originalUrl);
-    if (customDomain && customPath) {
+    if (customDomain) {
       urlSchema.parse(customUrl);
     }
 
@@ -36,10 +40,16 @@ export const POST = async (req: NextRequest) => {
     console.error("Error creating custom URL:", error);
 
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ message: "Invalid URL format" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Invalid URL format" },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ message: "Failed to create custom URL" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to create custom URL" },
+      { status: 500 }
+    );
   }
 };
 

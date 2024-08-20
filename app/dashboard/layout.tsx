@@ -38,7 +38,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Drawer>
 
       {/* Main content */}
-      <Box flex="1" ml={{ base: 0, md: 60 }} overflow="auto" bgColor="#f5f5f5">
+      <Box
+        flex="1"
+        ml={{ base: 0, md: 60 }}
+        overflow="auto"
+        bgColor={{ base: "#f5f5f5", md: "#fbfbfb" }}
+      >
         <Header onOpen={onOpen} />
         <Box as="main" px="8" py="6" mt="20">
           {children}

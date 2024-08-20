@@ -34,45 +34,46 @@ export const NavItem = ({
   children,
   href,
   isActive = false,
+  onClose,
   ...rest
-}: NavItemProps) => {
-  const isCustomLink = href === "/dashboard/custom-links";
-
-  return (
-    <Link href={href} style={{ textDecoration: "none" }}>
-      <Flex
-        align="center"
-        p="3"
-        my="1"
-        role="group"
-        cursor="pointer"
-        borderRadius={isActive ? "lg" : "none"}
-        bg={isActive ? "rgba(255, 255, 255, 0.16)" : "transparent"}
-        _hover={{ bg: "rgba(0, 0, 0, 0.1)", borderRadius: "lg" }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            as={icon}
-            mr="4"
-            fontSize={isCustomLink ? "20" : "16"}
-            color={isActive ? "white" : "#2A2A2A"}
-            _groupHover={{ color: "white" }}
-          />
-        )}
-        <Text color={isActive ? "white" : "inherit"}>{children}</Text>
-      </Flex>
-    </Link>
-  );
-};
+}: NavItemProps) => (
+  <Link href={href} style={{ textDecoration: "none" }}>
+    <Flex
+      align="center"
+      p="3"
+      my="1"
+      role="group"
+      cursor="pointer"
+      borderRadius={isActive ? "lg" : "none"}
+      bg={isActive ? "#ededed" : "transparent"}
+      _hover={{ bg: "#ededed", borderRadius: "lg" }}
+      transition=".3s ease"
+      onClick={onClose}
+      {...rest}
+    >
+      {icon && (
+        <Icon
+          as={icon}
+          mr="4"
+          fontSize={href === "/dashboard/custom-links" ? "20" : "16"}
+          color="#2A2A2A"
+          _groupHover={{ color: "gray.600" }}
+        />
+      )}
+      <Text>{children}</Text>
+    </Flex>
+  </Link>
+);
 
 const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
   const pathname = usePathname();
 
   return (
     <Box
-      transition="3s ease"
-      bgColor="#f5f5f5"
+      transition="all .4s ease"
+      bgColor={{ base: "#f5f5f5", md: "#fbfbfb" }}
+      borderRightWidth={{ base: "none", md: "1px" }}
+      borderRightColor="gray.200"
       color="gray.900"
       w={{ base: "22rem", md: 60 }}
       pos="fixed"
@@ -115,11 +116,12 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
             borderRadius="lg"
             bg="#FF4C24"
             _hover={{
-              transition: "0.4s ease-in-out",
+              transition: "0.4s ease-in",
               bg: "#ED5734",
             }}
             display="flex"
             alignItems="center"
+            onClick={onClose}
           >
             Create New Link
           </Button>
@@ -132,6 +134,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
           icon={link.icon}
           href={link.href}
           isActive={pathname === link.href}
+          onClose={onClose}
           borderTop={link.name === "Settings" ? "1px solid" : "none"}
           borderColor={link.name === "Settings" ? "gray.400" : "transparent"}
         >

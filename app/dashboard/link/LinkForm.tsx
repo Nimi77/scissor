@@ -43,27 +43,31 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     // Validate the original URL
     if (!isURL(originalUrl)) {
       setError("Please enter a valid URL.");
       return;
     }
-
+  
     setError("");
     setCustomUrl("");
     setLoading(true);
-
+  
     try {
-      // validation for the custom URL
-      if (customDomain && customPath) {
-        const fullCustomUrl = `https://${customDomain}/${customPath}`;
+      let fullCustomUrl = customDomain;
+      if (customDomain) {
+        fullCustomUrl = customPath ? `https://${customDomain}/${customPath}` : `https://${customDomain}`;
+      }
+  
+      // Validation for the custom URL
+      if (customDomain) {
         if (!isURL(fullCustomUrl)) {
           setError("The custom domain or path is not valid.");
           return;
         }
       }
-
+  
       const response = await axios({
         method: linkToEdit ? "PATCH" : "POST",
         url: linkToEdit ? `/api/links/${linkToEdit.id}` : "/api/links/create",
@@ -76,7 +80,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
           customPath,
         },
       });
-
+  
       if (response.status === 200) {
         if (!linkToEdit) {
           setCustomUrl(response.data.shortened_url);
@@ -84,7 +88,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
         onLinkCreated(response.data);
         toast({
           title: "Success!",
-          description: "Link saved successfully.",
+          description: "URL saved successfully.",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -125,7 +129,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
         </FormControl>
 
         <FormControl>
-          <FormLabel>Custom Path</FormLabel>
+          <FormLabel>Custom Path (Optional)</FormLabel>
           <Input
             value={customPath}
             onChange={(e) => setCustomPath(e.target.value)}

@@ -35,7 +35,7 @@ function Template({ icon, title, desc }: TemplateProps) {
       maxW={{ md: "lg", lg: "xl" }}
       aria-labelledby={`${title}-heading`}
     >
-      <Icon as="span" aria-hidden="true" fontSize="1.2rem">
+      <Icon as="span" aria-hidden="true" fontSize="1.16rem">
         {icon}
       </Icon>
       <Text as="h3" id={`${title}-heading`} pt={4} pb={2} fontSize="lg">

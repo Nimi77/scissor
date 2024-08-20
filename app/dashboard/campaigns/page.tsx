@@ -51,12 +51,12 @@ const Campaigns: React.FC = () => {
 
   return (
     <Box
-      mt={6}
+      bgColor="white"
+      m={4}
       p={4}
+      maxW="3xl"
       borderRadius="lg"
       shadow="md"
-      bgColor="white"
-      maxW="3xl"
     >
       <Heading as="h2" size="lg" mb={4}>
         Campaigns

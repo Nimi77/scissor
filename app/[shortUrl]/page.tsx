@@ -17,11 +17,12 @@ export default function RedirectPage({
   useEffect(() => {
     const fetchOriginalUrl = async () => {
       try {
-        // Fetch the original URL based on the shortUrl
+        // Fetching the original URL based on the shortUrl
         const response = await axios.get(`/api/shorten/${params.shortUrl}`);
         const data = response.data;
 
-        if (response.status === 200 && data.originalUrl) {
+        if (data.originalUrl) {
+          console.log("Redirecting to:", data.originalUrl);
           // A delay to show the redirect message
           setTimeout(() => {
             router.push(data.originalUrl);

@@ -67,7 +67,7 @@ const CustomURL: React.FC = () => {
   };
 
   return (
-    <Container centerContent maxW="3xl">
+    <Container centerContent m={4} maxW="3xl">
       <Box bg="white" shadow="md" p={6} rounded="lg" w="full">
         <Heading as="h3" size="lg" mb={6} textAlign="center">
           Create a Custom Link

@@ -206,7 +206,7 @@ const LoginForm = () => {
               <Button
                 type="submit"
                 w="100%"
-                h="2.4rem"
+                h="2.5rem"
                 mt={6}
                 fontWeight={600}
                 fontSize="lg"

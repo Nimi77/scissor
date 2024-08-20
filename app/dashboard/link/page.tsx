@@ -89,15 +89,15 @@ const UserLinks: React.FC = () => {
   return (
     <Box
       bg="white"
-      shadow="md"
+      shadow="base"
       p={6}
       rounded="lg"
-      mt={6}
+      m={4}
       maxW="3xl"
       aria-live="polite"
       role="main"
     >
-      <Heading as="h2" size="lg" mb={6} textAlign="center">
+      <Heading as="h2" size="lg" textAlign="center">
         Manage Your Links
       </Heading>
 
@@ -114,7 +114,7 @@ const UserLinks: React.FC = () => {
           boxShadow: "0 0 0 3px rgba(255, 76, 36, 0.6)",
         }}
         onClick={onOpen}
-        mb={4}
+        my={6}
         aria-label="Create a new link"
       >
         Create New Link
@@ -126,9 +126,14 @@ const UserLinks: React.FC = () => {
         onDeleteLink={handleDeleteLink}
       />
 
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "sm", md: "lg" }}
+        isCentered
+      >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx="4">
           <ModalHeader>
             {linkToEdit ? "Edit Link" : "Create New Link"}
           </ModalHeader>
