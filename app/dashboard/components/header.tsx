@@ -83,16 +83,18 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
             linktrim
           </Text>
 
-          <HStack spacing={{ base: "0", md: "2" }}>
+          <HStack spacing="3">
             {/* Bell Notification Icon */}
             <IconButton
               size="lg"
-              p={0}
+              min-width="2rem"
+              height="2rem"
+              borderRadius="1rem"
               variant="ghost"
               aria-label="Open Notifications"
               aria-expanded={isNotificationOpen}
               aria-controls="notification-box"
-              icon={<FiBell />}
+              icon={<FiBell  />}
               onClick={() => setIsNotificationOpen(!isNotificationOpen)}
             />
 
@@ -173,22 +175,22 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent
-          p="1.5rem"
-          minH="100vh"
+          py={6}
+          m="auto"
           display="flex"
           alignItems="center"
           justifyContent="center"
         >
-          <ModalHeader textAlign="center" fontWeight="500" fontSize="1.2rem">
+          <ModalHeader p={0} textAlign="center" fontWeight="500" fontSize="1.2rem">
             Confirm Logout
           </ModalHeader>
-          <ModalFooter mt="2rem">
-            <Flex alignItems="center" justifyContent="space-between">
+          <ModalFooter mt={4}>
+            <Flex gap={10} alignItems="center">
               <Button
                 variant="outline"
                 size="lg"
                 borderRadius="lg"
-                transition="all .4s ease-in"
+                transition=".2s ease-in"
                 onClick={onClose}
               >
                 Cancel
@@ -197,7 +199,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
                 colorScheme="red"
                 size="lg"
                 borderRadius="lg"
-                transition="all .4s ease-in"
+                transition=".2s ease-in"
                 onClick={handleLogOut}
               >
                 Yes, Log out

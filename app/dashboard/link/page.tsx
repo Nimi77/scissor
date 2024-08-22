@@ -10,8 +10,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  ModalFooter,
   useDisclosure,
   Heading,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
 import LinkForm from "./LinkForm";
@@ -31,9 +33,14 @@ const UserLinks: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
   const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
+  const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
 
-  // Fetching the links data from the server
   useEffect(() => {
     const fetchLinks = async () => {
       try {
@@ -59,7 +66,6 @@ const UserLinks: React.FC = () => {
     fetchLinks();
   }, []);
 
-  // creating new links and updating new existing ones
   const handleLinkCreated = (newLink: Link) => {
     setLinks((prevLinks) =>
       linkToEdit
@@ -76,33 +82,40 @@ const UserLinks: React.FC = () => {
   };
 
   const handleDeleteLink = async (id: string) => {
-    if (confirm("Are you sure you want to delete this link?")) {
-      try {
-        const response = await axios.delete(`/api/links/${id}`);
+    try {
+      const response = await axios.delete(`/api/links/${id}`);
 
-        if (response.status !== 200) {
-          throw new Error("Failed to delete link");
-        }
-
-        setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
-      } catch (error) {
-        console.error("Error deleting link:", error);
+      if (response.status !== 200) {
+        throw new Error("Failed to delete link");
       }
+
+      setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
+      onDeleteModalClose();
+    } catch (error) {
+      console.error("Error deleting link:", error);
     }
+  };
+
+  const confirmDeleteLink = async (id: string): Promise<void> => {
+    return new Promise((resolve) => {
+      setLinkToDelete(id);
+      onDeleteModalOpen();
+      resolve();
+    });
   };
 
   return (
     <Box
       bg="white"
+      my={4}
+      mx={{ base: "auto", md: 24 }}
+      p={{ base: 4, md: 6 }}
       shadow="base"
-      p={6}
       rounded="lg"
-      m={4}
-      maxW="3xl"
       aria-live="polite"
       role="main"
     >
-      <Heading as="h2" size="lg" textAlign="center">
+      <Heading as="h3" size="lg" textAlign={{ base: "left", md: "center" }}>
         Manage Your Links
       </Heading>
 
@@ -122,7 +135,7 @@ const UserLinks: React.FC = () => {
         my={6}
         aria-label="Create a new link"
       >
-        Create New Link
+        Create Link
       </Button>
 
       {loading ? (
@@ -131,7 +144,7 @@ const UserLinks: React.FC = () => {
         <LinksTable
           links={links}
           onEditLink={handleEditLink}
-          onDeleteLink={handleDeleteLink}
+          onDeleteLink={confirmDeleteLink}
         />
       )}
 
@@ -142,7 +155,7 @@ const UserLinks: React.FC = () => {
         isCentered
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent m="auto">
           <ModalHeader>
             {linkToEdit ? "Edit Link" : "Create New Link"}
           </ModalHeader>
@@ -153,6 +166,35 @@ const UserLinks: React.FC = () => {
               linkToEdit={linkToEdit}
             />
           </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              Are you sure you want to delete this link? This action cannot be
+              undone.
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="red"
+              onClick={async () => {
+                await handleDeleteLink(linkToDelete!);
+                onDeleteModalClose();
+              }}
+              mr={3}
+            >
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={onDeleteModalClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </Box>

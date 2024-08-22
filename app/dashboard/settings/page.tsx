@@ -15,16 +15,16 @@ import {
   useDisclosure,
   useToast,
   Spinner,
+  VStack,
 } from "@chakra-ui/react";
 
 const Settings = () => {
-  const { isOpen, onToggle } = useDisclosure();
-  const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
-
   const [name, setName] = useState("");
   const [usageType, setUsageType] = useState("personal");
   const [businessName, setBusinessName] = useState("");
+  const { isOpen, onToggle } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
 
   const handleSaveChanges = () => {
     setIsLoading(true);
@@ -41,67 +41,81 @@ const Settings = () => {
   };
 
   return (
-    <Box p={4} m={4} maxW="3xl" borderRadius="lg" shadow="md" bgColor="white">
-      <Heading as="h2" size="lg" mb={4}>
+    <Box
+      bgColor="white"
+      p={{ base: 4, md: 6 }}
+      mx={{ base: "auto", md: 24 }}
+      my={4}
+      borderRadius="lg"
+      shadow="md"
+    >
+      <Heading as="h3" size="lg">
         Settings
       </Heading>
-      <Text fontSize="md" color="gray.500" mb={8}>
+      <Text color="gray.500" mt={2} mb={4}>
         Adjust your account settings, preferences, and more.
       </Text>
 
       {/* Account Details Section */}
-      <FormControl mb={6}>
-        <FormLabel htmlFor="name">Name</FormLabel>
-        <Input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your name"
-        />
-      </FormControl>
-
-      <FormControl mb={6}>
-        <FormLabel htmlFor="usageType">Are you using this website for?</FormLabel>
-        <Select
-          id="usageType"
-          value={usageType}
-          onChange={(e) => setUsageType(e.target.value)}
-        >
-          <option value="personal">Personal Use</option>
-          <option value="business">Business Use</option>
-        </Select>
-      </FormControl>
-
-      {usageType === "business" && (
-        <FormControl mb={6}>
-          <FormLabel htmlFor="businessName">Business Name (Optional)</FormLabel>
+      <VStack align="left" spacing="4" className="settings-config">
+        <FormControl>
+          <FormLabel htmlFor="name">Name</FormLabel>
           <Input
-            id="businessName"
-            value={businessName}
-            onChange={(e) => setBusinessName(e.target.value)}
-            placeholder="Enter your business name"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
           />
         </FormControl>
-      )}
 
-      {/* Dark Mode Setting */}
-      <FormControl display="flex" alignItems="center" mb={6}>
-        <FormLabel htmlFor="dark-mode" mb="0">
-          Dark Mode
-        </FormLabel>
-        <Switch id="dark-mode" colorScheme="orange" />
-      </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="usageType">
+            Are you using this website for?
+          </FormLabel>
+          <Select
+            id="usageType"
+            value={usageType}
+            onChange={(e) => setUsageType(e.target.value)}
+          >
+            <option value="personal">Personal Use</option>
+            <option value="business">Business Use</option>
+          </Select>
+        </FormControl>
 
-      {/* Notifications Setting */}
-      <FormControl display="flex" alignItems="center" mb={6}>
-        <FormLabel htmlFor="notifications" mb="0">
-          Enable Notifications
-        </FormLabel>
-        <Switch id="notifications" colorScheme="orange" />
-      </FormControl>
+        {usageType === "business" && (
+          <FormControl mb={6}>
+            <FormLabel htmlFor="businessName">
+              Business Name (Optional)
+            </FormLabel>
+            <Input
+              id="businessName"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder="Enter your business name"
+            />
+          </FormControl>
+        )}
+      </VStack>
+      <Box display="flex" flexDir="column" alignItems="left" gap="2" my="2">
+        {/* Dark Mode Setting */}
+        <FormControl display="flex" alignItems="center">
+          <FormLabel htmlFor="dark-mode" mb="0">
+            Dark Mode
+          </FormLabel>
+          <Switch id="dark-mode" colorScheme="orange" />
+        </FormControl>
+
+        {/* Notifications Setting */}
+        <FormControl display="flex" alignItems="center">
+          <FormLabel htmlFor="notifications" mb="0">
+            Enable Notifications
+          </FormLabel>
+          <Switch id="notifications" colorScheme="orange" />
+        </FormControl>
+      </Box>
 
       {/* Expandable Section for Advanced Settings */}
-      <Box mb={6}>
+      <Box mb={4}>
         <Button variant="link" color="#FF4C24" onClick={onToggle} mb={2}>
           Advanced Settings
         </Button>

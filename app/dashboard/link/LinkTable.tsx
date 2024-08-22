@@ -45,7 +45,7 @@ const LinksTable: React.FC<LinksTableProps> = ({
           <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
           <Th>URL</Th>
           <Th>Custom Url</Th>
-          <Th>Actions</Th>
+          <Th></Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -78,9 +78,10 @@ const LinksTable: React.FC<LinksTableProps> = ({
             </Td>
             <Td>
               <Button
+                variant="outline"
                 onClick={() => onEditLink(link)}
                 leftIcon={<FiEdit />}
-                mr={1}
+                mr={2}
               >
                 {!isMobile && "Edit"}
               </Button>
@@ -88,7 +89,6 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 onClick={() => onDeleteLink(link.id)}
                 colorScheme="red"
                 leftIcon={<FiTrash />}
-                mr={1}
               >
                 {!isMobile && "Delete"}
               </Button>

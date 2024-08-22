@@ -76,16 +76,15 @@ const QRCodeGenerator = () => {
       bg="white"
       shadow="md"
       borderRadius="lg"
-      m={4}
-      maxW="3xl"
-      p={4}
+      my={4} 
+      mx={{base:"auto", md: 24}}
+      p={{ base: 4, md: 6 }}
       direction="column"
-      role="main"
       aria-labelledby="qr-form-heading"
     >
       <form onSubmit={handleGenerateQRCode}>
-        <FormControl id="url" mb={4} isRequired>
-          <FormLabel fontWeight="bold" id="qr-form-heading">
+        <FormControl id="url" mb={4}>
+          <FormLabel fontWeight="bold" id="qr-form-heading" fontSize="lg">
             Enter your URL
           </FormLabel>
           <Input
@@ -97,7 +96,7 @@ const QRCodeGenerator = () => {
             aria-describedby="url-description"
             aria-required="true"
           />
-          <Text id="url-description" mt={2} fontSize="sm" color="gray.600">
+          <Text id="url-description" mt={2} fontSize="md" color="gray.600">
             Please enter a valid URL to generate a QR code.
           </Text>
         </FormControl>

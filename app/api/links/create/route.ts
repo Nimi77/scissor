@@ -14,27 +14,24 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const { originalUrl, customDomain, customPath, createdAt } =
-      await req.json();
-     
-    // constructing a base URL using the customDomain provided by the user
+    const { originalUrl, customDomain, customPath } = await req.json();
+
+    // Constructing a base URL using the customDomain provided by the user
     let customUrl = `https://${customDomain}`;
-    
+
     // If customPath is present, it appends it to the customUrl
     if (customPath) {
       customUrl = `${customUrl}/${customPath}`;
     }
 
-    // Validate the original URL and the custom URL
     urlSchema.parse(originalUrl);
     if (customDomain) {
       urlSchema.parse(customUrl);
     }
 
-    // Save to the database with the current date
     const result = await sql`
-      INSERT INTO user_links (user_email, original_url, shortened_url, custom_domain, custom_path, created_at)
-      VALUES (${token.email}, ${originalUrl}, ${customUrl}, ${customDomain}, ${customPath}, ${createdAt})
+      INSERT INTO user_links (user_email, original_url, shortened_url, custom_domain, custom_path)
+      VALUES (${token.email}, ${originalUrl}, ${customUrl}, ${customDomain}, ${customPath})
       RETURNING *;
     `;
 

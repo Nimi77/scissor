@@ -54,31 +54,18 @@ const DashboardHome: React.FC = () => {
   }
 
   return (
-    <Box maxW="3xl" m={4} p={{ base: 4, md: 8 }} borderRadius="lg" shadow="md" bgColor="white">
-      <Flex
-        direction={{ base: "column", md: "row" }}
-        justify="space-between"
-        mb={4}
-      >
-        <Heading as="h2" size="lg">
-          Manage Your Links
-        </Heading>
-        <Link href="/dashboard/custom-links">
-          <Button
-            color="white"
-            size="lg"
-            borderRadius="lg"
-            bg="#FF4C24"
-            _hover={{
-              transition: "0.3s ease",
-              bg: "#ED5734",
-            }}
-          >
-            Create New Link
-          </Button>
-        </Link>
-      </Flex>
-      <Text fontSize="md" color="gray.500" mb={8}>
+    <Box
+      bgColor="white"
+      p={{ base: 4, md: 6 }}
+      mx={{ base: "auto", md: 24 }}
+      my={4}
+      borderRadius="lg"
+      shadow="md"
+    >
+      <Heading as="h3" size="lg">
+        Manage Your Links
+      </Heading>
+      <Text color="gray.500" my={4}>
         View, edit, and manage all your shortened links. Track analytics such as
         the number of clicks and unique visitors.
       </Text>
@@ -111,7 +98,7 @@ const DashboardHome: React.FC = () => {
           ))}
         </VStack>
       ) : (
-        <Text color="gray.500">
+        <Text color="green">
           No links created yet. Start by creating a new link!
         </Text>
       )}

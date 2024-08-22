@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { AttachmentIcon } from "@chakra-ui/icons";
 import { ReactNode } from "react";
-import AnalyticsIcon from "@/public/analytic.svg";
+import { SiSimpleanalytics } from "react-icons/si" 
 import { BsQrCode } from "react-icons/bs";
 
 interface TemplateProps {
@@ -58,7 +58,7 @@ const templates = [
     desc: "Generate QR codes for your shortened URLs which provides a seamless way to share your links offline on different platforms.",
   },
   {
-    icon: <AnalyticsIcon aria-label="Analytics icon" />,
+    icon: <SiSimpleanalytics aria-label="Analytics icon" />,
     title: "Basic Analytics",
     desc: "Track your links performance and engagement comprehensively with linktrim's robust basic analytics tools.",
   },

@@ -15,15 +15,15 @@ p,
 li{
   font-size: 18px;
 }
+th{
+  padding-block:14px!important;
+}
 th,td{
   border:1px solid black;
+  font-size:16px!important;
 }
-th{
-  font-size:18px!important
-}
-td{
-  font-size:16px;
-  background-color:transparent;
+.css-tdnrhj tr:nth-of-type(odd) td{
+  background:ghostwhite!important;
 }
 /* header navlink */
 .nav-link::after {
@@ -90,7 +90,7 @@ td{
 }
 .pricing-package li{
   display:flex;
-  textAlign:center;
+  text-align:center;
   align-items:center;
   justify-content:flex-start;
   gap:6px;

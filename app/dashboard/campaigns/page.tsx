@@ -52,14 +52,14 @@ const Campaigns: React.FC = () => {
   return (
     <Box
       bgColor="white"
-      m={4}
-      p={4}
-      maxW="3xl"
+      p={{ base: 4, md: 6 }}
+      mx={{ base: "auto", md: 24 }}
+      my={4}
       borderRadius="lg"
       shadow="md"
     >
-      <Heading as="h2" size="lg" mb={4}>
-        Campaigns
+      <Heading as="h3" size="lg" mb={6} textAlign={{base:"left", md:"center"}}>
+        Analytics
       </Heading>
       <Text fontSize="md" color="gray.500" mb={6}>
         Track and manage your marketing campaigns.
