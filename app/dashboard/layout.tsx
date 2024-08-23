@@ -42,7 +42,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         flex="1"
         ml={{ base: 0, md: 60 }}
         overflow="auto"
-        bgColor={{ base: "#f5f5f5", md: "#fbfbfb" }}
+        bgColor="#fbfbfb"
       >
         <Header onOpen={onOpen} />
         <Box as="main" px="8" py="6" mt="20">

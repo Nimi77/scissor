@@ -57,7 +57,7 @@ const Settings = () => {
       </Text>
 
       {/* Account Details Section */}
-      <VStack align="left" spacing="4" className="settings-config">
+      <VStack align="left" spacing="6" className="settings-config">
         <FormControl>
           <FormLabel htmlFor="name">Name</FormLabel>
           <Input
@@ -83,7 +83,7 @@ const Settings = () => {
         </FormControl>
 
         {usageType === "business" && (
-          <FormControl mb={6}>
+          <FormControl>
             <FormLabel htmlFor="businessName">
               Business Name (Optional)
             </FormLabel>
@@ -96,10 +96,10 @@ const Settings = () => {
           </FormControl>
         )}
       </VStack>
-      <Box display="flex" flexDir="column" alignItems="left" gap="2" my="2">
+      <Box display="flex" flexDir="column" alignItems="left" gap="4" my="4">
         {/* Dark Mode Setting */}
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="dark-mode" mb="0">
+          <FormLabel htmlFor="dark-mode">
             Dark Mode
           </FormLabel>
           <Switch id="dark-mode" colorScheme="orange" />
@@ -107,7 +107,7 @@ const Settings = () => {
 
         {/* Notifications Setting */}
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="notifications" mb="0">
+          <FormLabel htmlFor="notifications">
             Enable Notifications
           </FormLabel>
           <Switch id="notifications" colorScheme="orange" />
@@ -115,7 +115,7 @@ const Settings = () => {
       </Box>
 
       {/* Expandable Section for Advanced Settings */}
-      <Box mb={4}>
+      <Box mb={5}>
         <Button variant="link" color="#FF4C24" onClick={onToggle} mb={2}>
           Advanced Settings
         </Button>
@@ -142,7 +142,7 @@ const Settings = () => {
         borderRadius="lg"
         bg="#FF4C24"
         _hover={{
-          transition: "0.3s ease-in",
+          transition: "0.2s ease-in",
           bg: "#ED5734",
         }}
         onClick={handleSaveChanges}

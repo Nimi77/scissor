@@ -55,6 +55,7 @@ const UserLinks: React.FC = () => {
           throw new Error("Failed to fetch links");
         }
         const data: Link[] = response.data;
+        console.log(data);
         setLinks(data);
       } catch (error) {
         console.error("Error fetching links:", error);
@@ -65,6 +66,10 @@ const UserLinks: React.FC = () => {
 
     fetchLinks();
   }, []);
+
+  useEffect(() => {
+    console.log(links)
+  }, [links])
 
   const handleLinkCreated = (newLink: Link) => {
     setLinks((prevLinks) =>
@@ -108,14 +113,13 @@ const UserLinks: React.FC = () => {
     <Box
       bg="white"
       my={4}
-      mx={{ base: "auto", md: 24 }}
+      mx={{ md: "auto", lg: 24 }}
       p={{ base: 4, md: 6 }}
       shadow="base"
       rounded="lg"
       aria-live="polite"
-      role="main"
     >
-      <Heading as="h3" size="lg" textAlign={{ base: "left", md: "center" }}>
+      <Heading as="h3" size="lg">
         Manage Your Links
       </Heading>
 
@@ -169,9 +173,14 @@ const UserLinks: React.FC = () => {
         </ModalContent>
       </Modal>
 
-      <Modal isOpen={isDeleteModalOpen} onClose={onDeleteModalClose} isCentered>
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+        isCentered
+        size={{ base: "sm", md: "lg" }}
+      >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent m="auto">
           <ModalHeader>Confirm Delete</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

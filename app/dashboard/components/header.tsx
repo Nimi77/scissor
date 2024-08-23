@@ -89,12 +89,12 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
               size="lg"
               min-width="2rem"
               height="2rem"
-              borderRadius="1rem"
+              borderRadius="50%"
               variant="ghost"
               aria-label="Open Notifications"
               aria-expanded={isNotificationOpen}
               aria-controls="notification-box"
-              icon={<FiBell  />}
+              icon={<FiBell />}
               onClick={() => setIsNotificationOpen(!isNotificationOpen)}
             />
 
@@ -136,7 +136,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
               <Menu>
                 <MenuButton
                   py={2}
-                  transition="all 0.3s"
+                  transition="0.2s ease"
                   _focus={{ boxShadow: "none" }}
                   aria-expanded={isNotificationOpen ? "true" : "false"}
                   aria-label="User Menu"
@@ -172,17 +172,19 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
       </Box>
 
       {/* Logout Confirmation Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "lg" }}>
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent
           py={6}
           m="auto"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
         >
-          <ModalHeader p={0} textAlign="center" fontWeight="500" fontSize="1.2rem">
-            Confirm Logout
+          <ModalHeader
+            p={0}
+            textAlign="center"
+            fontWeight="500"
+            fontSize="1.2rem"
+          >
+            Are You Sure You Want to Log Out?
           </ModalHeader>
           <ModalFooter mt={4}>
             <Flex gap={10} alignItems="center">

@@ -65,7 +65,7 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       borderColor="#ED5734"
       _hover={{
         bg: "#2A2A2A",
-        transition: "all 0.3s ease",
+        transition: "all 0.2s ease",
       }}
       aria-label="Login"
     >
@@ -86,7 +86,7 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       whiteSpace="nowrap"
       _hover={{
         bg: "#ED5734",
-        transition: "all 0.3s ease",
+        transition: "all 0.2s ease",
       }}
     >
       <Link href="/signup">Get Started</Link>

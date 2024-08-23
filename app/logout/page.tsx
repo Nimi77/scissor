@@ -11,21 +11,21 @@ const Logout = () => {
   };
 
   return (
-    <Flex minH="100vh" align="center" justify="center" bgColor="white">
+    <Flex minH="100vh" align="center" justify="center" bgColor="#fbfbfb">
       <Box
         px={6}
         py={14}
         w={{ base: "auto", md: "xl" }}
-        bgColor="#fafafa"
+        bgColor="white"
         borderRadius="lg"
         boxShadow="md"
         textAlign="center"
         _hover={{ boxShadow: "base" }}
       >
-        <Heading as="h2" size="lg" mb={4}>
+        <Heading as="h3" size="lg">
           Log Out
         </Heading>
-        <Text color="gray.500" mb={8} size="lg">
+        <Text mt={4} mb={6} size="lg">
           Are you sure you want to log out?
         </Text>
 
@@ -52,7 +52,7 @@ const Logout = () => {
               transition: ".3s ease-in",
             }}
           >
-            Confirm Log Out
+            Log Out
           </Button>
         </Box>
       </Box>

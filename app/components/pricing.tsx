@@ -145,7 +145,7 @@ const Pricing = () => {
                     borderRadius="lg"
                     bg="#FF4C24"
                     _hover={{
-                      transition: "0.3s ease",
+                      transition: "0.2s ease",
                       boxShadow: "0 4px 12px rgba(237, 87, 52, 0.3)",
                     }}
                   >

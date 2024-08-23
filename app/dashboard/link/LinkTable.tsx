@@ -54,24 +54,8 @@ const LinksTable: React.FC<LinksTableProps> = ({
             <Td display={{ base: "none", md: "table-cell" }}>
               {new Date(link.createdAt).toLocaleDateString()}
             </Td>
-            <Td
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              title={link.originalUrl}
-            >
-              {link.originalUrl}
-            </Td>
-            <Td
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              title={link.customUrl}
-            >
+            <Td title={link.originalUrl}>{link.originalUrl}</Td>
+            <Td title={link.customUrl}>
               <Link href={link.customUrl} isExternal>
                 {link.customUrl}
               </Link>

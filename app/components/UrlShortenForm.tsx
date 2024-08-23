@@ -110,7 +110,7 @@ const UrlShortenForm: React.FC = () => {
                 fontSize="lg"
                 _hover={{
                   bg: "#ED5734",
-                  transition: "all 0.3s ease",
+                  transition: "all 0.2s ease",
                 }}
                 isLoading={loading}
                 spinner={<BeatLoader size={8} color="white" />}

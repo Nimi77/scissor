@@ -154,7 +154,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
           bg="#FF4C24"
           mt={4}
           _hover={{
-            transition: "0.3s ease-in-out",
+            transition: "0.2s ease-in",
             bg: "#ED5734",
           }}
           isLoading={loading}

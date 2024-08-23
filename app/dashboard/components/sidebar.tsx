@@ -6,21 +6,21 @@ import {
   FiHome,
   FiSettings,
   FiLink,
-  FiPieChart,
   FiLogOut,
 } from "react-icons/fi";
 import { BsQrCode } from "react-icons/bs";
 import { MdOutlineAddLink } from "react-icons/md";
-import Link from "next/link";
+import { SiSimpleanalytics } from "react-icons/si" 
 import { LinkItemProps, NavItemProps, SidebarProps } from "../types";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 // Link items to be displayed in the sidebar
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, href: "/dashboard/home" },
   { name: "Links", icon: FiLink, href: "/dashboard" },
   { name: "QR Codes", icon: BsQrCode, href: "/dashboard/qrcode" },
-  { name: "Campaigns", icon: FiPieChart, href: "/dashboard/campaigns" },
+  { name: "Analytics", icon: SiSimpleanalytics, href: "/dashboard/analytics" },
   {
     name: "Custom links",
     icon: MdOutlineAddLink,
@@ -71,7 +71,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="all .4s ease"
-      bgColor={{ base: "#f5f5f5", md: "#fbfbfb" }}
+      bgColor="#fbfbfb"
       borderRightWidth={{ base: "none", md: "1px" }}
       borderRightColor="gray.200"
       color="gray.900"
@@ -117,7 +117,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
             bg="#FF4C24"
             _hover={{
               transition: "0.4s ease-in",
-              bg: "#ED5734",
+              bg: "#ED5734"
             }}
             display="flex"
             alignItems="center"
@@ -145,8 +145,7 @@ const Sidebar = ({ onClose, activeNav, ...rest }: SidebarProps) => {
       {/* log out */}
       <Box
         className="fixed bottom-4 flex items-end justify-center"
-        w="full"
-        p={2}
+        p={3}
       >
         <Flex w="full" alignItems="center" gap="4">
           <FiLogOut />

@@ -71,14 +71,13 @@ const CustomURL: React.FC = () => {
     <Box
       bgColor="white"
       shadow="md"
-      rounded="lg"
-      w="full"
+      rounded="lg"  
       p={{ base: 4, md: 6 }}
       mx={{ base: "auto", md: 24 }}
       my={4}
     >
-      <Heading as="h3" size="lg" mb={6} textAlign="center">
-        Create a Custom Link
+      <Heading as="h3" size="lg" mb={6}>
+        Create Custom Link
       </Heading>
       <Box as="form" onSubmit={handleSave}>
         <Stack spacing={4}>
@@ -124,8 +123,7 @@ const CustomURL: React.FC = () => {
           )}
 
           <Button
-            type="submit"
-            w="full"
+            type="submit"        
             color="white"
             borderRadius="lg"
             bg="#FF4C24"

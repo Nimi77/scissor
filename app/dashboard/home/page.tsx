@@ -1,57 +1,9 @@
-"use client";
+import { Box, Heading, Text, VStack, Button } from "@chakra-ui/react";
+import { FaLink, FaChartBar, FaCogs } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
-import React, { useState } from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  VStack,
-  HStack,
-  Flex,
-  useToast,
-  Spinner,
-  Icon,
-} from "@chakra-ui/react";
-import { FaChartBar } from "react-icons/fa";
-import Link from "next/link";
-import axios from "axios";
-
-interface LinkAnalytics {
-  id: string;
-  shortUrl: string;
-  clicks: number;
-  uniqueVisitors: number;
-}
-
-const DashboardHome: React.FC = () => {
-  const [links, setLinks] = useState<LinkAnalytics[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const toast = useToast();
-
-  // Fetch data when the component is rendered on the client
-  const fetchLinks = async () => {
-    try {
-      const response = await axios.get("/api/links");
-
-      setLinks(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      toast({
-        title: "Error fetching links",
-        description: "Unable to load your links at this time.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      setIsLoading(false);
-    }
-  };
-
-  // Trigger fetching when the component mounts
-  if (isLoading && typeof window !== "undefined") {
-    fetchLinks();
-  }
+const Home: React.FC = () => {
+  const router = useRouter();
 
   return (
     <Box
@@ -62,48 +14,84 @@ const DashboardHome: React.FC = () => {
       borderRadius="lg"
       shadow="md"
     >
-      <Heading as="h3" size="lg">
-        Manage Your Links
+      <Heading as="h2" size="lg">
+        Welcome to Scissor
       </Heading>
-      <Text color="gray.500" my={4}>
-        View, edit, and manage all your shortened links. Track analytics such as
-        the number of clicks and unique visitors.
+      <Text color="gray.600" mt={4} mb={6}>
+        Simplify your links, track your performance, and customize your brand.
+        Scissor makes URL shortening easy and efficient, giving you the tools to
+        manage and analyze your links all in one place.
       </Text>
 
-      {isLoading ? (
-        <Spinner size="lg" color="#FF4C24" />
-      ) : links.length > 0 ? (
-        <VStack spacing={6} align="stretch">
-          {links.map((link) => (
-            <Box
-              key={link.id}
-              w="full"
-              p={4}
-              borderWidth="1px"
-              borderRadius="lg"
-              shadow="sm"
-              aria-label={`Link analytics for ${link.shortUrl}`}
-            >
-              <HStack justify="space-between">
-                <Text fontWeight="bold">{link.shortUrl}</Text>
-                <HStack spacing={4}>
-                  <Text>
-                    <Icon as={FaChartBar} color="#FF4C24" mr={2} />
-                    Clicks: {link.clicks}
-                  </Text>
-                  <Text>Unique Visitors: {link.uniqueVisitors}</Text>
-                </HStack>
-              </HStack>
-            </Box>
-          ))}
-        </VStack>
-      ) : (
-        <Text color="green">
-          No links created yet. Start by creating a new link!
-        </Text>
-      )}
+      <VStack spacing={4} align="start">
+        <Box>
+          <Heading as="h3">
+            <FaLink style={{ display: "inline", marginRight: "8px" }} />
+            Create Your First Short Link
+          </Heading>
+          <Text mt={2} mb={4}>
+            Start by creating a short, memorable URL that you can share with
+            your audience. It&apos;s quick and easy—just enter your long URL and
+            let Scissor do the rest.
+          </Text>
+          <Button
+            bg="#FF4C24"
+            _hover={{
+              transition: "0.4s ease-in",
+              bg: "#ED5734",
+            }}
+            onClick={() => router.push("/dashboard/custom-links")}
+          >
+            Create Link
+          </Button>
+        </Box>
+
+        <Box>
+          <Heading as="h3">
+            <FaChartBar style={{ display: "inline", marginRight: "8px" }} />
+            Track Your Link Performance
+          </Heading>
+          <Text mt={2} mb={4}>
+            Gain insights into how your links are performing. View click
+            statistics, geographic data, and more to optimize your marketing
+            strategy.
+          </Text>
+          <Button
+            bg="#FF4C24"
+            _hover={{
+              transition: "0.4s ease-in",
+              bg: "#ED5734",
+            }}
+            onClick={() => router.push("/dashboard/analytics")}
+          >
+            View Analytics
+          </Button>
+        </Box>
+
+        <Box>
+          <Heading as="h3">
+            <FaCogs style={{ display: "inline", marginRight: "8px" }} />
+            Manage Your Links
+          </Heading>
+          <Text mt={2} mb={4}>
+            Edit, delete, or customize your short URLs anytime. Keep your link
+            portfolio organized and up-to-date with Scissor&apos;s management
+            tools.
+          </Text>
+          <Button
+            bg="#FF4C24"
+            _hover={{
+              transition: "0.4s ease-in",
+              bg: "#ED5734",
+            }}
+            onClick={() => router.push("/dashboard/links")}
+          >
+            Manage Links
+          </Button>
+        </Box>
+      </VStack>
     </Box>
   );
 };
 
-export default DashboardHome;
+export default Home;
