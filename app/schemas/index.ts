@@ -34,3 +34,7 @@ export const RegisterSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const ResetPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});

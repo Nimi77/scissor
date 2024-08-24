@@ -52,7 +52,7 @@ const Settings = () => {
       <Heading as="h3" size="lg">
         Settings
       </Heading>
-      <Text color="gray.500" mt={2} mb={4}>
+      <Text color="gray.600" mt={2} mb={4}>
         Adjust your account settings, preferences, and more.
       </Text>
 
@@ -96,7 +96,7 @@ const Settings = () => {
           </FormControl>
         )}
       </VStack>
-      <Box display="flex" flexDir="column" alignItems="left" gap="4" my="4">
+      <Box display="flex" flexDir="column" alignItems="left" gap="6" my="6">
         {/* Dark Mode Setting */}
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="dark-mode">
@@ -115,7 +115,7 @@ const Settings = () => {
       </Box>
 
       {/* Expandable Section for Advanced Settings */}
-      <Box mb={5}>
+      <Box mb={6}>
         <Button variant="link" color="#FF4C24" onClick={onToggle} mb={2}>
           Advanced Settings
         </Button>

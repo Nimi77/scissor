@@ -163,7 +163,7 @@ const LoginForm = () => {
                   >
                     Password
                   </FormLabel>
-                  <Link href="" color="#ED5734" className="forget-passkey">
+                  <Link href="/reset-password" color="#ED5734" className="forget-passkey">
                     Forgot password?
                   </Link>
                 </Box>

@@ -6,24 +6,29 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height:100vh;
+  height: 100vh;
 }
 a,
 input,
 button,
 p,
-li{
+li {
   font-size: 18px;
 }
-th{
-  padding-block:14px!important;
+th {
+  padding-block: 14px !important;
 }
-th,td{
-  border:1px solid black;
-  font-size:16px!important;
+th,
+td {
+  border: 1px solid black;
+  font-size: 16px !important;
 }
-.css-tdnrhj tr:nth-of-type(odd) td{
-  background:ghostwhite!important;
+td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.css-tdnrhj tr:nth-of-type(odd) td {
+  background: ghostwhite !important;
 }
 /* header navlink */
 .nav-link::after {
@@ -39,7 +44,7 @@ th,td{
 }
 .nav-link:hover {
   color: white;
-  text-decoration:none!important;
+  text-decoration: none !important;
 }
 .nav-link:hover::after {
   width: 90%;
@@ -88,17 +93,17 @@ th,td{
     background-position: 0 0;
   }
 }
-.pricing-package li{
-  display:flex;
-  text-align:center;
-  align-items:center;
-  justify-content:flex-start;
-  gap:6px;
-  color:#A1A1A1;
+.pricing-package li {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  color: #a1a1a1;
 }
 /*(authentication) styling */
-.reg-mss span{
-  font-size:16px;
+.reg-mss span {
+  font-size: 16px;
 }
 .forget-passkey,
 .register-link,
@@ -108,4 +113,4 @@ th,td{
   &:hover {
     text-decoration: underline;
   }
-};
+}

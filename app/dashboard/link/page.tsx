@@ -49,12 +49,18 @@ const UserLinks: React.FC = () => {
             "Cache-Control": "no-store",
           },
         });
-        console.log("Server response:", response);
 
         if (response.status !== 200) {
           throw new Error("Failed to fetch links");
         }
-        const data: Link[] = response.data;
+  
+        const data = response.data.map((link: any) => ({
+          id: link.id,
+          originalUrl: link.original_url,
+          customUrl: link.shortened_url,
+          createdAt: link.created_at,
+        }));
+  
         console.log(data);
         setLinks(data);
       } catch (error) {
@@ -63,13 +69,9 @@ const UserLinks: React.FC = () => {
         setTimeout(() => setLoading(false), 2000);
       }
     };
-
+  
     fetchLinks();
   }, []);
-
-  useEffect(() => {
-    console.log(links)
-  }, [links])
 
   const handleLinkCreated = (newLink: Link) => {
     setLinks((prevLinks) =>
@@ -113,7 +115,7 @@ const UserLinks: React.FC = () => {
     <Box
       bg="white"
       my={4}
-      mx={{ md: "auto", lg: 24 }}
+      mx={{ md: "auto", lg: 12 }}
       p={{ base: 4, md: 6 }}
       shadow="base"
       rounded="lg"
@@ -133,7 +135,7 @@ const UserLinks: React.FC = () => {
         }}
         _focus={{
           outline: "none",
-          boxShadow: "0 0 0 3px rgba(255, 76, 36, 0.6)",
+          boxShadow: "md",
         }}
         onClick={onOpen}
         my={6}

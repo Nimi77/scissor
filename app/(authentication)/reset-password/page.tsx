@@ -1,12 +1,12 @@
 import authOptions from "@/auth";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth"
-import RegisterForm from "./form";
+import ResetPasswordForm from "./form";
 
-export default async function Register() {
+export default async function ResetPassword() {
   const session = await getServerSession(authOptions);
   if (session) {
-    redirect("/login");
+    redirect("/signup");
   }
-  return <RegisterForm />;
+  return <ResetPasswordForm />;
 }
