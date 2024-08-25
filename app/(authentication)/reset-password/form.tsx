@@ -12,7 +12,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResetPasswordSchema } from "@/app/schemas";
@@ -23,7 +22,6 @@ const ResetPasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const router = useRouter();
 
   const {
     register,
@@ -36,7 +34,9 @@ const ResetPasswordForm = () => {
     },
   });
 
-  const handleResetPassword = async (data: z.infer<typeof ResetPasswordSchema>) => {
+  const handleResetPassword = async (
+    data: z.infer<typeof ResetPasswordSchema>
+  ) => {
     setError("");
     setSuccess("");
     setIsLoading(true);
@@ -55,7 +55,7 @@ const ResetPasswordForm = () => {
       }
     } catch (error) {
       console.error("Reset password failed", error);
-      setError("An unexpected error occurred.");
+      setError("Try again later.");
       setIsLoading(false);
     }
   };
@@ -132,8 +132,21 @@ const ResetPasswordForm = () => {
                 )}
               </FormControl>
 
-              {error && <Text color="red.500" mt={4}>{error}</Text>}
-              {success && <Text color="green.500" mt={4}>{success}</Text>}
+              {error && (
+                <Text color="red.500" mt={4}>
+                  {error}
+                </Text>
+              )}
+              {success && (
+                <Text
+                  p="6px"
+                  bgColor="rgba(34, 197, 94, 0.2)"
+                  color="green.500"
+                  mt={4}
+                >
+                  {success}
+                </Text>
+              )}
 
               <Button
                 type="submit"

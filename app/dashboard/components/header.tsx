@@ -174,10 +174,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
       {/* Logout Confirmation Modal */}
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "lg" }}>
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
-        <ModalContent
-          py={6}
-          m="auto"
-        >
+        <ModalContent py={6} m="auto">
           <ModalHeader
             p={0}
             textAlign="center"
@@ -187,10 +184,9 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
             Are You Sure You Want to Log Out?
           </ModalHeader>
           <ModalFooter mt={4}>
-            <Flex gap={10} alignItems="center">
+            <Flex gap={10} alignItems="center" justifyContent="center">
               <Button
                 variant="outline"
-                size="lg"
                 borderRadius="lg"
                 transition=".2s ease-in"
                 onClick={onClose}
@@ -199,7 +195,6 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
               </Button>
               <Button
                 colorScheme="red"
-                size="lg"
                 borderRadius="lg"
                 transition=".2s ease-in"
                 onClick={handleLogOut}

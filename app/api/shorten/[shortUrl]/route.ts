@@ -6,9 +6,6 @@ export async function GET(
   { params }: { params: { shortUrl: string } }
 ) {
   try {
-    console.log("Received short URL:", params.shortUrl);
-
-    // SQL query to retrieve the original URL from the database
     const query = `
       SELECT original_url
       FROM url_mappings
@@ -16,24 +13,26 @@ export async function GET(
     `;
 
     const result = await sql.query(query, [params.shortUrl]);
-    console.log("Database query result:", result.rows);
 
     if (result.rows.length > 0) {
       const originalUrl = result.rows[0].original_url;
       console.log("Redirecting to original URL:", originalUrl);
 
-      // Create a new response with a redirect
       const response = NextResponse.redirect(originalUrl);
 
+      //  CORS headers for  API responses
       response.headers.set(
         "Access-Control-Allow-Origin",
         "https://linktrim.vercel.app"
       );
+      response.headers.set(
+        "Access-Control-Allow-Methods",
+        "GET, POST, OPTIONS"
+      );
+      response.headers.set("Access-Control-Allow-Headers", "Content-Type");
 
       return response;
     } else {
-      console.log("URL not found for short URL:", params.shortUrl);
-
       const response = NextResponse.json(
         { message: "URL not found" },
         { status: 404 }

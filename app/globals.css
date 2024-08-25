@@ -114,3 +114,12 @@ td {
     text-decoration: underline;
   }
 }
+@media only screen and (max-width:480px){
+  td{
+    max-width:120px!important;
+    padding-inline:12px!important;
+  }
+  td:not(:last-child) {
+    line-height:19px;
+  }
+}

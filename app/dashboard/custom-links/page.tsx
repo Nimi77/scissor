@@ -80,7 +80,7 @@ const CustomURL: React.FC = () => {
         Create Custom Link
       </Heading>
       <Box as="form" onSubmit={handleSave}>
-        <Stack spacing={4}>
+        <Stack spacing={6}>
           <FormControl isRequired>
             <FormLabel>URL</FormLabel>
             <Input
@@ -112,8 +112,8 @@ const CustomURL: React.FC = () => {
           </FormControl>
 
           {customUrl && (
-            <Box mt={2} borderWidth="1px" borderRadius="lg">
-              <Heading as="h4" mb={2}>
+            <Box mt={2}>
+              <Heading as="h4" fontSize="lg" mb={2}>
                 Custom URL
               </Heading>
               <Link href={customUrl} isExternal fontWeight="bold">
@@ -129,9 +129,9 @@ const CustomURL: React.FC = () => {
             bg="#FF4C24"
             _hover={{
               transition: "0.2s ease-in",
-              bg: "#ED5734",
+              bg: "#ED5734"
             }}
-            mt={4}
+            mt={8}
           >
             Save
           </Button>

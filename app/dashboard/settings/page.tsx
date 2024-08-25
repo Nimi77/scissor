@@ -52,7 +52,7 @@ const Settings = () => {
       <Heading as="h3" size="lg">
         Settings
       </Heading>
-      <Text color="gray.600" mt={2} mb={4}>
+      <Text color="gray.600" mt={2} mb={6}>
         Adjust your account settings, preferences, and more.
       </Text>
 
@@ -96,17 +96,17 @@ const Settings = () => {
           </FormControl>
         )}
       </VStack>
-      <Box display="flex" flexDir="column" alignItems="left" gap="6" my="6">
+      <Box display="flex" flexDir="column" alignItems="left" gap="4" mt="6" mb="4">
         {/* Dark Mode Setting */}
-        <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="dark-mode">
+        <FormControl display="flex" alignItems="center" justifyContent="space-between">
+          <FormLabel htmlFor="dark-mode" m={0}>
             Dark Mode
           </FormLabel>
           <Switch id="dark-mode" colorScheme="orange" />
         </FormControl>
 
         {/* Notifications Setting */}
-        <FormControl display="flex" alignItems="center">
+        <FormControl display="flex" alignItems="center" justifyContent="space-betweeen">
           <FormLabel htmlFor="notifications">
             Enable Notifications
           </FormLabel>
@@ -116,7 +116,7 @@ const Settings = () => {
 
       {/* Expandable Section for Advanced Settings */}
       <Box mb={6}>
-        <Button variant="link" color="#FF4C24" onClick={onToggle} mb={2}>
+        <Button variant="link" textDecoration="none" color="#FF4C24" onClick={onToggle} mb={2}>
           Advanced Settings
         </Button>
         <Collapse in={isOpen} animateOpacity>
@@ -143,7 +143,7 @@ const Settings = () => {
         bg="#FF4C24"
         _hover={{
           transition: "0.2s ease-in",
-          bg: "#ED5734",
+          bg: "#ED5734"
         }}
         onClick={handleSaveChanges}
         isDisabled={isLoading}

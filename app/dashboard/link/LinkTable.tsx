@@ -10,6 +10,7 @@ import {
   useBreakpointValue,
   Link,
   Box,
+  IconButton,
 } from "@chakra-ui/react";
 import { FiEdit, FiTrash } from "react-icons/fi";
 
@@ -31,13 +32,13 @@ const LinksTable: React.FC<LinksTableProps> = ({
   onEditLink,
   onDeleteLink,
 }) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const showIconOnly = useBreakpointValue({ base: true, lg: false });
 
   return (
     <Box>
       <Table
         variant="striped"
-        size={isMobile ? "sm" : "md"}
+        size={{ base: "sm", md: "auto" }}
         bgColor="transparent"
       >
         <Thead>
@@ -61,27 +62,51 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 {link.originalUrl}
               </Td>
               <Td title={link.customUrl} maxW={{ base: "150px", md: "300px" }}>
-                <Link href={link.customUrl} isExternal>
+                <Link href={link.customUrl} fontSize="md" isExternal>
                   {link.customUrl}
                 </Link>
               </Td>
               <Td>
-                <Button
-                  variant="outline"
-                  onClick={() => onEditLink(link)}
-                  leftIcon={<FiEdit />}
-                  mr={2}
-                  mb={{ base: 0, md: 4 }}
-                >
-                  {!isMobile && "Edit"}
-                </Button>
-                <Button
-                  onClick={() => onDeleteLink(link.id)}
-                  colorScheme="red"
-                  leftIcon={<FiTrash />}
-                >
-                  {!isMobile && "Delete"}
-                </Button>
+                {showIconOnly ? (
+                  <>
+                    <IconButton
+                      aria-label="Edit"
+                      icon={<FiEdit />}
+                      variant="outline"
+                      onClick={() => onEditLink(link)}
+                      mr={{base: 0, md: 4}}
+                      mb={{base: 2}}
+                    />
+                    <IconButton
+                      aria-label="Delete"
+                      icon={<FiTrash />}
+                      onClick={() => onDeleteLink(link.id)}
+                      colorScheme="red"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      onClick={() => onEditLink(link)}
+                      leftIcon={<FiEdit />}
+                      w="80px"
+                      h="80px"
+                      mr={4}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      onClick={() => onDeleteLink(link.id)}
+                      colorScheme="red"
+                      leftIcon={<FiTrash />}
+                      w="80px"
+                      h="80px"
+                    >
+                      Delete
+                    </Button>
+                  </>
+                )}
               </Td>
             </Tr>
           ))}

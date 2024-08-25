@@ -15,34 +15,54 @@ export default function RedirectPage({
   const router = useRouter();
 
   useEffect(() => {
+    console.log("params.shortUrl:", params.shortUrl);
+
     const fetchOriginalUrl = async () => {
+      console.log("Starting fetchOriginalUrl with shortUrl:", params.shortUrl);
+
       try {
-        // Fetching the original URL based on the shortUrl
+        console.log(
+          "Making API request to:",
+          `/api/shorten/${params.shortUrl}`
+        );
         const response = await axios.get(`/api/shorten/${params.shortUrl}`);
+        console.log("Received API response:", response);
+
         const data = response.data;
+        console.log("Data from API response:", data);
 
         if (data.originalUrl) {
           console.log("Redirecting to:", data.originalUrl);
+
           // A delay to show the redirect message
           setTimeout(() => {
             router.push(data.originalUrl);
           }, 1000);
         } else {
+          console.error("No originalUrl in response data.");
           setError("Invalid or expired URL.");
         }
       } catch (error) {
+        console.error("Error occurred while fetching original URL:", error);
         setError("An error occurred while redirecting...");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOriginalUrl();
+    if (params.shortUrl) {
+      fetchOriginalUrl();
+    }
   }, [params.shortUrl, router]);
 
   if (loading) {
     return (
-      <Box textAlign="center" mt="20%">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minH="100vh"
+      >
         <Spinner size="xl" color="gray.900" />
         <Text mt={4} fontSize="lg">
           Redirecting to page...
@@ -53,7 +73,12 @@ export default function RedirectPage({
 
   if (error) {
     return (
-      <Box textAlign="center" mt="20%">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        minH="100vh"
+      >
         <Text color="red.500" fontSize="lg">
           {error}
         </Text>
@@ -64,64 +89,3 @@ export default function RedirectPage({
   // Return null since the user is redirected
   return null;
 }
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import { Spinner, Box, Text } from "@chakra-ui/react";
-// import axios from "axios";
-// import { useRouter } from "next/navigation";
-
-// export default function RedirectPage({
-//   params,
-// }: {
-//   params: { shortUrl: string };
-// }) {
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const fetchUrl = async () => {
-//       try {
-//         const response = await axios.get(`/api/shorten/${params.shortUrl}`);
-//         const data = response.data;
-
-//         if (data.originalUrl) {
-//           console.log("Redirecting to:", data.originalUrl);
-//           router.push(data.originalUrl);
-//         } else {
-//           setError("Invalid or expired URL.");
-//         }
-//       } catch (error) {
-//         setError("An error occurred while redirecting...");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUrl();
-//   }, [params.shortUrl, router]);
-
-//   if (loading) {
-//     return (
-//       <Box textAlign="center" mt="20%">
-//         <Spinner size="xl" color="gray.900" />
-//         <Text mt={4} fontSize="lg">
-//           Redirecting to page...
-//         </Text>
-//       </Box>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <Box textAlign="center" mt="20%">
-//         <Text color="red.500" fontSize="lg">
-//           {error}
-//         </Text>
-//       </Box>
-//     );
-//   }
-
-//   return null;
-// }

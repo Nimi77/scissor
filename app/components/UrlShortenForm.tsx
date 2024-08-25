@@ -58,7 +58,7 @@ const UrlShortenForm: React.FC = () => {
       setError(response.data.message || "Something went wrong");
     }
   } catch (error) {
-    setError("Error Shortening URL");
+    setError("Error shortening URL, try again.");
   } finally {
     setLoading(false);
   }

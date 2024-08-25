@@ -75,9 +75,7 @@ const UserLinks: React.FC = () => {
 
   const handleLinkCreated = (newLink: Link) => {
     setLinks((prevLinks) =>
-      linkToEdit
-        ? prevLinks.map((link) => (link.id === newLink.id ? newLink : link))
-        : [...prevLinks, newLink]
+      prevLinks.map((link) => (link.id === newLink.id ? { ...link, ...newLink } : link))
     );
     setLinkToEdit(null);
     onClose();
