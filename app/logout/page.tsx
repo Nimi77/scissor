@@ -16,9 +16,9 @@ const Logout = () => {
         px={6}
         py={14}
         w={{ base: "auto", md: "xl" }}
-        bgColor="white"
-        borderRadius="lg"
-        boxShadow="md"
+        bgColor={{base:"none", md:"white"}}
+        borderRadius={{base:"none", md:"lg"}}
+        boxShadow={{base:"none", md:"md"}}
         textAlign="center"
         _hover={{ boxShadow: "base" }}
       >
@@ -29,11 +29,10 @@ const Logout = () => {
           Are you sure you want to log out?
         </Text>
 
-        <Box display="flex" gap="4" alignItems="center" justifyContent="center">
+        <Box display="flex" gap="6" alignItems="center" justifyContent="center">
           <Link href="/dashboard">
             <Button
               variant="outline"
-              size="lg"
               borderRadius="lg"
               _hover={{
                 transition: ".3s ease-in",
@@ -44,7 +43,6 @@ const Logout = () => {
             </Button>
           </Link>
           <Button
-            size="lg"
             borderRadius="lg"
             onClick={handleLogout}
             colorScheme="red"

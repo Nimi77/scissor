@@ -13,22 +13,7 @@ input,
 button,
 p,
 li {
-  font-size: 18px;
-}
-th {
-  padding-block: 14px !important;
-}
-th,
-td {
-  border: 1px solid black;
-  font-size: 16px !important;
-}
-td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.css-tdnrhj tr:nth-of-type(odd) td {
-  background: ghostwhite !important;
+  font-size: 1.125rem;
 }
 /* header navlink */
 .nav-link::after {
@@ -103,7 +88,9 @@ td {
 }
 /*(authentication) styling */
 .reg-mss span {
-  font-size: 16px;
+  font-size: 1rem;
+  color: #4caf50;
+  font-weight: 600;
 }
 .forget-passkey,
 .register-link,
@@ -114,12 +101,36 @@ td {
     text-decoration: underline;
   }
 }
-@media only screen and (max-width:480px){
-  td{
-    max-width:120px!important;
-    padding-inline:12px!important;
+
+/* dashboard links table  */
+.links-table th {
+  padding: 14px !important;
+}
+.links-table {
+  & th,
+  td {
+    border: 1px solid black;
+    font-size: 1rem !important;
+    padding-inline: 12px;
   }
-  td:not(:last-child) {
-    line-height:19px;
+}
+.links-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.css-tdnrhj tr:nth-of-type(odd) td {
+  background: ghostwhite !important;
+}
+.links-table .l-buttons button {
+  width: 5rem;
+  height: 2.5rem;
+}
+
+@media only screen and (max-width: 480px) {
+  .links-table td {
+    max-width: 120px !important;
+  }
+  .links-table td:not(:last-child) {
+    line-height: 19px;
   }
 }

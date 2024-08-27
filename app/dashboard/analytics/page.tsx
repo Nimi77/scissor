@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState, useEffect } from "react";
 import {
@@ -7,11 +7,12 @@ import {
   Heading,
   useToast,
   Spinner,
-  SimpleGrid,
   VStack,
+  Icon,
+  Flex,
 } from "@chakra-ui/react";
+import { FaChartLine } from "react-icons/fa";
 import axios from "axios";
-import { Title, AreaChart } from "@tremor/react";
 
 interface LinkAnalytics {
   id: number;
@@ -59,14 +60,14 @@ const Analytics: React.FC = () => {
   }, [toast]);
 
   return (
-    <Box p={{ base: 4, md: 6 }} mx={{ base: "auto", md: 24 }} my={4}>
+    <Box p={{ base: 4, md: 6 }} mx={{ base: "auto", md: 6 }} my={4}>
       <Box>
         <Heading as="h3" size="lg">
           Track your links
         </Heading>
         <Text color="gray.600" my={4}>
           View and manage all your shortened links. Track analytics such as the
-          number of clicks and unique visitors.
+          number of clicks.
         </Text>
       </Box>
 
@@ -85,23 +86,16 @@ const Analytics: React.FC = () => {
               bgColor="white"
               aria-label={`Link analytics for ${link.customUrl}`}
             >
-              <Title className="card-title">{link.customUrl}</Title>
-              <Text mb={4} color="gray.600">
-                Clicks Over Time
+              <Text fontWeight="600" mb={2}>
+                {link.customUrl}
               </Text>
-              <AreaChart
-                data={[
-                  {
-                    date: new Date(link.createdAt).toLocaleDateString(),
-                    clicks: link.clicks,
-                  },
-                ]}
-                categories={["clicks"]}
-                index="date"
-                colors={["purple"]}
-                valueFormatter={(number) => `${number} clicks`}
-                yAxisWidth={40}
-              />
+              <Flex alignItems="center" justifyContent="space-between">
+                <Text color="gray.600">Clicks Over Time</Text>
+                <Text color="gray.600">
+                  <Icon as={FaChartLine} mr={2} color="gray.900" />
+                  {link.clicks}
+                </Text>
+              </Flex>
             </Box>
           ))}
         </VStack>

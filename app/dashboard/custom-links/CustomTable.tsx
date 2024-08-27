@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import {
   Table,
@@ -21,13 +23,13 @@ interface Link {
   createdAt: string;
 }
 
-interface LinksTableProps {
+interface CustomTableProps {
   links: Link[];
   onEditLink: (link: Link) => void;
   onDeleteLink: (id: string) => Promise<void>;
 }
 
-const LinksTable: React.FC<LinksTableProps> = ({
+const CustomLinkTable: React.FC<CustomTableProps> = ({
   links,
   onEditLink,
   onDeleteLink,
@@ -115,4 +117,4 @@ const LinksTable: React.FC<LinksTableProps> = ({
   );
 };
 
-export default LinksTable;
+export default CustomLinkTable;

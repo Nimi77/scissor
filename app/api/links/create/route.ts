@@ -30,10 +30,10 @@ export const POST = async (req: NextRequest) => {
     }
 
     const result = await sql`
-      INSERT INTO user_links (user_email, original_url, shortened_url, custom_domain, custom_path)
-      VALUES (${token.email}, ${originalUrl}, ${customUrl}, ${customDomain}, ${customPath})
-      RETURNING *;
-    `;
+    INSERT INTO user_links (user_email, original_url, shortened_url, custom_domain, custom_path, clicks)
+    VALUES (${token.email}, ${originalUrl}, ${customUrl}, ${customDomain}, ${customPath}, 0)
+    RETURNING *;
+  `;
 
     return NextResponse.json(result.rows[0], { status: 200 });
   } catch (error) {

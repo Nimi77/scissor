@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { sql } from "@vercel/postgres";
+import { z } from "zod";
+
+const urlSchema = z.string().url();
 
 export async function PATCH(req: NextRequest) {
   const session = await getToken({ req });
@@ -19,18 +22,23 @@ export async function PATCH(req: NextRequest) {
     const body = await req.json();
     const { customDomain, customPath } = body;
 
-    if (!customDomain && !customPath) {
-      return NextResponse.json(
-        { message: "Either custom domain or custom path must be provided" },
-        { status: 400 }
-      );
+    let customUrl = customDomain ? `https://${customDomain}` : "";
+    if (customPath) {
+      customUrl = customUrl
+        ? `${customUrl}/${customPath}`
+        : `https://${customDomain}/${customPath}`;
+    }
+
+    if (customDomain) {
+      urlSchema.parse(customUrl);
     }
 
     const result = await sql`
       UPDATE user_links
       SET 
-        custom_domain = COALESCE(${customDomain}, custom_domain), 
-        custom_path = COALESCE(${customPath}, custom_path)
+        custom_domain = COALESCE(${customDomain}, custom_domain),
+        custom_path = COALESCE(${customPath}, custom_path),
+        shortened_url = ${customUrl} 
       WHERE id = ${id} AND user_email = ${session.email}
       RETURNING *;
     `;
@@ -46,13 +54,13 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(result.rows[0], { status: 200 });
   } catch (error) {
+    console.error("Error updating link:", error);
     return NextResponse.json(
       { message: "Failed to update link" },
       { status: 500 }
     );
   }
 }
-
 
 export async function DELETE(req: NextRequest) {
   const session = await getToken({ req });
@@ -95,32 +103,32 @@ export async function DELETE(req: NextRequest) {
 
 // GET method for redirecting to the original URL
 export async function GET(req: NextRequest) {
-  // Get the custom domain from the hostname
-  const customDomain = req.nextUrl.hostname;
+  const { hostname: customDomain, pathname: customPath } = req.nextUrl;
+  
+  // Remove leading slash from customPath if present
+  const modifiedCustomPath = customPath.startsWith("/") ? customPath.slice(1) : customPath;
 
   try {
-    console.log(`Incoming request to custom domain: ${customDomain}`);
-   
+    console.log(`Incoming request with custom domain: ${customDomain}`);
+    
     const result = await sql`
-      SELECT original_url
-      FROM user_links
+      UPDATE user_links
+      SET clicks = clicks + 1
       WHERE custom_domain = ${customDomain}
-      LIMIT 1;
+        AND (custom_path = ${modifiedCustomPath} OR ${modifiedCustomPath} = '')
+      RETURNING original_url;
     `;
  
     console.log("SQL Query Result:", result);
 
     if (result.rowCount === 0) {
-      console.warn(`No URL found for custom domain: ${customDomain}`);
+      console.warn(`No URL found for custom domain: ${customDomain} and path: ${modifiedCustomPath}`);
       return NextResponse.json({ message: "URL not found" }, { status: 404 });
     }
 
     const originalUrl = result.rows[0].original_url;
-
-    // the original URL that will be used for the redirect
     console.log(`Redirecting to original URL: ${originalUrl}`);
 
-    // Redirect to the original URL
     return NextResponse.redirect(originalUrl, 301);
   } catch (error) {
     console.error("Error occurred while redirecting to original URL:", error);

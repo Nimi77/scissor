@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState } from "react";
 import {
@@ -13,84 +13,84 @@ import {
 import { isURL } from "validator";
 import axios from "axios";
 
-interface LinkFormProps {
-  onLinkCreated: (link: any) => void;
-  linkToEdit?: {
+interface ModalFormProps {
+  onLinkUpdated: (link: any) => void;
+  linkToEdit: {
     id: string;
     originalUrl: string;
     customDomain?: string;
     customPath?: string;
     customUrl: string;
-  } | null;
+  };
 }
 
-const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
+const CustomLinkForm: React.FC<ModalFormProps> = ({
+  onLinkUpdated,
+  linkToEdit,
+}) => {
   const [originalUrl, setOriginalUrl] = useState<string>(
-    linkToEdit?.originalUrl || ""
+    linkToEdit.originalUrl
   );
   const [customDomain, setCustomDomain] = useState<string>(
-    linkToEdit?.customDomain || ""
+    linkToEdit.customDomain || ""
   );
   const [customPath, setCustomPath] = useState<string>(
-    linkToEdit?.customPath || ""
+    linkToEdit.customPath || ""
   );
   const [customUrl, setCustomUrl] = useState<string>(
-    linkToEdit?.customUrl || ""
+    linkToEdit.customUrl || ""
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const toast = useToast();
-   
-  const isEditing = !!linkToEdit;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
+    console.log("Form submitted:", {
+      originalUrl,
+      customDomain,
+      customPath,
+      customUrl,
+    });
+
     // Validate the original URL
     if (!isURL(originalUrl)) {
       setError("Please enter a valid URL.");
       return;
     }
-  
+
     setError("");
     setCustomUrl("");
     setLoading(true);
-  
+
     try {
       let fullCustomUrl = customDomain;
       if (customDomain) {
-        fullCustomUrl = customPath ? `https://${customDomain}/${customPath}` : `https://${customDomain}`;
+        fullCustomUrl = customPath
+          ? `https://${customDomain}/${customPath}`
+          : `https://${customDomain}`;
       }
-  
+
       // Validation for the custom URL
-      if (customDomain) {
-        if (!isURL(fullCustomUrl)) {
-          setError("The custom domain or path is not valid.");
-          return;
-        }
+      if (customDomain && !isURL(fullCustomUrl)) {
+        setError("The custom domain or path is not valid.");
+        return;
       }
-  
-      const response = await axios({
-        method: isEditing ? "PATCH" : "POST",
-        url: isEditing ? `/api/links/${linkToEdit!.id}` : "/api/links/create",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          originalUrl,
-          customDomain,
-          customPath,
-        },
+
+      const response = await axios.patch(`/api/links/${linkToEdit.id}`, {
+        originalUrl,
+        customDomain,
+        customPath,
       });
-  
+
+      console.log("Server response:", response.data);
+
       if (response.status === 200) {
-        if (!isEditing) {
-          setCustomUrl(response.data.shortened_url);
-        }
-        onLinkCreated(response.data);
+        onLinkUpdated(response.data);
         toast({
           title: "Success!",
-          description: "URL saved successfully.",
+          description: "Update successfully.",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -98,10 +98,16 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
         });
       } else {
         setError(response.data.message || "Something went wrong");
+        console.log(
+          "Error response status:",
+          response.status,
+          "Message:",
+          response.data.message
+        );
       }
     } catch (error) {
-      console.error("Error saving link:", error);
-      setError("Error shortening URL");
+      console.error("Error updating link:", error);
+      setError("Error updating URL");
     } finally {
       setLoading(false);
     }
@@ -117,7 +123,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
             onChange={(e) => setOriginalUrl(e.target.value)}
             focusBorderColor="#ED5734"
             placeholder="Enter URL"
-            isReadOnly={isEditing}
+            isReadOnly
           />
         </FormControl>
 
@@ -162,11 +168,11 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated, linkToEdit }) => {
           }}
           isLoading={loading}
         >
-          {linkToEdit ? "Save" : "Create Link"}
+          Save Changes
         </Button>
       </Stack>
     </Box>
   );
 };
 
-export default LinkForm;
+export default CustomLinkForm;

@@ -77,7 +77,7 @@ const QRCodeGenerator = () => {
       shadow="md"
       borderRadius="lg"
       my={4} 
-      mx={{base:"auto", md: 24}}
+      mx={{ base: "auto", md: 6 }}
       p={{ base: 4, md: 6 }}
       direction="column"
       aria-labelledby="qr-form-heading"

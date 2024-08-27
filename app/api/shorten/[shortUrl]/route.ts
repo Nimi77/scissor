@@ -16,33 +16,12 @@ export async function GET(
 
     if (result.rows.length > 0) {
       const originalUrl = result.rows[0].original_url;
-      console.log("Redirecting to original URL:", originalUrl);
+      console.log("Found original URL:", originalUrl);
 
-      const response = NextResponse.redirect(originalUrl);
-
-      //  CORS headers for  API responses
-      response.headers.set(
-        "Access-Control-Allow-Origin",
-        "https://linktrim.vercel.app"
-      );
-      response.headers.set(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS"
-      );
-      response.headers.set("Access-Control-Allow-Headers", "Content-Type");
-
-      return response;
+      return NextResponse.json({ originalUrl });
     } else {
-      const response = NextResponse.json(
-        { message: "URL not found" },
-        { status: 404 }
-      );
-      response.headers.set(
-        "Access-Control-Allow-Origin",
-        "https://linktrim.vercel.app"
-      );
-
-      return response;
+      console.log("URL not found");
+      return NextResponse.json({ message: "URL not found" }, { status: 404 });
     }
   } catch (error) {
     console.error("Error fetching original URL:", error);
@@ -50,10 +29,6 @@ export async function GET(
     const response = NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }
-    );
-    response.headers.set(
-      "Access-Control-Allow-Origin",
-      "https://linktrim.vercel.app"
     );
 
     return response;

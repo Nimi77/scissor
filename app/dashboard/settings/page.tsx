@@ -44,7 +44,7 @@ const Settings = () => {
     <Box
       bgColor="white"
       p={{ base: 4, md: 6 }}
-      mx={{ base: "auto", md: 24 }}
+      mx={{ base: "auto", md: 6 }}
       my={4}
       borderRadius="lg"
       shadow="md"
@@ -106,8 +106,8 @@ const Settings = () => {
         </FormControl>
 
         {/* Notifications Setting */}
-        <FormControl display="flex" alignItems="center" justifyContent="space-betweeen">
-          <FormLabel htmlFor="notifications">
+        <FormControl display="flex" alignItems="center" justifyContent="space-between">
+          <FormLabel htmlFor="notifications" m={0}>
             Enable Notifications
           </FormLabel>
           <Switch id="notifications" colorScheme="orange" />

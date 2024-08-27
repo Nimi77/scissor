@@ -77,7 +77,6 @@ const RegisterForm = () => {
           error.response?.data?.error || "An error occurred. Please try again."
         );
       } else {
-        // Handle unknown error
         setServerMessage("An unexpected error occurred. Please try again.");
       }
     }
@@ -217,22 +216,20 @@ const RegisterForm = () => {
                   {status === "registering" && (
                     <Box {...statusStyles}>
                       <Spinner size="sm" mr={2} color="green.500" />
-                      <span color="green.500">Registering...</span>
+                      <span>Registering...</span>
                     </Box>
                   )}
                   {status === "success" && (
                     <Box {...statusStyles}>
                       <CheckCircleIcon color="green.500" boxSize={4} mr={2} />
-                      <Text color="green.500" fontWeight="bold">
+                      <Text color="green.500" fontWeight="600">
                         {serverMessage}
                       </Text>
                     </Box>
                   )}
                   {status === "redirecting" && (
                     <Box {...statusStyles}>
-                      <span color="green.500">
-                        Redirecting to login page...
-                      </span>
+                      <span>Redirecting to login page...</span>
                     </Box>
                   )}
                   {status === "error" && (

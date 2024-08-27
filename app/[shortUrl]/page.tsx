@@ -18,30 +18,35 @@ export default function RedirectPage({
     console.log("params.shortUrl:", params.shortUrl);
 
     const fetchOriginalUrl = async () => {
-      console.log("Starting fetchOriginalUrl with shortUrl:", params.shortUrl);
-
       try {
-        console.log(
-          "Making API request to:",
-          `/api/shorten/${params.shortUrl}`
-        );
-        const response = await axios.get(`/api/shorten/${params.shortUrl}`);
+        console.log("Making API request to:", `/api/shorten/${params.shortUrl}`);
+        
+        const response = await axios.get(`/api/shorten/${params.shortUrl}`, {
+          maxRedirects: 0,
+        });
+    
         console.log("Received API response:", response);
-
-        const data = response.data;
-        console.log("Data from API response:", data);
-
-        if (data.originalUrl) {
-          console.log("Redirecting to:", data.originalUrl);
-
-          // A delay to show the redirect message
-          setTimeout(() => {
-            router.push(data.originalUrl);
-          }, 1000);
+    
+        // Checking if the content type is JSON
+        if (response.headers['content-type'].includes('application/json')) {
+          const data = response.data;
+          console.log("Data from API response:", data);
+    
+          if (data.originalUrl) {
+            console.log("Redirecting to:", data.originalUrl);
+    
+            setTimeout(() => {
+              router.push(data.originalUrl);
+            }, 2000);
+          } else {
+            console.error("No originalUrl in response data.");
+            setError("Invalid or expired URL.");
+          }
         } else {
-          console.error("No originalUrl in response data.");
-          setError("Invalid or expired URL.");
+          console.error("Received non-JSON response:", response.data);
+          setError("Invalid response from server.");
         }
+    
       } catch (error) {
         console.error("Error occurred while fetching original URL:", error);
         setError("An error occurred while redirecting...");
@@ -49,6 +54,7 @@ export default function RedirectPage({
         setLoading(false);
       }
     };
+    
 
     if (params.shortUrl) {
       fetchOriginalUrl();
@@ -63,7 +69,7 @@ export default function RedirectPage({
         justifyContent="center"
         minH="100vh"
       >
-        <Spinner size="xl" color="gray.900" />
+        <Spinner size="sm" color="gray.900" mr="4" />
         <Text mt={4} fontSize="lg">
           Redirecting to page...
         </Text>

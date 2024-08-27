@@ -1,144 +1,201 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Input,
   Button,
-  FormControl,
-  FormLabel,
-  Stack,
-  useToast,
-  Container,
-  Heading,
-  Link,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  ModalFooter,
+  useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import axios from "axios";
+import CustomLinkForm from "./ModalForm";
+import CustomLinkTable from "./CustomTable";
+import LinkTableSkeleton from "./TableSkeleton";
+import CustomForm from "./CustomForm";
 
-const CustomURL: React.FC = () => {
-  const [originalUrl, setOriginalUrl] = useState<string>("");
-  const [customDomain, setCustomDomain] = useState<string>("");
-  const [customPath, setCustomPath] = useState<string>("");
-  const [customUrl, setCustomUrl] = useState<string>("");
-  const toast = useToast();
+interface Link {
+  id: string;
+  originalUrl: string;
+  customDomain?: string;
+  customPath?: string;
+  customUrl: string;
+  createdAt: string;
+}
 
-  const handleSave = async (event: React.FormEvent) => {
-    event.preventDefault();
+const CustomLink: React.FC = () => {
+  const [showTable, setShowTable] = useState<boolean>(false);
+  const [links, setLinks] = useState<Link[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
+  const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose,
+  } = useDisclosure();
 
-    try {
-      const response = await axios.post("/api/links/create", {
-        originalUrl,
-        customDomain,
-        customPath,
-      });
-
-      if (response.status === 200) {
-        const data = response.data;
-
-        toast({
-          title: "Success!",
-          description: "Link saved successfully.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const response = await axios.get("/api/links", {
+          headers: {
+            "Cache-Control": "no-store",
+          },
         });
 
-        // Display the custom URL to the user
-        setCustomUrl(data.shortened_url);
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch links");
+        }
 
-        // Reset the form
-        setOriginalUrl("");
-        setCustomDomain("");
-        setCustomPath("");
-      } else {
-        throw new Error(response.data.message || "Failed to save link");
+        const data = response.data.map((link: any) => ({
+          id: link.id,
+          originalUrl: link.original_url,
+          customUrl: link.shortened_url,
+          createdAt: link.created_at,
+          customDomain: link.custom_domain,
+          customPath: link.custom_path,
+        }));
+
+        setLinks(data);
+      } catch (error) {
+        console.error("Error fetching links:", error);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    fetchLinks();
+  }, []);
+
+  const handleLinkUpdated = (newLink: Link) => {
+    setLinks((prevLinks) =>
+      prevLinks.map((link) =>
+        link.id === newLink.id ? { ...link, ...newLink } : link
+      )
+    );
+
+    console.log("Updated Links Array:", links);
+    setLinkToEdit(null);
+    onClose();
+  };
+
+  const handleEditLink = (link: Link) => {
+    setLinkToEdit(link);
+    onOpen();
+  };
+
+  const handleDeleteLink = async (id: string) => {
+    try {
+      const response = await axios.delete(`/api/links/${id}`);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to delete link");
+      }
+
+      setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
+      onDeleteModalClose();
     } catch (error) {
-      console.error("Error saving link:", error);
-      toast({
-        title: "Error!",
-        description: "Failed to save link.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
+      console.error("Error deleting link:", error);
     }
   };
 
+  const confirmDeleteLink = async (id: string): Promise<void> => {
+    return new Promise((resolve) => {
+      setLinkToDelete(id);
+      onDeleteModalOpen();
+      resolve();
+    });
+  };
+
   return (
-    <Box
-      bgColor="white"
-      shadow="md"
-      rounded="lg"  
-      p={{ base: 4, md: 6 }}
-      mx={{ base: "auto", md: 24 }}
-      my={4}
-    >
-      <Heading as="h3" size="lg" mb={6}>
-        Create Custom Link
-      </Heading>
-      <Box as="form" onSubmit={handleSave}>
-        <Stack spacing={6}>
-          <FormControl isRequired>
-            <FormLabel>URL</FormLabel>
-            <Input
-              value={originalUrl}
-              onChange={(e) => setOriginalUrl(e.target.value)}
-              focusBorderColor="#ED5734"
-              placeholder="Enter URL"
-            />
-          </FormControl>
+    <Box my={4} mx={{ base: "auto", md: 6 }} p={{ base: 4, md: 6 }}>
+      <CustomForm />
 
-          <FormControl>
-            <FormLabel>Custom Domain</FormLabel>
-            <Input
-              value={customDomain}
-              onChange={(e) => setCustomDomain(e.target.value)}
-              focusBorderColor="#ED5734"
-              placeholder="mycustomdomain.com"
-            />
-          </FormControl>
+      <Button mt={4} variant="link" onClick={() => setShowTable(!showTable)}>
+        {showTable ? "Hide Custom Links Table" : "Show Custom Links Table"}
+      </Button>
 
-          <FormControl>
-            <FormLabel>Custom Path</FormLabel>
-            <Input
-              value={customPath}
-              onChange={(e) => setCustomPath(e.target.value)}
-              focusBorderColor="#ED5734"
-              placeholder="custompath"
+      {showTable && (
+        <Box>
+          {loading ? (
+            <LinkTableSkeleton />
+          ) : links.length === 0 ? (
+            <Text>No link created yet. Start by creating a new link!</Text>
+          ) : (
+            <CustomLinkTable
+              links={links}
+              onEditLink={handleEditLink}
+              onDeleteLink={confirmDeleteLink}
             />
-          </FormControl>
-
-          {customUrl && (
-            <Box mt={2}>
-              <Heading as="h4" fontSize="lg" mb={2}>
-                Custom URL
-              </Heading>
-              <Link href={customUrl} isExternal fontWeight="bold">
-                {customUrl}
-              </Link>
-            </Box>
           )}
+        </Box>
+      )}
 
-          <Button
-            type="submit"        
-            color="white"
-            borderRadius="lg"
-            bg="#FF4C24"
-            _hover={{
-              transition: "0.2s ease-in",
-              bg: "#ED5734"
-            }}
-            mt={8}
-          >
-            Save
-          </Button>
-        </Stack>
-      </Box>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "sm", md: "lg" }}
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent m="auto">
+          <ModalHeader>Edit Custom Url</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {linkToEdit && (
+              <CustomLinkForm
+                onLinkUpdated={handleLinkUpdated}
+                linkToEdit={linkToEdit}
+              />
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+        isCentered
+        size={{ base: "sm", md: "lg" }}
+      >
+        <ModalOverlay />
+        <ModalContent m="auto">
+          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              Are you sure you want to delete this link? This action cannot be
+              undone.
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="red"
+              onClick={async () => {
+                await handleDeleteLink(linkToDelete!);
+                onDeleteModalClose();
+              }}
+              mr={3}
+            >
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={onDeleteModalClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
 
-export default CustomURL;
+export default CustomLink;

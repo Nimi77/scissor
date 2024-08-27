@@ -10,8 +10,10 @@ import {
   Text,
   Flex,
   Spinner,
+  Link,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import { CheckCircleIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResetPasswordSchema } from "@/app/schemas";
@@ -19,9 +21,11 @@ import * as z from "zod";
 import axios from "axios";
 
 const ResetPasswordForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "redirecting" | "error"
+  >("idle");
+  const [serverMessage, setServerMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -30,50 +34,79 @@ const ResetPasswordForm = () => {
   } = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
-      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const handleResetPassword = async (
     data: z.infer<typeof ResetPasswordSchema>
   ) => {
-    setError("");
-    setSuccess("");
-    setIsLoading(true);
+    setStatus("submitting");
+    setServerMessage(null);
+
+    const { confirmPassword, ...formData } = data;
 
     try {
-      const response = await axios.post("/api/auth/reset-password", {
-        email: data.email,
-      });
+      const token = new URLSearchParams(window.location.search).get("token");
+      const response = await axios.post(
+        "/api/auth/reset-password",
+        { ...formData, token },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 200) {
-        setSuccess("A password reset link has been sent to your email.");
-        setIsLoading(false);
+        setStatus("success");
+        setServerMessage(response.data.message);
+
+        setStatus("redirecting");
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
       } else {
-        setError("Failed to send reset link. Please try again.");
-        setIsLoading(false);
+        setStatus("error");
+        setServerMessage(response.data.error);
       }
     } catch (error) {
-      console.error("Reset password failed", error);
-      setError("Try again later.");
-      setIsLoading(false);
+      setStatus("error");
+      if (axios.isAxiosError(error)) {
+        setServerMessage(
+          error.response?.data?.error || "An error occurred. Please try again."
+        );
+      } else {
+        setServerMessage("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
   const handleInputChange = () => {
-    setError("");
-    setSuccess("");
+    setServerMessage(null);
+  };
+
+  const statusStyles = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    bg: "rgba(34, 197, 94, 0.2)",
+    borderRadius: "md",
+    p: "6px",
+    width: "max-content",
+    fontSize: "16px",
   };
 
   return (
     <Box
-      display="flex"
-      minH="100vh"
+      display="grid"
+      h="100vh"
+      placeItems="center"
       alignItems="center"
-      justifyContent="center"
       bg="white"
     >
-      <Box maxW="md" className="reset-password-wrapper">
+      <Box maxW="md" className="register-wrapper">
         <Flex
           flexDir="column"
           alignItems="center"
@@ -81,7 +114,7 @@ const ResetPasswordForm = () => {
           color="black"
           className="container"
         >
-          <Box className="reset-password-heading">
+          <Box className="register-heading">
             <Box display="flex" alignItems="center" justifyContent="center">
               <Text
                 as="span"
@@ -104,77 +137,114 @@ const ResetPasswordForm = () => {
               Reset your password
             </Text>
           </Box>
-          <Box
-            mt={8}
-            mb={4}
-            width={{ base: "18rem", md: "20rem", lg: "26rem" }}
-          >
+          <Box mt={8} mb={4} width={{ md: "20rem", lg: "26rem" }}>
             <form onSubmit={handleSubmit(handleResetPassword)} method="POST">
-              <FormControl isInvalid={!!errors.email}>
-                <FormLabel htmlFor="email" fontSize="lg" color="gray.900">
-                  Email address
+              <FormControl my={4} isInvalid={!!errors.password}>
+                <FormLabel htmlFor="password" fontSize="lg" color="gray.900">
+                  New Password
                 </FormLabel>
                 <Input
-                  id="email"
-                  {...register("email")}
-                  type="email"
-                  autoComplete="email"
-                  focusBorderColor="#ED5734"
-                  placeholder="Enter your email"
-                  onChange={handleInputChange}
-                  isDisabled={isLoading}
+                  id="password"
+                  {...register("password")}
+                  type="password"
+                  autoComplete="new-password"
                   w="100%"
+                  focusBorderColor="#ED5734"
+                  placeholder="New Password"
+                  onChange={handleInputChange}
+                  isDisabled={status === "submitting"}
                 />
-                {errors.email && (
+                {errors.password && (
                   <Text color="red.500" mt={1}>
-                    {errors.email.message}
+                    {errors.password.message}
                   </Text>
                 )}
               </FormControl>
 
-              {error && (
-                <Text color="red.500" mt={4}>
-                  {error}
-                </Text>
-              )}
-              {success && (
-                <Text
-                  p="6px"
-                  bgColor="rgba(34, 197, 94, 0.2)"
-                  color="green.500"
-                  mt={4}
+              <FormControl mb={4} isInvalid={!!errors.confirmPassword}>
+                <FormLabel
+                  htmlFor="confirmPassword"
+                  fontSize="lg"
+                  color="gray.900"
                 >
-                  {success}
-                </Text>
+                  Confirm New Password
+                </FormLabel>
+                <Input
+                  id="confirmPassword"
+                  {...register("confirmPassword")}
+                  type="password"
+                  autoComplete="new-password"
+                  w="100%"
+                  focusBorderColor="#ED5734"
+                  placeholder="Confirm New Password"
+                  onChange={handleInputChange}
+                  isDisabled={status === "submitting"}
+                />
+                {errors.confirmPassword && (
+                  <Text color="red.500" mt={1}>
+                    {errors.confirmPassword.message}
+                  </Text>
+                )}
+              </FormControl>
+
+              {status !== "idle" && (
+                <Box className="text-left">
+                  {status === "submitting" && (
+                    <Box {...statusStyles}>
+                      <Spinner size="sm" mr={2} color="green.500" />
+                      <Text color="green.500">Submitting...</Text>
+                    </Box>
+                  )}
+                  {status === "success" && (
+                    <Box {...statusStyles}>
+                      <CheckCircleIcon color="green.500" boxSize={4} mr={2} />
+                      <Text color="green.500" fontWeight="bold">
+                        {serverMessage}
+                      </Text>
+                    </Box>
+                  )}
+                  {status === "redirecting" && (
+                    <Box {...statusStyles}>
+                      <Text color="green.500">
+                        Redirecting to login page...
+                      </Text>
+                    </Box>
+                  )}
+                  {status === "error" && (
+                    <Box className="text-red-500">
+                      <Text>{serverMessage}</Text>
+                    </Box>
+                  )}
+                </Box>
               )}
 
               <Button
                 type="submit"
                 w="100%"
-                h="2.5rem"
+                h="2.4rem"
                 mt={6}
-                fontWeight={600}
+                fontWeight="600"
                 fontSize="lg"
                 color="white"
-                bg="#FF4C24"
-                borderRadius="lg"
-                boxShadow="md"
-                _hover={{
-                  bg: "#ED5734",
-                  transition: "0.3s ease-in",
-                }}
-                isLoading={isLoading}
+                bg="#ED5734"
+                isDisabled={status === "submitting"}
               >
-                {isLoading ? <Spinner /> : "Send Reset Link"}
+                {status === "submitting" ? (
+                  <Spinner size="sm" />
+                ) : status === "success" ? (
+                  <CheckCircleIcon />
+                ) : (
+                  "Reset Password"
+                )}
               </Button>
             </form>
           </Box>
 
-          <Box textAlign="center">
+          <Box display="flex" alignItems="center">
             <Text fontSize="lg">
               Remembered your password?{" "}
               <Link href="/login" color="#ED5734" className="login-link">
-                Log In
+                Login
               </Link>
             </Text>
           </Box>

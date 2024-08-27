@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   return (
     <Box
       my={4}
-      mx={{ md: "auto", lg: 12 }}
+      mx={{ base: "auto", md: 6 }}
       p={{ base: 4, md: 6 }}
       className="dashboard-home"
     >
