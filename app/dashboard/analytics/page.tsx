@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -10,6 +10,7 @@ import {
   VStack,
   Icon,
   Flex,
+  Link,
 } from "@chakra-ui/react";
 import { FaChartLine } from "react-icons/fa";
 import axios from "axios";
@@ -86,9 +87,14 @@ const Analytics: React.FC = () => {
               bgColor="white"
               aria-label={`Link analytics for ${link.customUrl}`}
             >
-              <Text fontWeight="600" mb={2}>
+              <Link
+                href={link.customUrl}
+                fontWeight="600"
+                mb={2}
+                _hover={{ textDecoration: "underline" }}
+              >
                 {link.customUrl}
-              </Text>
+              </Link>
               <Flex alignItems="center" justifyContent="space-between">
                 <Text color="gray.600">Clicks Over Time</Text>
                 <Text color="gray.600">

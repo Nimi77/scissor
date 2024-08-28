@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 import { customAlphabet } from "nanoid";
 import { sql } from "@vercel/postgres";
 
-// Nanoid configuration for generating unique short URLs
 const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTWXYZ0123456789";
 const nanoid = customAlphabet(alphabet, 10);
 
@@ -14,19 +14,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Invalid URL" }, { status: 400 });
     }
 
+    // Extracting the user's token to get the email (if authenticated)
+    const token = await getToken({ req: request });
+    const email = token?.email || null;
+
     const shortId = nanoid();
 
-    // SQL query to insert the mapping into the database
-    const query = `
-      INSERT INTO url_mappings (short_url, original_url)
-      VALUES ($1, $2)
+    const result = await sql`
+      INSERT INTO user_urls (short_url, original_url, user_email, click_count)
+      VALUES (${shortId}, ${url}, ${email}, 0)
       RETURNING short_url;
     `;
-
-    const values = [shortId, url];
-
-    const result = await sql.query(query, values);
-    console.log("Database insertion result:", result.rows);
 
     return NextResponse.json({
       shortUrl: `${request.nextUrl.origin}/${result.rows[0].short_url}`,

@@ -104,13 +104,15 @@ export async function DELETE(req: NextRequest) {
 // GET method for redirecting to the original URL
 export async function GET(req: NextRequest) {
   const { hostname: customDomain, pathname: customPath } = req.nextUrl;
-  
+
   // Remove leading slash from customPath if present
-  const modifiedCustomPath = customPath.startsWith("/") ? customPath.slice(1) : customPath;
+  const modifiedCustomPath = customPath.startsWith("/")
+    ? customPath.slice(1)
+    : customPath;
 
   try {
     console.log(`Incoming request with custom domain: ${customDomain}`);
-    
+
     const result = await sql`
       UPDATE user_links
       SET clicks = clicks + 1
@@ -118,11 +120,13 @@ export async function GET(req: NextRequest) {
         AND (custom_path = ${modifiedCustomPath} OR ${modifiedCustomPath} = '')
       RETURNING original_url;
     `;
- 
+
     console.log("SQL Query Result:", result);
 
     if (result.rowCount === 0) {
-      console.warn(`No URL found for custom domain: ${customDomain} and path: ${modifiedCustomPath}`);
+      console.error(
+        `No URL found for custom domain: ${customDomain} and path: ${modifiedCustomPath}`
+      );
       return NextResponse.json({ message: "URL not found" }, { status: 404 });
     }
 

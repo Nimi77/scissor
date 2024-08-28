@@ -18,21 +18,19 @@ import {
 import axios from "axios";
 import LinkForm from "./LinkForm";
 import LinksTable from "./LinkTable";
-import LinksTableSkeleton from "./LinkTableSkeleton";
+import LinksTableSkeleton from "../components/TableSkeleton";
 
 interface Link {
-  id: string;
+  id: number;
   originalUrl: string;
-  customDomain?: string;
-  customPath?: string;
-  customUrl: string;
+  shortUrl: string;
   createdAt: string;
+  clickCount: number;
 }
 
 const UserLinks: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
-  const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
   const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -41,59 +39,61 @@ const UserLinks: React.FC = () => {
     onClose: onDeleteModalClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    const fetchLinks = async () => {
-      try {
-        const response = await axios.get("/api/links", {
-          headers: {
-            "Cache-Control": "no-store",
-          },
-        });
+  const fetchLinks = async () => {
+    try {
+      const response = await axios.get("/api/urls", {
+        headers: {
+          "Cache-Control": "no-store",
+        },
+      });
 
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch links");
-        }
-  
-        const data = response.data.map((link: any) => ({
-          id: link.id,
-          originalUrl: link.original_url,
-          customUrl: link.shortened_url,
-          createdAt: link.created_at,
-        }));
-  
-        console.log(data);
-        setLinks(data);
-      } catch (error) {
-        console.error("Error fetching links:", error);
-      } finally {
-        setTimeout(() => setLoading(false), 2000);
+      if (response.status !== 200) {
+        throw new Error("Failed to fetch links");
       }
-    };
-  
+
+      const data = response.data.map((link: any) => ({
+        id: link.id,
+        originalUrl: link.original_url,
+        shortUrl: link.short_url,
+        createdAt: link.created_at,
+        clickCount: link.click_count,
+      }));
+
+      console.log(data);
+      setLinks(data);
+    } catch (error) {
+      console.error("Error fetching links:", error);
+    } finally {
+      setTimeout(() => setLoading(false), 2000);
+    }
+  };
+
+  useEffect(() => {
     fetchLinks();
   }, []);
 
-  const handleLinkCreated = (newLink: Link) => {
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => (link.id === newLink.id ? { ...link, ...newLink } : link))
-    );
-    setLinkToEdit(null);
+  const handleLinkCreated = (newLink: {
+    originalUrl: string;
+    shortUrl: string;
+  }) => {
+    const linkWithIdAndDate = {
+      ...newLink,
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      clickCount: 0,
+    };
+
+    setLinks((prevLinks) => [linkWithIdAndDate, ...prevLinks]);
     onClose();
   };
 
-  const handleEditLink = (link: Link) => {
-    setLinkToEdit(link);
-    onOpen();
-  };
-
-  const handleDeleteLink = async (id: string) => {
+  const handleDeleteLink = async (id: number) => {
     try {
-      const response = await axios.delete(`/api/links/${id}`);
+      const response = await axios.delete(`/api/urls/${id}`);
 
       if (response.status !== 200) {
         throw new Error("Failed to delete link");
       }
-
       setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
       onDeleteModalClose();
     } catch (error) {
@@ -101,9 +101,9 @@ const UserLinks: React.FC = () => {
     }
   };
 
-  const confirmDeleteLink = async (id: string): Promise<void> => {
+  const confirmDeleteLink = async (id: number): Promise<void> => {
     return new Promise((resolve) => {
-      setLinkToDelete(id);
+      setLinkToDelete(id.toString());
       onDeleteModalOpen();
       resolve();
     });
@@ -147,8 +147,8 @@ const UserLinks: React.FC = () => {
       ) : (
         <LinksTable
           links={links}
-          onEditLink={handleEditLink}
           onDeleteLink={confirmDeleteLink}
+          refreshLinks={fetchLinks}
         />
       )}
 
@@ -160,15 +160,10 @@ const UserLinks: React.FC = () => {
       >
         <ModalOverlay />
         <ModalContent m="auto">
-          <ModalHeader>
-            {linkToEdit ? "Edit Link" : "Create New Link"}
-          </ModalHeader>
+          <ModalHeader>Create New Link</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <LinkForm
-              onLinkCreated={handleLinkCreated}
-              linkToEdit={linkToEdit}
-            />
+            <LinkForm onLinkCreated={handleLinkCreated} />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -193,7 +188,7 @@ const UserLinks: React.FC = () => {
             <Button
               colorScheme="red"
               onClick={async () => {
-                await handleDeleteLink(linkToDelete!);
+                await handleDeleteLink(Number(linkToDelete));
                 onDeleteModalClose();
               }}
               mr={3}

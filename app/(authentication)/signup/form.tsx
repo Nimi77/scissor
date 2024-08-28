@@ -45,13 +45,13 @@ const RegisterForm = () => {
     setStatus("idle");
     setServerMessage(null);
 
-    // Exclude confirmPassword from the data being sent to the server
+    // Removing confirmPassword from the data being sent to the server
     const { confirmPassword, ...formData } = data;
 
     try {
       setStatus("registering");
 
-      const response = await axios.post("/api/auth/register", formData, {
+      const response = await axios.post("/api/auth/signup", formData, {
         headers: {
           "Content-Type": "application/json",
         },

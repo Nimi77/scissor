@@ -10,7 +10,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["jest", "node"]
   },
   "typeRoots": ["./types", "./node_modules/@types"],
   "include": [
@@ -29,7 +30,7 @@
     ".next/types/**/*.ts",
     "types/**/*.d.ts",
     "app/**/*",
-    "lib"
-  ],
+    "lib/**/*"
+, "babel.config.js"  ],
   "exclude": ["node_modules"]
 }

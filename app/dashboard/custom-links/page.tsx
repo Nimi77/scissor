@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import React, { useState, useEffect } from "react";
 import {
@@ -16,12 +16,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import CustomLinkForm from "./ModalForm";
+import LinkTableSkeleton from "../components/TableSkeleton";
 import CustomLinkTable from "./CustomTable";
-import LinkTableSkeleton from "./TableSkeleton";
 import CustomForm from "./CustomForm";
 
 interface Link {
-  id: string;
+  id: number;
   originalUrl: string;
   customDomain?: string;
   customPath?: string;
@@ -34,7 +34,8 @@ const CustomLink: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
   const [linkToEdit, setLinkToEdit] = useState<Link | null>(null);
-  const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
+  const [linkToDelete, setLinkToDelete] = useState<number | null>(null);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isDeleteModalOpen,
@@ -92,7 +93,7 @@ const CustomLink: React.FC = () => {
     onOpen();
   };
 
-  const handleDeleteLink = async (id: string) => {
+  const handleDeleteLink = async (id: number) => {
     try {
       const response = await axios.delete(`/api/links/${id}`);
 
@@ -107,7 +108,7 @@ const CustomLink: React.FC = () => {
     }
   };
 
-  const confirmDeleteLink = async (id: string): Promise<void> => {
+  const confirmDeleteLink = async (id: number): Promise<void> => {
     return new Promise((resolve) => {
       setLinkToDelete(id);
       onDeleteModalOpen();
@@ -116,10 +117,22 @@ const CustomLink: React.FC = () => {
   };
 
   return (
-    <Box my={4} mx={{ base: "auto", md: 6 }} p={{ base: 4, md: 6 }}>
+    <Box
+      bgColor="white"
+      my={4}
+      mx={{ base: "auto", md: 6 }}
+      p={{ base: 4, md: 6 }}
+      borderRadius="lg"
+      shadow="md"
+    >
       <CustomForm />
 
-      <Button mt={4} variant="link" onClick={() => setShowTable(!showTable)}>
+      <Button
+        mt={4}
+        mb={6}
+        variant="link"
+        onClick={() => setShowTable(!showTable)}
+      >
         {showTable ? "Hide Custom Links Table" : "Show Custom Links Table"}
       </Button>
 

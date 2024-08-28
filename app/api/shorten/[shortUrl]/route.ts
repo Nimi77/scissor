@@ -7,9 +7,10 @@ export async function GET(
 ) {
   try {
     const query = `
-      SELECT original_url
-      FROM url_mappings
-      WHERE short_url = $1;
+      UPDATE user_urls
+      SET click_count = click_count + 1
+      WHERE short_url = $1
+      RETURNING original_url;
     `;
 
     const result = await sql.query(query, [params.shortUrl]);
@@ -26,11 +27,9 @@ export async function GET(
   } catch (error) {
     console.error("Error fetching original URL:", error);
 
-    const response = NextResponse.json(
+    return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }
     );
-
-    return response;
   }
 }

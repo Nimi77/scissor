@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import {
   Table,
   Tbody,
@@ -6,33 +8,43 @@ import {
   Td,
   Th,
   Thead,
-  Button,
-  useBreakpointValue,
   Link,
   Box,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
-import { FiEdit, FiTrash } from "react-icons/fi";
+import { FiTrash } from "react-icons/fi";
 
 interface Link {
-  id: string;
+  id: number;
   originalUrl: string;
-  customUrl: string;
+  shortUrl: string;
   createdAt: string;
+  clickCount: number;
 }
 
 interface LinksTableProps {
   links: Link[];
-  onEditLink: (link: Link) => void;
-  onDeleteLink: (id: string) => Promise<void>;
+  onDeleteLink: (id: number) => Promise<void>;
+  refreshLinks: () => void;
 }
 
 const LinksTable: React.FC<LinksTableProps> = ({
   links,
-  onEditLink,
   onDeleteLink,
+  refreshLinks,
 }) => {
-  const showIconOnly = useBreakpointValue({ base: true, lg: false });
+  // Fetching the latest data when the page regains focus
+  useEffect(() => {
+    const handleFocus = () => {
+      refreshLinks();
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [refreshLinks]);
 
   return (
     <Box>
@@ -40,17 +52,17 @@ const LinksTable: React.FC<LinksTableProps> = ({
         variant="striped"
         size={{ base: "sm", md: "auto" }}
         bgColor="transparent"
-        className="links-table"
       >
         <Thead>
           <Tr>
             <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
             <Th>Original URL</Th>
-            <Th>Custom Url</Th>
+            <Th>Shortened Url</Th>
+            <Th>Clicks</Th>
             <Th></Th>
           </Tr>
         </Thead>
-        <Tbody className="links-body">
+        <Tbody>
           {links.map((link) => (
             <Tr key={link.id}>
               <Td display={{ base: "none", md: "table-cell" }}>
@@ -58,54 +70,35 @@ const LinksTable: React.FC<LinksTableProps> = ({
               </Td>
               <Td
                 title={link.originalUrl}
-                maxW={{ base: "150px", md: "300px" }}
+                maxW={{ base: "150px", md: "300px", lg: "auto" }}
               >
                 {link.originalUrl}
               </Td>
-              <Td title={link.customUrl} maxW={{ base: "150px", md: "300px" }}>
-                <Link href={link.customUrl} fontSize="md" isExternal>
-                  {link.customUrl}
+              <Td
+                title={link.shortUrl}
+                maxW={{ base: "150px", md: "300px", lg: "auto" }}
+              >
+                <Link href={link.shortUrl} fontSize="md" isExternal>
+                  {link.shortUrl}
                 </Link>
               </Td>
+              <Td>{link.clickCount}</Td>
               <Td>
-                {showIconOnly ? (
-                  <>
-                    <IconButton
-                      aria-label="Edit"
-                      icon={<FiEdit />}
-                      variant="outline"
-                      onClick={() => onEditLink(link)}
-                      mr={{ base: 0, md: 4 }}
-                      mb={{ base: 2 }}
-                    />
-                    <IconButton
-                      aria-label="Delete"
-                      icon={<FiTrash />}
-                      onClick={() => onDeleteLink(link.id)}
-                      colorScheme="red"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Box className="l-buttons">
-                      <Button
-                        variant="outline"
-                        onClick={() => onEditLink(link)}
-                        leftIcon={<FiEdit />}
-                        mr={4}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        onClick={() => onDeleteLink(link.id)}
-                        colorScheme="red"
-                        leftIcon={<FiTrash />}
-                      >
-                        Delete
-                      </Button>
-                    </Box>
-                  </>
-                )}
+                <IconButton
+                  aria-label="Delete"
+                  icon={<FiTrash />}
+                  onClick={() => onDeleteLink(link.id)}
+                  colorScheme="red"
+                  display={{ base: "block", md: "none" }}
+                />
+                <Button
+                  onClick={() => onDeleteLink(link.id)}
+                  colorScheme="red"
+                  leftIcon={<FiTrash />}
+                  display={{ base: "none", md: "block" }}
+                >
+                  Delete
+                </Button>
               </Td>
             </Tr>
           ))}

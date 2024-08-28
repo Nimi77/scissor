@@ -8,7 +8,7 @@ const LinksTableSkeleton: React.FC = () => {
     <Table variant="striped" size="md" bgColor="transparent">
       <Thead>
         <Tr>
-          <Th>
+          <Th display={{ base: "none", md: "inline-block" }}>
             <Skeleton height="20px" />
           </Th>
           <Th>
@@ -25,7 +25,7 @@ const LinksTableSkeleton: React.FC = () => {
       <Tbody>
         {Array.from({ length: 5 }).map((_, index) => (
           <Tr key={index}>
-            <Td>
+            <Td display={{ base: "none", md: "inline-block" }}>
               <Skeleton height="20px" />
             </Td>
             <Td>

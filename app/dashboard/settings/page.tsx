@@ -63,6 +63,7 @@ const Settings = () => {
           <Input
             id="name"
             value={name}
+            focusBorderColor="#ED5734"
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
           />
@@ -90,6 +91,7 @@ const Settings = () => {
             <Input
               id="businessName"
               value={businessName}
+              focusBorderColor="#ED5734"
               onChange={(e) => setBusinessName(e.target.value)}
               placeholder="Enter your business name"
             />

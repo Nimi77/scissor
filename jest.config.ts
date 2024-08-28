@@ -114,7 +114,7 @@ const config: Config = {
   // reporters: undefined,
 
   // Automatically reset mock state before every test
-  resetMocks: false,
+  // resetMocks: false,
 
   // Reset the module registry before running each individual test
   // resetModules: false,
@@ -148,8 +148,10 @@ const config: Config = {
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
 
+  preset: 'ts-jest',
+
   // The test environment that will be used for testing
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -157,11 +159,12 @@ const config: Config = {
   // Adds a location field to test results
   // testLocationInResults: false,
 
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+  },
+
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    "**/__tests__/**/*.+(ts|tsx|js)",
-    "**/?(*.)+(spec|test).+(ts|tsx|js)"
-  ],
+  testMatch: ['<rootDir>/app/tests/**/*.(test|spec).(js|ts|tsx)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
@@ -179,20 +182,20 @@ const config: Config = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.(ts|tsx)$" : "ts-jest",
+    '^.+\\.tsx?$': 'ts-jest',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "\\\\node_modules\\\\",
-  //   "\\.pnp\\.[^\\\\]+$"
-  // ],
+  transformIgnorePatterns: [
+    "/node_modules/",
+    "\\.pnp\\.[^\\/]+$"
+  ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  // verbose: undefined,
+  verbose: true,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],

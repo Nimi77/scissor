@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -16,7 +16,7 @@ import axios from "axios";
 interface ModalFormProps {
   onLinkUpdated: (link: any) => void;
   linkToEdit: {
-    id: string;
+    id: number;
     originalUrl: string;
     customDomain?: string;
     customPath?: string;
@@ -44,6 +44,13 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
   const [error, setError] = useState<string>("");
   const toast = useToast();
 
+  useEffect(() => {
+    setOriginalUrl(linkToEdit.originalUrl);
+    setCustomDomain(linkToEdit.customDomain || "");
+    setCustomPath(linkToEdit.customPath || "");
+    setCustomUrl(linkToEdit.customUrl || "");
+  }, [linkToEdit]);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -54,14 +61,12 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
       customUrl,
     });
 
-    // Validate the original URL
     if (!isURL(originalUrl)) {
       setError("Please enter a valid URL.");
       return;
     }
 
     setError("");
-    setCustomUrl("");
     setLoading(true);
 
     try {
@@ -72,7 +77,6 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
           : `https://${customDomain}`;
       }
 
-      // Validation for the custom URL
       if (customDomain && !isURL(fullCustomUrl)) {
         setError("The custom domain or path is not valid.");
         return;
@@ -88,6 +92,7 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
 
       if (response.status === 200) {
         onLinkUpdated(response.data);
+        setCustomUrl(fullCustomUrl);
         toast({
           title: "Success!",
           description: "Update successfully.",
@@ -151,8 +156,8 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
 
         {customUrl && (
           <Box>
-            <FormLabel>Custom Url</FormLabel>
-            <Input value={customUrl} isReadOnly />
+            <FormLabel>Custom URL</FormLabel>
+            <Input value={customUrl}  focusBorderColor="#ED5734" isReadOnly />
           </Box>
         )}
 

@@ -98,7 +98,7 @@ const UrlShortenForm: React.FC = () => {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               _focus={{
-                borderColor: "#ED5734",
+                borderColor: "#ED5734"
               }}
             />
             <InputRightElement mr="1.76rem">

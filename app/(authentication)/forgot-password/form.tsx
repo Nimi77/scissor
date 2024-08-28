@@ -142,8 +142,11 @@ const ForgotPasswordForm = () => {
               {success && (
                 <Text
                   p="6px"
+                  fontSize={{base:"0.98rem"}}
                   bgColor="rgba(34, 197, 94, 0.2)"
                   color="green.500"
+                  width="max-content"
+                  border-radius="6px"
                   mt={4}
                 >
                   {success}

@@ -17,7 +17,7 @@ import {
 import { FiEdit, FiTrash } from "react-icons/fi";
 
 interface Link {
-  id: string;
+  id: number;
   originalUrl: string;
   customUrl: string;
   createdAt: string;
@@ -26,7 +26,7 @@ interface Link {
 interface CustomTableProps {
   links: Link[];
   onEditLink: (link: Link) => void;
-  onDeleteLink: (id: string) => Promise<void>;
+  onDeleteLink: (id: number) => Promise<void>;
 }
 
 const CustomLinkTable: React.FC<CustomTableProps> = ({
@@ -72,20 +72,21 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
               <Td>
                 {showIconOnly ? (
                   <>
-                    <IconButton
-                      aria-label="Edit"
-                      icon={<FiEdit />}
-                      variant="outline"
-                      onClick={() => onEditLink(link)}
-                      mr={{ base: 0, md: 4 }}
-                      mb={{ base: 2 }}
-                    />
-                    <IconButton
-                      aria-label="Delete"
-                      icon={<FiTrash />}
-                      onClick={() => onDeleteLink(link.id)}
-                      colorScheme="red"
-                    />
+                    <Box className="s-buttons">
+                      <IconButton
+                        aria-label="Edit"
+                        icon={<FiEdit />}
+                        variant="outline"
+                        onClick={() => onEditLink(link)}
+                        mr={{ base: 2, md: 4 }}
+                      />
+                      <IconButton
+                        aria-label="Delete"
+                        icon={<FiTrash />}
+                        onClick={() => onDeleteLink(link.id)}
+                        colorScheme="red"
+                      />
+                    </Box>
                   </>
                 ) : (
                   <>
