@@ -103,7 +103,10 @@ export async function DELETE(req: NextRequest) {
 
 // GET method for redirecting to the original URL
 export async function GET(req: NextRequest) {
-  const { href: customUrl } = req.nextUrl;
+  // Extract the host and pathname from the request URL
+  const host = req.nextUrl.host;
+  const pathname = req.nextUrl.pathname === "/" ? "" : req.nextUrl.pathname;
+  const customUrl = `${host}${pathname}`;
 
   console.log(`Incoming request with custom URL: ${customUrl}`);
 
@@ -114,15 +117,13 @@ export async function GET(req: NextRequest) {
       WHERE shortened_url = ${customUrl}
       RETURNING original_url;
     `;
-    console.log(result)
-    
+
     if (result.rowCount === 0) {
       console.error(`No URL found for: ${customUrl}`);
-      return NextResponse.json({ message: "URL not found" }, { status: 404 });
+      return NextResponse.redirect("/", 301);
     }
 
     const originalUrl = result.rows[0].original_url;
-    console.log(originalUrl);
     console.log(`Redirecting to original URL: ${originalUrl}`);
 
     return NextResponse.redirect(originalUrl, 301);

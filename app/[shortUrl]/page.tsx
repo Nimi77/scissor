@@ -26,6 +26,12 @@ export default function RedirectPage({
           maxRedirects: 0,
         });
 
+        // If the API redirects to the home page, the router will handle it.
+        if (response.request.responseURL !== window.location.href) {
+          window.location.href = response.request.responseURL;
+          return;
+        }
+
         // Checking if the content type is JSON
         if (response.headers["content-type"].includes("application/json")) {
           const data = response.data;
@@ -38,7 +44,7 @@ export default function RedirectPage({
             }, 2000);
           } else {
             console.error("No originalUrl in response data.");
-            setError("Invalid or expired URL.");
+            setError("Invalid URL.");
           }
         } else {
           setError("Invalid response from server.");
@@ -65,7 +71,7 @@ export default function RedirectPage({
       >
         <Flex alignItems="center" justifyContent="center">
           <Spinner size="sm" color="gray.900" mr="4" />
-          <Text fontSize="lg">
+          <Text fontSize="lg" fontWeight="600">
             Loading, please wait...
           </Text>
         </Flex>

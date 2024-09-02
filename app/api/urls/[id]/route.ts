@@ -32,7 +32,10 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    console.log("Link deleted successfully");
+    return NextResponse.json(
+      { message: "Link deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error deleting link:", error);
     return NextResponse.json(

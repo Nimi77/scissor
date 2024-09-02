@@ -20,11 +20,11 @@ Create personalized short URLs to represent your brand or message. Scissor allow
 
 **QR Code Generation**
 
-Automatically generate a QR code for each shortened URL. Users can download the QR code image directly from the platform for use in marketing materials.
+Automatically generate a QR code for each shortened URL. Users can download the QR code image directly from the platform for use in marketing.
 
 **Analytics**
 
-Track the performance of your URLs by monitoring click data. This feature helps you understand your audience better and optimize your campaigns.
+Track the performance of each URLs by monitoring click data.
 
 ## Tool Highlights
 
@@ -59,7 +59,7 @@ Track the performance of your URLs by monitoring click data. This feature helps 
   After shortening a URL, download the corresponding QR code image.
 
 - **Use in Marketing:**  
-  Incorporate the QR code into your digital or print marketing materials.
+  The QR code can be Incorporate into digital or print marketing materials.
 
 ## Technologies Used
 
@@ -85,7 +85,7 @@ Track the performance of your URLs by monitoring click data. This feature helps 
 
 To use Linktrim, follow these steps:
 
-1. **Navigate to the Landing Page:** Visit [linktrim.vercel.app](https://linktrim.vercel.app) to access the main page.
+1. **Navigate to the Landing Page:** Visit [linktrim](https://linktrim.vercel.app) to access the main page.
 2. **Sign In:** If you want to manage your URLs and view analytics, sign in to your account.
 3. **Shorten a URL:** Enter the long URL you wish to shorten and click the "Shorten" button.
 4. **Copy and Use the Short URL:** Use the generated short URL for your campaigns.
@@ -139,4 +139,4 @@ Linktrim is licensed under the MIT License. You are free to use, modify, and dis
 
 ## Access Link
 
-You can access the live version of Linktrim at [linktrim](linktrim.vercel.app)
+You can access the live version of Linktrim at [linktrim](https://linktrim.vercel.app)

@@ -2,6 +2,7 @@ import ChakraWrapper from "./chakra_ui/setup";
 import AuthProvider from "@/app/lib/provider";
 import { Metadata } from "next";
 import "./globals.css";
+import ErrorBoundary from "./(errorBoundary)/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "Linktrim - URL Shortening tool",
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <ChakraWrapper>{children}</ChakraWrapper>
+          <ChakraWrapper>
+            <ErrorBoundary>{children}</ErrorBoundary>
+          </ChakraWrapper>
         </AuthProvider>
       </body>
     </html>

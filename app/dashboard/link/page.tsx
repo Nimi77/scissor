@@ -32,7 +32,7 @@ interface Link {
 const UserLinks: React.FC = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
-  const [linkToDelete, setLinkToDelete] = useState<string | null>(null);
+  const [linkToDelete, setLinkToDelete] = useState<number | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isDeleteModalOpen,
@@ -104,7 +104,7 @@ const UserLinks: React.FC = () => {
 
   const confirmDeleteLink = async (id: number): Promise<void> => {
     return new Promise((resolve) => {
-      setLinkToDelete(id.toString());
+      setLinkToDelete(id);
       onDeleteModalOpen();
       resolve();
     });
@@ -114,7 +114,7 @@ const UserLinks: React.FC = () => {
     <Box
       my={4}
       mx={{ base: "auto", lg: 6 }}
-      p={{ base: 4, md: 6 }}
+      p={{ base: 2, md: 6 }}
       aria-live="polite"
     >
       <Box>
@@ -182,17 +182,20 @@ const UserLinks: React.FC = () => {
         isCentered
         size={{ base: "sm", md: "lg" }}
       >
-        <ModalOverlay />
+        <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent m="auto">
-          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalHeader pt={4} pb={0}>
+            Confirm Delete
+          </ModalHeader>
+          <ModalCloseButton />
           <ModalBody>
-            <Text textAlign="center">
+            <Text maxW-="24rem">
               Are you sure you want to delete this link? This action cannot be
               undone.
             </Text>
           </ModalBody>
-          <ModalFooter mt={4} justifyContent="center">
-            <Flex gap={10} alignItems="center" justifyContent="center">
+          <ModalFooter pb="1.4rem">
+            <Flex flex="1" alignItems="center" justifyContent="space-between">
               <Button
                 colorScheme="red"
                 onClick={async () => {
@@ -202,7 +205,7 @@ const UserLinks: React.FC = () => {
               >
                 Delete
               </Button>
-              <Button variant="ghost" onClick={onDeleteModalClose}>
+              <Button variant="outline" onClick={onDeleteModalClose}>
                 Cancel
               </Button>
             </Flex>

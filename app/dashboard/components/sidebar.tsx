@@ -54,7 +54,7 @@ export const NavItem = ({
       {icon && (
         <Icon
           as={icon}
-          mr="4"
+          mr={href === "/dashboard/custom-links" ? "3" : "4"}
           fontSize={href === "/dashboard/custom-links" ? "20" : "16"}
           color="#2A2A2A"
           _groupHover={{ color: "gray.600" }}

@@ -29,8 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "types/**/*.d.ts",
-    "app/**/*",
-    "lib/**/*"
-, "babel.config.js"  ],
+    "app/**/*"
+  ],
   "exclude": ["node_modules"]
 }

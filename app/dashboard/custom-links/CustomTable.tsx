@@ -38,15 +38,10 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
 
   return (
     <Box>
-      <Table
-        variant="striped"
-        size={{ base: "sm", md: "auto" }}
-        bgColor="white"
-        className="cl-table"
-      >
+      <Table variant="striped" bgColor="white" className="cl-table">
         <Thead>
           <Tr className="l-thheading">
-            <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
+            <Th display={{ base: "none", lg: "table-cell" }}>Date</Th>
             <Th>Original URL</Th>
             <Th>Custom Url</Th>
             <Th></Th>
@@ -55,7 +50,7 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
         <Tbody>
           {links.map((link) => (
             <Tr key={link.id} className="l-tbbody">
-              <Td display={{ base: "none", md: "table-cell" }}>
+              <Td display={{ base: "none", lg: "table-cell" }}>
                 {new Date(link.createdAt).toLocaleDateString()}
               </Td>
               <Td title={link.originalUrl}>

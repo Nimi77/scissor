@@ -19,7 +19,7 @@ const Home: React.FC = () => {
     <Box
       my={4}
       mx={{ base: "auto", md: 6 }}
-      p={{ base: 4, md: 6 }}
+      p={{ base: 2, md: 6 }}
       className="dashboard-home"
     >
       <Box>
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
       </Box>
 
       <VStack spacing={10} align="stretch" my={6}>
-        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} bgColor="white" shadow="sm" borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" justify="left" gap={4}>
             <Icon as={FaLink} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">
@@ -53,13 +53,13 @@ const Home: React.FC = () => {
               transition: "0.2s ease-in",
               bgColor: "#ED5734",
             }}
-            onClick={() => router.push("/dashboard/links")}
+            onClick={() => router.push("/dashboard/link")}
           >
             Shorten Link
           </Button>
         </Box>
 
-        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} bgColor="white" shadow="sm" borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" gap={4}>
             <Icon as={FaChartBar} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
           </Button>
         </Box>
 
-        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} bgColor="white" shadow="sm"  borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" justifyContent="flex-start" gap={4}>
             <Icon as={FaCogs} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">

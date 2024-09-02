@@ -87,6 +87,12 @@ li {
   gap: 6px;
   color: #a1a1a1;
 }
+.errorb-mss{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
 /* Authentication styling */
 .reg-mss span {
@@ -109,11 +115,16 @@ table.links-table {
   table-layout: fixed;
 }
 .l-thheading th,
-.l-tbbody td {
-  padding: 14px;
-  font-size: 18px;
+.l-tbbody td,
+.l-tbbody td a {
+  font-size: 16px;
+}
+.l-thheading th {
+  padding-block: 14px;
+  padding-inline:12px;
 }
 .l-tbbody td {
+  padding:12px;
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: normal;
@@ -143,14 +154,6 @@ table.links-table {
 }
 
 @media only screen and (max-width: 580px) {
-  .l-thheading th,
-  .l-tbbody td,
-  .l-tbbody td a {
-    font-size: 16px;
-  }
-  .l-tbbody td:nth-child(2) a {
-    max-width: 160px;
-  }
   .cl-table .s-buttons button {
     width: 2.2rem;
     height: 2.2rem;

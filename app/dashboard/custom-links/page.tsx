@@ -121,11 +121,7 @@ const CustomLink: React.FC = () => {
     <Box my={4} mx={{ base: "auto", md: 6 }}>
       <CustomForm />
 
-      <Button
-        my={6}
-        variant="link"
-        onClick={() => setShowTable(!showTable)}
-      >
+      <Button my={6} variant="link" onClick={() => setShowTable(!showTable)}>
         {showTable ? "Hide Custom Links Table" : "Show Custom Links Table"}
       </Button>
 
@@ -173,30 +169,28 @@ const CustomLink: React.FC = () => {
         isCentered
         size={{ base: "sm", md: "lg" }}
       >
-        <ModalOverlay />
+        <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent m="auto">
-          <ModalHeader p={0} textAlign="center">
-            Confirm Delete
-          </ModalHeader>
+          <ModalHeader pt={4} pb={0}>Confirm Delete</ModalHeader>
+          <ModalCloseButton />
           <ModalBody>
-            <Text textAlign="center">
+            <Text maxW-="24rem">
               Are you sure you want to delete this link? This action cannot be
               undone.
             </Text>
           </ModalBody>
-          <ModalFooter mt={4} justifyContent="center">
-            <Flex gap={10} alignItems="center" justifyContent="center">
+          <ModalFooter pb="1.4rem">
+            <Flex flex="1" alignItems="center" justifyContent="space-between">
               <Button
                 colorScheme="red"
                 onClick={async () => {
                   await handleDeleteLink(Number(linkToDelete));
                   onDeleteModalClose();
                 }}
-                mr={3}
               >
                 Delete
               </Button>
-              <Button variant="ghost" onClick={onDeleteModalClose}>
+              <Button variant="outline" onClick={onDeleteModalClose}>
                 Cancel
               </Button>
             </Flex>

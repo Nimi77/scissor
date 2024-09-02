@@ -50,17 +50,18 @@ const LinksTable: React.FC<LinksTableProps> = ({
     <Box borderWidth="1px" borderRadius="lg">
       <Table
         variant="striped"
-        size={{ base: "sm", md: "auto" }}
         bgColor="white"
         borderRadius="lg"
         className="links-table"
       >
         <Thead>
           <Tr className="l-thheading">
-            <Th display={{ base: "none", lg: "table-cell" }}>Date</Th>
-            <Th>Original URL</Th>
-            <Th>Shortened URL</Th>
-            <Th>Clicks</Th>
+            <Th display={{ base: "none", lg: "table-cell" }} width="96px">
+              Date
+            </Th>
+            <Th width={{ base: "160px", lg: "200px" }}>Original URL</Th>
+            <Th width="110px">Short URL</Th>
+            <Th textAlign="center">Clicks</Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -81,19 +82,20 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 </Link>
               </Td>
               <Td textAlign="center">{link.clickCount}</Td>
-              <Td>
+              <Td display="flex" alignItems="center" justifyContent="center">
                 <IconButton
                   aria-label="Delete"
                   icon={<FiTrash />}
                   onClick={() => onDeleteLink(link.id)}
                   colorScheme="red"
-                  display={{ md: "flex", lg: "none" }}
+                  px=".8rem"
+                  display={{ base: "flex", lg: "none" }}
                 />
                 <Button
                   onClick={() => onDeleteLink(link.id)}
                   colorScheme="red"
                   leftIcon={<FiTrash />}
-                  display={{ md: "none", lg: "flex" }}
+                  display={{ base: "none", lg: "flex" }}
                   className="ll-btn"
                 >
                   Delete
