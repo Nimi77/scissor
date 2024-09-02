@@ -42,9 +42,9 @@ const CustomForm: React.FC = () => {
           isClosable: true,
           position: "top",
         });
-     
+
         setCustomUrl(data.shortened_url);
-    
+
         setOriginalUrl("");
         setCustomDomain("");
         setCustomPath("");
@@ -65,7 +65,7 @@ const CustomForm: React.FC = () => {
   };
 
   return (
-    <>
+    <Box bgColor="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="sm">
       <Heading as="h3" size="lg" mb={6}>
         Create Custom Link
       </Heading>
@@ -113,22 +113,22 @@ const CustomForm: React.FC = () => {
           )}
 
           <Button
-            type="submit"        
+            type="submit"
             color="white"
             borderRadius="lg"
             bg="#FF4C24"
             _hover={{
               transition: "0.2s ease-in",
-              bg: "#ED5734"
+              bg: "#ED5734",
             }}
-            mt={8}
+            mt={7}
           >
             Save
           </Button>
         </Stack>
       </Box>
-    </>
-  );
-};
+    </Box>
+  )
+}
 
 export default CustomForm;

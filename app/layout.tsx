@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Linktrim - URL Shortening tool",
   description:
-    "Shorten, customize, and track your URLs with scissor. The ultimate tool for URL shortening, QR code generation, and link analytics.",
+    "Shorten, customize, and track your URLs with linktrim. The ultimate tool for URL shortening, QR code generation, and link analytics.",
 };
 
 export default function RootLayout({

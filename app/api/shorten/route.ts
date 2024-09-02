@@ -4,7 +4,7 @@ import { customAlphabet } from "nanoid";
 import { sql } from "@vercel/postgres";
 
 const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTWXYZ0123456789";
-const nanoid = customAlphabet(alphabet, 10);
+const nanoid = customAlphabet(alphabet, 6);
 
 export async function POST(request: NextRequest) {
   try {

@@ -51,10 +51,9 @@ const LoginForm = () => {
         password: data.password,
         redirect: false,
       });
-      console.log("SignIn response:", response);
 
       if (response?.error) {
-        if (response.error.includes("Incorrect password")) {
+        if (response.error === "Incorrect password") {
           setError("Incorrect password");
         } else {
           setError("Invalid credentials");
@@ -163,7 +162,11 @@ const LoginForm = () => {
                   >
                     Password
                   </FormLabel>
-                  <Link href="/forgot-password" color="#ED5734" className="forget-passkey">
+                  <Link
+                    href="/forgot-password"
+                    color="#ED5734"
+                    className="forget-passkey"
+                  >
                     Forgot password?
                   </Link>
                 </Box>

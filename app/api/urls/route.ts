@@ -12,8 +12,7 @@ export const GET = async (req: NextRequest) => {
 
   try {
     const result = await sql`
-      SELECT short_url, original_url, created_at, click_count
-      FROM user_urls
+      SELECT * FROM user_urls
       WHERE user_email = ${session.email}
       ORDER BY created_at DESC;
     `;

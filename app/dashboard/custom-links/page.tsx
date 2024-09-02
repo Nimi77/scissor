@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -13,6 +13,7 @@ import {
   ModalFooter,
   useDisclosure,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 import axios from "axios";
 import CustomLinkForm from "./ModalForm";
@@ -117,19 +118,11 @@ const CustomLink: React.FC = () => {
   };
 
   return (
-    <Box
-      bgColor="white"
-      my={4}
-      mx={{ base: "auto", md: 6 }}
-      p={{ base: 4, md: 6 }}
-      borderRadius="lg"
-      shadow="md"
-    >
+    <Box my={4} mx={{ base: "auto", md: 6 }}>
       <CustomForm />
 
       <Button
-        mt={4}
-        mb={6}
+        my={6}
         variant="link"
         onClick={() => setShowTable(!showTable)}
       >
@@ -141,7 +134,7 @@ const CustomLink: React.FC = () => {
           {loading ? (
             <LinkTableSkeleton />
           ) : links.length === 0 ? (
-            <Text>No link created yet. Start by creating a new link!</Text>
+            <Text>No link created yet. Start by creating a link!</Text>
           ) : (
             <CustomLinkTable
               links={links}
@@ -182,28 +175,31 @@ const CustomLink: React.FC = () => {
       >
         <ModalOverlay />
         <ModalContent m="auto">
-          <ModalHeader>Confirm Delete</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader p={0} textAlign="center">
+            Confirm Delete
+          </ModalHeader>
           <ModalBody>
-            <Text>
+            <Text textAlign="center">
               Are you sure you want to delete this link? This action cannot be
               undone.
             </Text>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="red"
-              onClick={async () => {
-                await handleDeleteLink(linkToDelete!);
-                onDeleteModalClose();
-              }}
-              mr={3}
-            >
-              Delete
-            </Button>
-            <Button variant="ghost" onClick={onDeleteModalClose}>
-              Cancel
-            </Button>
+          <ModalFooter mt={4} justifyContent="center">
+            <Flex gap={10} alignItems="center" justifyContent="center">
+              <Button
+                colorScheme="red"
+                onClick={async () => {
+                  await handleDeleteLink(Number(linkToDelete));
+                  onDeleteModalClose();
+                }}
+                mr={3}
+              >
+                Delete
+              </Button>
+              <Button variant="ghost" onClick={onDeleteModalClose}>
+                Cancel
+              </Button>
+            </Flex>
           </ModalFooter>
         </ModalContent>
       </Modal>

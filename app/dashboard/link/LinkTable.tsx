@@ -47,55 +47,54 @@ const LinksTable: React.FC<LinksTableProps> = ({
   }, [refreshLinks]);
 
   return (
-    <Box>
+    <Box borderWidth="1px" borderRadius="lg">
       <Table
         variant="striped"
         size={{ base: "sm", md: "auto" }}
-        bgColor="transparent"
+        bgColor="white"
+        borderRadius="lg"
+        className="links-table"
       >
         <Thead>
-          <Tr>
-            <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
+          <Tr className="l-thheading">
+            <Th display={{ base: "none", lg: "table-cell" }}>Date</Th>
             <Th>Original URL</Th>
-            <Th>Shortened Url</Th>
+            <Th>Shortened URL</Th>
             <Th>Clicks</Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
           {links.map((link) => (
-            <Tr key={link.id}>
-              <Td display={{ base: "none", md: "table-cell" }}>
+            <Tr key={link.id} className="l-tbbody">
+              <Td display={{ base: "none", lg: "table-cell" }}>
                 {new Date(link.createdAt).toLocaleDateString()}
               </Td>
-              <Td
-                title={link.originalUrl}
-                maxW={{ base: "150px", md: "300px", lg: "auto" }}
-              >
-                {link.originalUrl}
+              <Td title={link.originalUrl}>
+                <Link href={link.originalUrl} isExternal>
+                  {link.originalUrl}
+                </Link>
               </Td>
-              <Td
-                title={link.shortUrl}
-                maxW={{ base: "150px", md: "300px", lg: "auto" }}
-              >
-                <Link href={link.shortUrl} fontSize="md" isExternal>
+              <Td title={link.shortUrl}>
+                <Link href={link.shortUrl} isExternal>
                   {link.shortUrl}
                 </Link>
               </Td>
-              <Td>{link.clickCount}</Td>
+              <Td textAlign="center">{link.clickCount}</Td>
               <Td>
                 <IconButton
                   aria-label="Delete"
                   icon={<FiTrash />}
                   onClick={() => onDeleteLink(link.id)}
                   colorScheme="red"
-                  display={{ base: "block", md: "none" }}
+                  display={{ md: "flex", lg: "none" }}
                 />
                 <Button
                   onClick={() => onDeleteLink(link.id)}
                   colorScheme="red"
                   leftIcon={<FiTrash />}
-                  display={{ base: "none", md: "block" }}
+                  display={{ md: "none", lg: "flex" }}
+                  className="ll-btn"
                 >
                   Delete
                 </Button>

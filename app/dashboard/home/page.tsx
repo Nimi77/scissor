@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         <Heading as="h1" size="2xl" mb={4}>
           Welcome to linktrim
         </Heading>
-        <Text color="gray.600">
+        <Text color="gray.700">
           Simplify your links, track your performance, and customize your brand.
           Scissor makes URL shortening easy and efficient, giving you the tools
           to manage and analyze your links all in one place.
@@ -34,14 +34,14 @@ const Home: React.FC = () => {
       </Box>
 
       <VStack spacing={10} align="stretch" my={6}>
-        <Box px={4} py={6} shadow="base" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" justify="left" gap={4}>
             <Icon as={FaLink} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">
-              Create Your First Short Link
+              Create Your Short Link
             </Heading>
           </Flex>
-          <Text color="gray.700" mt="4" mb="6">
+          <Text color="gray.600" mt="4" mb="6">
             Start by creating a short, memorable URL that you can share with
             your audience. It&apos;s quick and easy—just enter your long URL and
             let Scissor do the rest.
@@ -51,15 +51,15 @@ const Home: React.FC = () => {
             color="white"
             _hover={{
               transition: "0.2s ease-in",
-              bgColor: "#ED5734"
+              bgColor: "#ED5734",
             }}
-            onClick={() => router.push("/dashboard/custom-links")}
+            onClick={() => router.push("/dashboard/links")}
           >
-            Create Link
+            Shorten Link
           </Button>
         </Box>
 
-        <Box px={4} py={6} shadow="base" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" gap={4}>
             <Icon as={FaChartBar} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">
@@ -76,7 +76,7 @@ const Home: React.FC = () => {
             color="white"
             _hover={{
               transition: "0.2s ease-in",
-              bg: "#ED5734"
+              bg: "#ED5734",
             }}
             onClick={() => router.push("/dashboard/analytics")}
           >
@@ -84,28 +84,28 @@ const Home: React.FC = () => {
           </Button>
         </Box>
 
-        <Box px={4} py={6} shadow="base" borderWidth="1px" borderRadius="lg">
+        <Box px={4} py={6} shadow="sm" borderWidth="1px" borderRadius="lg">
           <Flex alignItems="center" justifyContent="flex-start" gap={4}>
             <Icon as={FaCogs} w={5} h={5} color="gray.800" />
             <Heading as="h3" fontSize="xl">
-              Manage Your Links
+              Create Custom URLs
             </Heading>
           </Flex>
           <Text color="gray.600" mt="4" mb="6">
-            Edit, delete, or customize your short URLs anytime. Keep your link
+            Edit, delete, or customize your URLs anytime. Keep your link
             portfolio organized and up-to-date with Scissor&apos;s management
             tools.
           </Text>
           <Button
-             bg="#FF4C24"
+            bg="#FF4C24"
             color="white"
             _hover={{
               transition: "0.2s ease-in",
               bgColor: "#ED5734"
             }}
-            onClick={() => router.push("/dashboard/link")}
+            onClick={() => router.push("/dashboard/custom-links")}
           >
-            Manage Links
+            Customize URL
           </Button>
         </Box>
       </VStack>

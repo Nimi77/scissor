@@ -40,7 +40,7 @@ const Analytics: React.FC = () => {
           id: link.id,
           customUrl: link.shortened_url,
           createdAt: link.created_at,
-          clicks: link.clicks || 0,
+          clicks: link.clicks
         }));
 
         setLinks(data);
@@ -66,7 +66,7 @@ const Analytics: React.FC = () => {
         <Heading as="h3" size="lg">
           Track your links
         </Heading>
-        <Text color="gray.600" my={4}>
+        <Text color="gray.700" my={4}>
           View and manage all your shortened links. Track analytics such as the
           number of clicks.
         </Text>
@@ -92,6 +92,7 @@ const Analytics: React.FC = () => {
                 fontWeight="600"
                 mb={2}
                 _hover={{ textDecoration: "underline" }}
+                isExternal
               >
                 {link.customUrl}
               </Link>

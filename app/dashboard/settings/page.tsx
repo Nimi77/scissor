@@ -76,6 +76,7 @@ const Settings = () => {
           <Select
             id="usageType"
             value={usageType}
+            focusBorderColor="#ED5734"
             onChange={(e) => setUsageType(e.target.value)}
           >
             <option value="personal">Personal Use</option>

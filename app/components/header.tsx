@@ -9,14 +9,14 @@ import {
   IconButton,
   useDisclosure,
   HStack,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link as ChakraLink } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, memo } from "react";
 import Link from "next/link";
 
-const NavItems = [
+export const NavItems = [
   { name: "Home", href: "#" },
   { name: "Features", href: "#features" },
   { name: "Pricing", href: "#pricing" },
@@ -29,35 +29,34 @@ interface NavItemProps {
   onClick: () => void;
 }
 
-const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => {
-  return (
-    <ChakraLink
-      href={href}
-      onClick={onClick}
-      px={4}
-      py={2}
-      rounded={"lg"}
-      color={isActive ? "white" : "#eeee"}
-      position="relative"
-      textDecoration="none"
-      className="nav-link"
-      aria-current={isActive ? "page" : undefined}
-    >
-      {name}
-    </ChakraLink>
-  );
-};
+const NavItem = ({ name, href, isActive, onClick }: NavItemProps) => (
+  <ChakraLink
+    href={href}
+    onClick={onClick}
+    px="1.5rem"
+    py="0.75rem"
+    rounded="lg"
+    color={isActive ? "white" : "#eeee"}
+    position="relative"
+    textDecoration="none"
+    className="nav-link"
+    aria-current={isActive ? "page" : undefined}
+  >
+    {name}
+  </ChakraLink>
+);
 
-const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
+const NavButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
   <>
-    <Box
-      as="span"
+    <ChakraLink
+      as={Link}
+      href="/login"
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
       bg={isMobile ? "#1a1a1a" : "transparent"}
-      py={isMobile ? ".9rem" : ".2rem"}
-      px={isMobile ? ".9rem" : "1.2rem"}
+      py={isMobile ? "0.75rem" : "0.4rem"}
+      px={isMobile ? "0.75rem" : "1.2rem"}
       fontWeight={600}
       color="white"
       borderRadius="lg"
@@ -69,10 +68,12 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
       }}
       aria-label="Login"
     >
-      <Link href="/login">Login</Link>
-    </Box>
-    <Box
-      as="span"
+      Login
+    </ChakraLink>
+
+    <ChakraLink
+      as={Link}
+      href="/signup"
       display="inline-flex"
       alignItems="center"
       justifyContent="center"
@@ -89,10 +90,12 @@ const NavButtons = ({ isMobile }: { isMobile?: boolean }) => (
         transition: "all 0.2s ease",
       }}
     >
-      <Link href="/signup">Get Started</Link>
-    </Box>
+      Get Started
+    </ChakraLink>
   </>
 );
+
+const MemoizedNavButtons = memo(NavButtons);
 
 export default function Header() {
   const [activeNav, setActiveNav] = useState("Home");
@@ -103,7 +106,6 @@ export default function Header() {
     onClose();
   };
 
-  // framer motion styling of mobile nav container
   const MotionBox = motion(Box);
 
   return (
@@ -163,10 +165,9 @@ export default function Header() {
             spacing={4}
             display={{ base: "none", md: "flex" }}
           >
-            <NavButtons />
+            <MemoizedNavButtons />
           </Stack>
 
-          {/* toggle button */}
           <Box
             position="fixed"
             top={4}
@@ -184,15 +185,14 @@ export default function Header() {
                   <HamburgerIcon boxSize={6} />
                 )
               }
-              variant={"ghost"}
-              color={"#848585"}
+              variant="ghost"
+              color="#848585"
               aria-label={isOpen ? "Close menu" : "Open menu"}
               onClick={isOpen ? onClose : onOpen}
             />
           </Box>
         </Flex>
 
-        {/* show mobile nav  */}
         <AnimatePresence>
           {isOpen ? (
             <MotionBox
@@ -203,7 +203,7 @@ export default function Header() {
               height="100vh"
               bg="#000000"
               py="8.4rem"
-              px={8}
+              px="2rem"
               color="white"
               display={{ base: "flex", md: "none" }}
               flexDirection="column"
@@ -227,7 +227,7 @@ export default function Header() {
                     {navItem.name}
                   </ChakraLink>
                 ))}
-                <NavButtons isMobile />
+                <MemoizedNavButtons isMobile />
               </Stack>
             </MotionBox>
           ) : null}

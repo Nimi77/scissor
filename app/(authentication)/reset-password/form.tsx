@@ -46,9 +46,16 @@ const ResetPasswordForm = () => {
     setServerMessage(null);
 
     const { confirmPassword, ...formData } = data;
+    console.log("Form submitted with data:", data);
 
     try {
       const token = new URLSearchParams(window.location.search).get("token");
+      console.log("Token:", token);
+
+      if (!token) {
+        throw new Error("Token is missing from URL.");
+      }
+
       const response = await axios.post(
         "/api/auth/reset-password",
         { ...formData, token },
@@ -59,9 +66,11 @@ const ResetPasswordForm = () => {
         }
       );
 
+      console.log("Response:", response);
+
       if (response.status === 200) {
         setStatus("success");
-        setServerMessage(response.data.message);
+        setServerMessage("Password reset successfully.");
 
         setStatus("redirecting");
         setTimeout(() => {
@@ -69,7 +78,7 @@ const ResetPasswordForm = () => {
         }, 1000);
       } else {
         setStatus("error");
-        setServerMessage(response.data.error);
+        setServerMessage("Error resetting password.");
       }
     } catch (error) {
       setStatus("error");
@@ -106,7 +115,7 @@ const ResetPasswordForm = () => {
       alignItems="center"
       bg="white"
     >
-      <Box maxW="md" className="register-wrapper">
+      <Box maxW="md">
         <Flex
           flexDir="column"
           alignItems="center"
@@ -114,7 +123,7 @@ const ResetPasswordForm = () => {
           color="black"
           className="container"
         >
-          <Box className="register-heading">
+          <Box>
             <Box display="flex" alignItems="center" justifyContent="center">
               <Text
                 as="span"

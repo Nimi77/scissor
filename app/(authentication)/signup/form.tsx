@@ -16,8 +16,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "@/app/schemas";
-import * as z from "zod";
 import { CheckCircleIcon } from "@chakra-ui/icons";
+import * as z from "zod";
 import axios from "axios";
 
 const RegisterForm = () => {
@@ -59,25 +59,23 @@ const RegisterForm = () => {
 
       if (response.status === 200) {
         setStatus("success");
-        setServerMessage(response.data.message);
+        setServerMessage("Registration Successfully.");
         reset();
 
         setStatus("redirecting");
         setTimeout(() => {
           router.push("/login");
         }, 2000);
+      }
+    } catch (error: any) {
+      setStatus("error");
+
+      if (error.response && error.response.status === 400) {
+        setStatus("error");
+        setServerMessage("User already exists");
       } else {
         setStatus("error");
-        setServerMessage(response.data.error);
-      }
-    } catch (error) {
-      setStatus("error");
-      if (axios.isAxiosError(error)) {
-        setServerMessage(
-          error.response?.data?.error || "An error occurred. Please try again."
-        );
-      } else {
-        setServerMessage("An unexpected error occurred. Please try again.");
+        setServerMessage("An unexpected error occurred");
       }
     }
   };

@@ -4,7 +4,7 @@
 
 - [Linktrim](#linktrim)
   - [Features](#features)
-  - [Major Features](#major-features)
+  - [Tool Highlights](#tool-highlights)
   - [Technologies Used](#technologies-used)
   - [Usage](#usage)
   - [Installation](#installation)
@@ -26,7 +26,7 @@ Automatically generate a QR code for each shortened URL. Users can download the 
 
 Track the performance of your URLs by monitoring click data. This feature helps you understand your audience better and optimize your campaigns.
 
-## Major Features
+## Tool Highlights
 
 **URL Shortening**
 

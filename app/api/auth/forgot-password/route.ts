@@ -47,8 +47,7 @@ export async function POST(req: NextRequest) {
       SET reset_token = ${resetToken}, reset_token_expires = ${expiresInString}
       WHERE email = ${email};
     `;
-
-    console.log("Reset token and expiry updated in database");
+    
 
     // Send the reset email
     const transporter = nodemailer.createTransport({
@@ -60,7 +59,6 @@ export async function POST(req: NextRequest) {
     });
 
     const resetLink = `${req.nextUrl.origin}/reset-password?token=${resetToken}`;
-    console.log("Reset link generated:", resetLink)
 
     const mailOptions = {
       from: `"linktrim" <${process.env.EMAIL_USER}>`,

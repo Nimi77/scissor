@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     // Inserting the new user into the database
     await createUser(user);
-    return NextResponse.json({ message: "Registration Successfully!" });
+    return NextResponse.json({ message: "Registration Successfully." }, {status: 200});
   } catch (error: any) {
     console.error("Error inserting user", error);
 

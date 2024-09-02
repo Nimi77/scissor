@@ -57,6 +57,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
       px={{ base: 4, md: 4 }}
       w={{ base: "full", md: "calc(100% - 240px)" }}
       bg="white"
+      zIndex="1000"
       borderBottomWidth="1px"
       borderBottomColor="gray.200"
       {...rest}
@@ -87,7 +88,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
             {/* Bell Notification Icon */}
             <IconButton
               size="lg"
-              min-width="2rem"
+              minWidth="2rem"
               height="2rem"
               borderRadius="50%"
               variant="ghost"
@@ -174,7 +175,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
       {/* Logout Confirmation Modal */}
       <Modal isOpen={isOpen} onClose={onClose} size={{ base: "sm", md: "lg" }}>
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
-        <ModalContent py={6} m="auto">
+        <ModalContent py={{base:6, md:10}} m="auto">
           <ModalHeader
             p={0}
             textAlign="center"
@@ -183,7 +184,7 @@ const Header = ({ onOpen, ...rest }: MobileProps) => {
           >
             Are You Sure You Want to Log Out?
           </ModalHeader>
-          <ModalFooter mt={4}>
+          <ModalFooter mt={4} justifyContent="center">
             <Flex gap={10} alignItems="center" justifyContent="center">
               <Button
                 variant="outline"

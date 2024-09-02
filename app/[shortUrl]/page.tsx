@@ -44,8 +44,7 @@ export default function RedirectPage({
           setError("Invalid response from server.");
         }
       } catch (error) {
-        console.error("Error occurred while fetching original URL:", error);
-        setError("An error occurred while redirecting...");
+        setError("Please ensure the link shortened is correct, and try again...");
       } finally {
         setLoading(false);
       }
@@ -66,8 +65,8 @@ export default function RedirectPage({
       >
         <Flex alignItems="center" justifyContent="center">
           <Spinner size="sm" color="gray.900" mr="4" />
-          <Text mt={4} fontSize="lg">
-            Redirecting to page...
+          <Text fontSize="lg">
+            Loading, please wait...
           </Text>
         </Flex>
       </Box>

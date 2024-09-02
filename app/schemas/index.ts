@@ -27,8 +27,8 @@ export const RegisterSchema = z
       .max(60, { message: "Password must be less than 60 characters" })
       .trim(),
     confirmPassword: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters" }),
+      .string({ required_error: "Password is required" })
+      .min(1, { message: "Password is required" })
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -42,10 +42,10 @@ export const ForgotPasswordSchema = z.object({
 export const ResetPasswordSchema = z
   .object({
     token: z.string().min(1, "Token is required."),
-    password: z.string().min(8, "Password must be at least 8 characters long"),
+    password: z.string().min(8, "Password must be at least 8 characters."),
     confirmPassword: z
       .string()
-      .min(8, "Confirm Password must be at least 8 characters long"),
+      .min(8, "Confirm Password must be at least 8 characters."),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

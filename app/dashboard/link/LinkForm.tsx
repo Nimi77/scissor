@@ -83,6 +83,7 @@ const LinkForm: React.FC<LinkFormProps> = ({ onLinkCreated }) => {
             transition: "0.2s ease-in",
             bg: "#ED5734"
           }}
+          isDisabled={loading}
         >
           {loading ? "Shortening" : "Shorten"}
         </Button>

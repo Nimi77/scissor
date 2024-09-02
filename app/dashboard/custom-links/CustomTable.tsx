@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import {
@@ -41,44 +41,42 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
       <Table
         variant="striped"
         size={{ base: "sm", md: "auto" }}
-        bgColor="transparent"
-        className="links-table"
+        bgColor="white"
+        className="cl-table"
       >
         <Thead>
-          <Tr>
+          <Tr className="l-thheading">
             <Th display={{ base: "none", md: "table-cell" }}>Date</Th>
             <Th>Original URL</Th>
             <Th>Custom Url</Th>
             <Th></Th>
           </Tr>
         </Thead>
-        <Tbody className="links-body">
+        <Tbody>
           {links.map((link) => (
-            <Tr key={link.id}>
+            <Tr key={link.id} className="l-tbbody">
               <Td display={{ base: "none", md: "table-cell" }}>
                 {new Date(link.createdAt).toLocaleDateString()}
               </Td>
-              <Td
-                title={link.originalUrl}
-                maxW={{ base: "150px", md: "300px" }}
-              >
-                {link.originalUrl}
+              <Td title={link.originalUrl}>
+                <Link href={link.originalUrl} isExternal>
+                  {link.originalUrl}
+                </Link>
               </Td>
-              <Td title={link.customUrl} maxW={{ base: "150px", md: "300px" }}>
-                <Link href={link.customUrl} fontSize="md" isExternal>
+              <Td title={link.customUrl}>
+                <Link href={link.customUrl} isExternal>
                   {link.customUrl}
                 </Link>
               </Td>
               <Td>
                 {showIconOnly ? (
                   <>
-                    <Box className="s-buttons">
+                    <Box className="s-buttons cl-btns">
                       <IconButton
                         aria-label="Edit"
                         icon={<FiEdit />}
                         variant="outline"
                         onClick={() => onEditLink(link)}
-                        mr={{ base: 2, md: 4 }}
                       />
                       <IconButton
                         aria-label="Delete"
@@ -90,12 +88,11 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
                   </>
                 ) : (
                   <>
-                    <Box className="l-buttons">
+                    <Box className="l-btns cl-btns">
                       <Button
                         variant="outline"
                         onClick={() => onEditLink(link)}
                         leftIcon={<FiEdit />}
-                        mr={4}
                       >
                         Edit
                       </Button>

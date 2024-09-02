@@ -11,7 +11,7 @@ const ResetPasswordSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.debug("Received request body:", body);
+    console.log("Received request body:", body);
 
     const parsedData = ResetPasswordSchema.safeParse(body);
 
@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
     }
 
     const { token, password } = parsedData.data;
-    console.debug("Parsed data:", { token, password });
 
     // Fetching the user based on the reset token
     const result = await sql`
@@ -47,8 +46,6 @@ export async function POST(req: NextRequest) {
       SET password = ${hashedPassword}, reset_token = NULL, reset_token_expires = NULL
       WHERE reset_token = ${token};
     `;
-
-    console.info("Password reset successfully for token:", token);
 
     return NextResponse.json(
       { message: "Password reset successfully." },
