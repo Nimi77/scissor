@@ -18,8 +18,6 @@ export const authOptions: NextAuthOptions = {
         password: {},
       },
       async authorize(credentials, req) {
-        console.log("Received credentials:", credentials);
-
         if (!credentials?.email || !credentials?.password) {
           console.error("Missing credentials");
           return null;
@@ -30,8 +28,6 @@ export const authOptions: NextAuthOptions = {
             SELECT * FROM users WHERE email = ${credentials.email}
           `;
           const user = response.rows[0];
-
-          console.log("Database response:", user);
 
           if (!user) {
             console.error("No user found with the given email");

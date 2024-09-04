@@ -11,7 +11,6 @@ export async function DELETE(req: NextRequest) {
 
   const id = req.nextUrl.pathname.split("/").pop();
   if (!id) {
-    console.log("Invalid link ID");
     return NextResponse.json({ message: "Invalid link ID" }, { status: 400 });
   }
 
@@ -21,8 +20,6 @@ export async function DELETE(req: NextRequest) {
         WHERE id = ${id} AND user_email = ${session.email}
         RETURNING *;
       `;
-
-    console.log("Delete result:", result);
 
     if (result.rowCount === 0) {
       console.log("Link not found or user not authorized to delete it");

@@ -14,6 +14,7 @@ import {
   useDisclosure,
   Text,
   Flex,
+  Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
 import CustomLinkForm from "./ModalForm";
@@ -119,6 +120,13 @@ const CustomLink: React.FC = () => {
 
   return (
     <Box my={4} mx={{ base: "auto", md: 6 }}>
+      <Box className="custom-heading" mb="4">
+        <Heading as="h3" size="lg" mb="2">
+          Add Custom Domain
+        </Heading>
+        <Text color="gray.700">Brand your links with a custom domain.</Text>
+      </Box>
+
       <CustomForm />
 
       <Button my={6} variant="link" onClick={() => setShowTable(!showTable)}>
@@ -171,7 +179,9 @@ const CustomLink: React.FC = () => {
       >
         <ModalOverlay bg="rgba(0, 0, 0, 0.6)" backdropFilter="blur(4px)" />
         <ModalContent m="auto">
-          <ModalHeader pt={4} pb={0}>Confirm Delete</ModalHeader>
+          <ModalHeader pt={4} pb={0}>
+            Confirm Delete
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text maxW-="24rem">

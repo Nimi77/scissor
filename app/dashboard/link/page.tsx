@@ -59,8 +59,7 @@ const UserLinks: React.FC = () => {
         createdAt: link.created_at,
         clickCount: link.click_count,
       }));
-
-      console.log(data);
+ 
       setLinks(data);
     } catch (error) {
       console.error("Error fetching links:", error);
@@ -189,7 +188,7 @@ const UserLinks: React.FC = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text maxW-="24rem">
+            <Text maxW="24rem">
               Are you sure you want to delete this link? This action cannot be
               undone.
             </Text>

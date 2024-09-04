@@ -129,7 +129,7 @@ table.links-table {
   text-overflow: ellipsis;
   overflow-wrap: normal;
 }
-.l-tbbody td a {
+.l-tbbody td .l-link {
   white-space: nowrap;
   padding-inline: initial;
 }

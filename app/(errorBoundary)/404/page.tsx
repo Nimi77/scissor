@@ -7,6 +7,7 @@ export default function Custom404() {
   return (
     <Box
       display="flex"
+      flexDir="column"
       alignItems="center"
       justifyContent="center"
       minH="100vh"
@@ -20,12 +21,15 @@ export default function Custom404() {
       <Link href="/">
         <Button
           color="white"
-          bg="#FF4C24"
+          bgColor="#FF4C24"
           py="0.4rem"
           px="1.2rem"
           borderRadius="lg"
           minWidth="6rem"
-          variant="solid"
+          _hover={{
+            transition: "0.2s ease-in",
+            bgColor: "#ED5734"
+          }}
         >
           Go back home
         </Button>

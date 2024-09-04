@@ -17,8 +17,6 @@ export const GET = async (req: NextRequest) => {
       ORDER BY created_at DESC;
     `;
 
-    console.log("Fetched links for user:", session.email, result.rows);
-
     return NextResponse.json(result.rows, { status: 200 });
   } catch (error) {
     console.error("Error fetching links for user:", session.email, error);

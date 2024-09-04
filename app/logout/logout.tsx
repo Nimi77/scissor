@@ -33,6 +33,7 @@ const Logout = () => {
         <Box display="flex" gap="6" alignItems="center" justifyContent="center">
           <Link href="/dashboard">
             <Button
+              p={{base: "1rem", md: "1.4rem"}}
               variant="outline"
               borderRadius="lg"
               _hover={{
@@ -44,11 +45,12 @@ const Logout = () => {
             </Button>
           </Link>
           <Button
+            p={{base: "1rem", md: "1.4rem"}}
             borderRadius="lg"
             onClick={handleLogout}
             colorScheme="red"
             _hover={{
-              transition: ".3s ease-in",
+              transition: ".3s ease-in"
             }}
           >
             Log Out

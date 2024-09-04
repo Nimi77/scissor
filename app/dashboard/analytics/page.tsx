@@ -17,7 +17,7 @@ import axios from "axios";
 
 interface LinkAnalytics {
   id: number;
-  customUrl: string;
+  shortUrl: string;
   createdAt: string;
   clicks: number;
 }
@@ -30,7 +30,7 @@ const Analytics: React.FC = () => {
   useEffect(() => {
     const fetchLinks = async () => {
       try {
-        const response = await axios.get("/api/links");
+        const response = await axios.get("/api/urls");
 
         if (response.status !== 200) {
           throw new Error("Failed to fetch links");
@@ -38,16 +38,16 @@ const Analytics: React.FC = () => {
 
         const data = response.data.map((link: any) => ({
           id: link.id,
-          customUrl: link.shortened_url,
+          shortUrl: link.short_url,
           createdAt: link.created_at,
-          clicks: link.clicks
+          clicks: link.click_count
         }));
 
         setLinks(data);
       } catch (error) {
         toast({
           title: "Error fetching links",
-          description: "Unable to load your links at this time.",
+          description: "Unable to load your links, try again later.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -62,11 +62,11 @@ const Analytics: React.FC = () => {
 
   return (
     <Box p={{ base: 4, md: 6 }} mx={{ base: "auto", md: 6 }} my={4}>
-      <Box>
+      <Box mb={5}>
         <Heading as="h3" size="lg">
           Track your links
         </Heading>
-        <Text color="gray.700" my={4}>
+        <Text color="gray.700" mt={2}>
           View and manage all your shortened links. Track analytics such as the
           number of clicks.
         </Text>
@@ -85,16 +85,16 @@ const Analytics: React.FC = () => {
               borderRadius="lg"
               shadow="sm"
               bgColor="white"
-              aria-label={`Link analytics for ${link.customUrl}`}
+              aria-label={`Link analytics for ${link.shortUrl}`}
             >
               <Link
-                href={link.customUrl}
+                href={`/${link.shortUrl}`}
                 fontWeight="600"
                 mb={2}
                 _hover={{ textDecoration: "underline" }}
                 isExternal
               >
-                {link.customUrl}
+                {link.shortUrl}
               </Link>
               <Flex alignItems="center" justifyContent="space-between">
                 <Text color="gray.600">Clicks Over Time</Text>

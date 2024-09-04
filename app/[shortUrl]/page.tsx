@@ -26,12 +26,6 @@ export default function RedirectPage({
           maxRedirects: 0,
         });
 
-        // If the API redirects to the home page, the router will handle it.
-        if (response.request.responseURL !== window.location.href) {
-          window.location.href = response.request.responseURL;
-          return;
-        }
-
         // Checking if the content type is JSON
         if (response.headers["content-type"].includes("application/json")) {
           const data = response.data;
@@ -43,7 +37,6 @@ export default function RedirectPage({
               router.push(data.originalUrl);
             }, 2000);
           } else {
-            console.error("No originalUrl in response data.");
             setError("Invalid URL.");
           }
         } else {

@@ -59,9 +59,11 @@ const LinksTable: React.FC<LinksTableProps> = ({
             <Th display={{ base: "none", lg: "table-cell" }} width="96px">
               Date
             </Th>
-            <Th width={{ base: "160px", lg: "200px" }}>Original URL</Th>
+            <Th width={{ base: "160px", lg: "auto" }}>Original URL</Th>
             <Th width="110px">Short URL</Th>
-            <Th textAlign="center">Clicks</Th>
+            <Th textAlign="center" display={{ base: "none", lg: "table-cell" }}>
+              Clicks
+            </Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -72,16 +74,21 @@ const LinksTable: React.FC<LinksTableProps> = ({
                 {new Date(link.createdAt).toLocaleDateString()}
               </Td>
               <Td title={link.originalUrl}>
-                <Link href={link.originalUrl} isExternal>
+                <Link href={link.originalUrl} isExternal className="l-link">
                   {link.originalUrl}
                 </Link>
               </Td>
               <Td title={link.shortUrl}>
-                <Link href={link.shortUrl} isExternal>
+                <Link href={link.shortUrl} isExternal className="l-link">
                   {link.shortUrl}
                 </Link>
               </Td>
-              <Td textAlign="center">{link.clickCount}</Td>
+              <Td
+                textAlign="center"
+                display={{ base: "none", lg: "table-cell" }}
+              >
+                {link.clickCount}
+              </Td>
               <Td display="flex" alignItems="center" justifyContent="center">
                 <IconButton
                   aria-label="Delete"

@@ -13,6 +13,7 @@ import {
   Link,
   Box,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { FiEdit, FiTrash } from "react-icons/fi";
 
@@ -36,6 +37,21 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
 }) => {
   const showIconOnly = useBreakpointValue({ base: true, lg: false });
 
+  const toast = useToast();
+  const handleCustomUrl = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    toast({
+      title: "Premium Feature",
+      description:
+        "You have to buy a domain name. This is only available for premium users.",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+      position: "top"
+    });
+  };
+
   return (
     <Box>
       <Table variant="striped" bgColor="white" className="cl-table">
@@ -43,7 +59,7 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
           <Tr className="l-thheading">
             <Th display={{ base: "none", lg: "table-cell" }}>Date</Th>
             <Th>Original URL</Th>
-            <Th>Custom Url</Th>
+            <Th width={{ base: "160px", md: "auto" }}>Custom Url</Th>
             <Th></Th>
           </Tr>
         </Thead>
@@ -59,7 +75,7 @@ const CustomLinkTable: React.FC<CustomTableProps> = ({
                 </Link>
               </Td>
               <Td title={link.customUrl}>
-                <Link href={link.customUrl} isExternal>
+                <Link href="" onClick={handleCustomUrl}>
                   {link.customUrl}
                 </Link>
               </Td>

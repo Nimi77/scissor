@@ -21,8 +21,8 @@ export async function GET(
 
       return NextResponse.json({ originalUrl });
     } else {
-      console.log("URL not found, redirecting to home page");
-      return NextResponse.redirect(new URL("/", req.url));  
+      console.log("URL not found.");
+      return NextResponse.redirect(new URL("/404", req.url));  
     }
   } catch (error) {
     console.error("Error fetching original URL:", error);
