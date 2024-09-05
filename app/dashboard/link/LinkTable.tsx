@@ -59,9 +59,9 @@ const LinksTable: React.FC<LinksTableProps> = ({
             <Th display={{ base: "none", lg: "table-cell" }} width="96px">
               Date
             </Th>
-            <Th width={{ base: "160px", lg: "auto" }}>Original URL</Th>
-            <Th width="110px">Short URL</Th>
-            <Th textAlign="center" display={{ base: "none", lg: "table-cell" }}>
+            <Th width={{ base: "180px", md: "auto" }}>Original URL</Th>
+            <Th width="100px">Short URL</Th>
+            <Th textAlign="center" display={{ base: "none", md: "table-cell" }}>
               Clicks
             </Th>
             <Th></Th>
@@ -85,7 +85,7 @@ const LinksTable: React.FC<LinksTableProps> = ({
               </Td>
               <Td
                 textAlign="center"
-                display={{ base: "none", lg: "table-cell" }}
+                display={{ base: "none", md: "table-cell" }}
               >
                 {link.clickCount}
               </Td>

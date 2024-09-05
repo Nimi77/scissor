@@ -87,11 +87,11 @@ li {
   gap: 6px;
   color: #a1a1a1;
 }
-.errorb-mss{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.errorb-mss {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Authentication styling */
@@ -110,26 +110,29 @@ li {
 }
 
 /* Dashboard custom links and links table */
-table.links-table {
+table.links-table,
+table.cl-table {
   width: 100%;
   table-layout: fixed;
 }
 .l-thheading th,
 .l-tbbody td,
 .l-tbbody td a {
-  font-size: 16px;
+  font-size: 18px;
+  letter-spacing: normal;
 }
 .l-thheading th {
   padding-block: 14px;
-  padding-inline:12px;
+  padding-inline: 12px;
+  text-transform: none;
 }
 .l-tbbody td {
-  padding:12px;
+  padding: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: normal;
 }
-.l-tbbody td .l-link {
+.l-tbbody td a {
   white-space: nowrap;
   padding-inline: initial;
 }

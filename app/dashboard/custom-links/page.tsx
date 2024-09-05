@@ -120,8 +120,8 @@ const CustomLink: React.FC = () => {
 
   return (
     <Box my={4} mx={{ base: "auto", md: 6 }}>
-      <Box className="custom-heading" mb="4">
-        <Heading as="h3" size="lg" mb="2">
+      <Box className="custom-heading" mb="6">
+        <Heading as="h3" size="lg">
           Add Custom Domain
         </Heading>
         <Text color="gray.700">Brand your links with a custom domain.</Text>

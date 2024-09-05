@@ -102,7 +102,7 @@ const MotionDiv = motion(styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  backgroundcolor: #000000;
+  background-color: #000000;
   padding: 8.4rem 2rem;
   color: white;
   display: flex;
