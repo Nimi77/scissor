@@ -10,6 +10,7 @@ import {
   useDisclosure,
   HStack,
   Link as ChakraLink,
+  BoxProps
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
@@ -96,6 +97,7 @@ const NavButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
 );
 
 const MemoizedNavButtons = memo(NavButtons);
+const MotionBox = motion<BoxProps>(Box);
 
 export default function Header() {
   const [activeNav, setActiveNav] = useState("Home");
@@ -105,8 +107,6 @@ export default function Header() {
     setActiveNav(name);
     onClose();
   };
-
-  const MotionBox = motion(Box);
 
   return (
     <Box
@@ -213,7 +213,7 @@ export default function Header() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
+              transition={{ type: "tween", duration: 0.3 } as any}
             >
               <Stack as="nav" spacing={4} textAlign="center" width="90%">
                 {NavItems.map((navItem) => (
