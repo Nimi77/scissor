@@ -10,11 +10,11 @@ import {
   useDisclosure,
   HStack,
   Link as ChakraLink,
-  BoxProps
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, memo } from "react";
+import styled from "styled-components";
 import Link from "next/link";
 
 export const NavItems = [
@@ -96,8 +96,27 @@ const NavButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
   </>
 );
 
+const MotionDiv = motion(styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  backgroundcolor: #000000;
+  padding: 8.4rem 2rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 20;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`);
+
 const MemoizedNavButtons = memo(NavButtons);
-const MotionBox = motion<BoxProps>(Box);
 
 export default function Header() {
   const [activeNav, setActiveNav] = useState("Home");
@@ -195,21 +214,7 @@ export default function Header() {
 
         <AnimatePresence>
           {isOpen ? (
-            <MotionBox
-              position="fixed"
-              top={0}
-              left={0}
-              width="100%"
-              height="100vh"
-              bg="#000000"
-              py="8.4rem"
-              px="2rem"
-              color="white"
-              display={{ base: "flex", md: "none" }}
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="flex-start"
-              zIndex={20}
+            <MotionDiv
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -229,7 +234,7 @@ export default function Header() {
                 ))}
                 <MemoizedNavButtons isMobile />
               </Stack>
-            </MotionBox>
+            </MotionDiv>
           ) : null}
         </AnimatePresence>
       </Container>
