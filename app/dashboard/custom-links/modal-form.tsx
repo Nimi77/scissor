@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -157,7 +157,7 @@ const CustomLinkForm: React.FC<ModalFormProps> = ({
         {customUrl && (
           <Box>
             <FormLabel>Custom URL</FormLabel>
-            <Input value={customUrl}  focusBorderColor="#ED5734" isReadOnly />
+            <Input value={customUrl} focusBorderColor="#ED5734" isReadOnly />
           </Box>
         )}
 

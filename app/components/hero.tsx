@@ -1,7 +1,7 @@
 "use client";
 
 import { Heading, Container, Text, Box, Stack } from "@chakra-ui/react";
-import UrlShortenForm from "./UrlShortenForm";
+import UrlShortenForm from "./url-shorten";
 
 const Hero = () => {
   return (

@@ -1,5 +1,6 @@
 "use client";
 
+import LinkTableSkeleton from "../components/table-skeleton";
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -17,10 +18,9 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import axios from "axios";
-import CustomLinkForm from "./ModalForm";
-import LinkTableSkeleton from "../components/TableSkeleton";
-import CustomLinkTable from "./CustomTable";
-import CustomForm from "./CustomForm";
+import CustomLinkForm from "./modal-form";
+import CustomLinkTable from "./custom-table";
+import CustomForm from "./custom-form";
 
 interface Link {
   id: number;

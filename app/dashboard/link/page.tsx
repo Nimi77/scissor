@@ -1,5 +1,6 @@
 "use client";
 
+import LinksTableSkeleton from "../components/table-skeleton";
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -16,10 +17,9 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
+import LinksTable from "./link-table";
+import LinkForm from "./link-form";
 import axios from "axios";
-import LinkForm from "./LinkForm";
-import LinksTable from "./LinkTable";
-import LinksTableSkeleton from "../components/TableSkeleton";
 
 interface Link {
   id: number;
@@ -59,7 +59,7 @@ const UserLinks: React.FC = () => {
         createdAt: link.created_at,
         clickCount: link.click_count,
       }));
- 
+
       setLinks(data);
     } catch (error) {
       console.error("Error fetching links:", error);
