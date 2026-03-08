@@ -16,7 +16,6 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: {},
         password: {},
-        redirect: { type: "boolean", default: false },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {

@@ -7,7 +7,7 @@ export const GET = async (req: NextRequest) => {
 
   if (!session) {
     console.log("Unauthorized access attempt.");
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   try {
