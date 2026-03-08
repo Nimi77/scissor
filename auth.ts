@@ -16,6 +16,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: {},
         password: {},
+        redirect: { type: "boolean", default: false },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
@@ -31,7 +32,7 @@ export const authOptions: NextAuthOptions = {
 
           if (!user) {
             console.error("No user found with the given email");
-            return null;
+            throw new Error("Invalid email");
           }
 
           // Compare hashed password
@@ -39,10 +40,10 @@ export const authOptions: NextAuthOptions = {
           console.log("Password comparison result:", isPasswordCorrect);
 
           if (!isPasswordCorrect) {
-            console.error("Invalid credentials");
+            console.error("Incorrect password");
             throw new Error("Incorrect password");
           }
-    
+
           return {
             id: user.id,
             email: user.email,

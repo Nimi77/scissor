@@ -96,7 +96,7 @@ const NavButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
   </>
 );
 
-const MotionDiv = motion(styled.div`
+const MotionDiv = motion.create(styled.div`
   position: fixed;
   top: 0;
   left: 0;
